@@ -15,12 +15,7 @@
      <!-- Hero Section -->
      <div class="container mx-auto px-4 pt-24 relative z-10">
         <div class="flex flex-col items-start h-screen ml-4">
-            <div class="self-center mb-4">
-                <button id="mode-toggle" class="mode-toggle text-gray">
-                    <i data-feather="moon"></i>
-                </button>
-            </div>
-    
+                
             <img src="https://media.licdn.com/dms/image/v2/D4D03AQGHZymWus4sxg/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1727645545686?e=1738195200&v=beta&t=fjdhm56aTSrOId024zMEpCUg2pzPySyzJftg6lpfsog" alt="Profile Picture" class="rounded-full mb-6 w-36 h-36 object-cover">
             <h1 class="text-4xl font-bold mb-4"> Sarp Can Karaman </h1>
             <p class="text-l mb-6">Computer Engineer | DevOps Enthusiast | Back-end Developer</p>
@@ -48,14 +43,22 @@
 
             <div class="mt-auto w-full">
                 <!-- Social Links -->
-                <div class="fixed bottom-4 left-35 flex space-x-6 items-center mb-4">
-                    <a href="https://github.com/sarpowsky" target="_blank" class="social-icon text-white hover:text-gray-300"><i data-feather="github"></i></a>
-                    <a href="https://www.linkedin.com/in/sarp-can-karaman-8437761b6/" target="_blank" class="social-icon text-white hover:text-gray-300"><i data-feather="linkedin"></i></a>
-                    <a href="https://www.instagram.com/_sarpowsky/" target="_blank" class="social-icon text-white hover:text-gray-300"><i data-feather="instagram"></i></a>
+                <div class="fixed bottom-0 left-35 flex space-x-6 items-center mb-4">
+                    <div class="flex justify-center space-x-6 items-center mb-4">
+                        <a href="https://github.com/sarpowsky" target="_blank" class="social-icon text-white hover:text-gray-300"><i data-feather="github"></i></a>
+                        <a href="https://www.linkedin.com/in/sarp-can-karaman-8437761b6/" target="_blank" class="social-icon text-white hover:text-gray-300"><i data-feather="linkedin"></i></a>
+                        <a href="https://www.instagram.com/_sarpowsky/" target="_blank" class="social-icon text-white hover:text-gray-300"><i data-feather="instagram"></i></a>
+                    </div>
                 </div>
-            
-                <div class="mt-auto w-full flex justify-center">
-                    <!-- Clock -->
+                <div class="fixed bottom-8 left-1/2 transform -translate-x-1/2">
+                    <div class="self-center mb-4">
+                        <button id="mode-toggle" class="mode-toggle text-gray">
+                            <i data-feather="moon"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- Clock -->
+                <div class="fixed bottom-4 left-1/2 transform -translate-x-1/2">
                     <div id="clock" class="text-l font-600 text-initial"></div>
                 </div>
             </div>

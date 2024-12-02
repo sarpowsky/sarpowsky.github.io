@@ -224,3 +224,48 @@ p { animation-delay: 0.6s; }
         transform: translateY(0);
     }
 }
+@media screen and (max-width: 768px) {
+    /* Social Links */
+    .social-links-container {
+        position: fixed;
+        bottom: 20px;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+    }
+
+    /* Mode Toggle */
+    .mode-toggle-container {
+        position: fixed;
+        bottom: 80px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    /* Clock */
+    .clock-container {
+        position: fixed;
+        bottom: 40px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    /* Text and Container Adjustments */
+    .container {
+        padding: 1rem;
+        margin-top: 2rem;
+    }
+
+    .text-xl {
+        font-size: 1rem;
+    }
+
+    /* Close Button */
+    .close-btn {
+        top: 0.5rem;
+        right: 0.5rem;
+        font-size: 2rem;
+    }
+}

@@ -85,7 +85,7 @@ Feel free to fork this repo and make it your own! You can replace the text, upda
 If you like what you see or want to chat, here’s how you can reach me:  
 - **GitHub**: [@sarpowsky](https://github.com/sarpowsky)  
 - **LinkedIn**: [Sarp Can Karaman](https://www.linkedin.com/in/sarp-can-karaman-8437761b6/)  
-- **Email**: _You can add your email here if you’re comfortable sharing it._  
+- **Email**: _sarpcankaraman@gmail.com_  
 
 ---
 

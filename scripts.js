@@ -33,29 +33,45 @@
                 drops[i] += 0.5;  // Reduced speed from 1 to 0.5
             }
         }
-        function animateMatrix() {
-            const isDarkMode = document.body.classList.contains('dark-mode');
-            const textColor = isDarkMode ? '#00FF41' : '#000000';
-            const backgroundColor = isDarkMode ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.05)';
-            
-            drawMatrix(textColor, backgroundColor);
+        // Improved matrix animation performance
+        let lastRender = 0;
+        const FRAME_THRESHOLD = 1000 / 30; // Cap at 30 FPS
+
+        function animateMatrix(timestamp) {
+            if (!lastRender || timestamp - lastRender >= FRAME_THRESHOLD) {
+                const isDarkMode = document.body.classList.contains('dark-mode');
+                const textColor = isDarkMode ? '#00FF41' : '#000000';
+                const backgroundColor = isDarkMode ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.05)';
+                
+                drawMatrix(textColor, backgroundColor);
+                lastRender = timestamp;
+            }
             requestAnimationFrame(animateMatrix);
         }
         function showSection(sectionId) {
-            // Show the specific section
-            document.getElementById(sectionId).classList.remove('hidden');
             
-            // Remove active class from all buttons
             const buttons = document.querySelectorAll('.section-btn');
             buttons.forEach(button => button.classList.remove('active'));
-    
-            // Add active class to the current button
+        
+            
             const activeButton = document.querySelector(`button[onclick="showSection('${sectionId}')"]`);
             if (activeButton) {
                 activeButton.classList.add('active');
             }
-        }
         
+            // Hide all sections first
+            const sections = document.querySelectorAll('.section-content');
+            sections.forEach(section => section.classList.add('hidden'));
+        
+            // Show the specific section with a delay if it's the skills section
+            if (sectionId === 'skills') {
+                setTimeout(() => {
+                    document.getElementById(sectionId).classList.remove('hidden');
+                }, 300); // 300ms delay, adjust as needed
+            } else {
+                document.getElementById(sectionId).classList.remove('hidden');
+            }
+        }
         function hideSection() {
             // Hide all section content
             const sections = document.querySelectorAll('.section-content');
@@ -79,7 +95,43 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-    
+        // Add keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            const sections = ['about', 'experience', 'projects', 'skills', 'devices'];
+            if (e.key === 'Escape') {
+                hideSection();
+            } else if (e.key === 'ArrowRight') {
+                const currentSection = sections.find(s => !document.getElementById(s).classList.contains('hidden'));
+                const currentIndex = sections.indexOf(currentSection);
+                const nextIndex = (currentIndex + 1) % sections.length;
+                showSection(sections[nextIndex]);
+            } else if (e.key === 'ArrowLeft') {
+                const currentSection = sections.find(s => !document.getElementById(s).classList.contains('hidden'));
+                const currentIndex = sections.indexOf(currentSection);
+                const prevIndex = (currentIndex - 1 + sections.length) % sections.length;
+                showSection(sections[prevIndex]);
+            }
+        });
+
+        // Add error handling
+        function initializeCanvas() {
+            try {
+                const canvas = document.getElementById('matrix-canvas');
+                if (!canvas) {
+                    throw new Error('Canvas element not found');
+                }
+                const ctx = canvas.getContext('2d');
+                if (!ctx) {
+                    throw new Error('Could not get 2D context');
+                }
+                return { canvas, ctx };
+            } catch (error) {
+                console.error('Failed to initialize canvas:', error);
+                // Fallback to simple background
+                document.body.style.backgroundColor = '#f0f0f0';
+            }
+        }
+
        // Dark/Light Mode Toggle
         const modeToggle = document.getElementById('mode-toggle');
         const body = document.body;

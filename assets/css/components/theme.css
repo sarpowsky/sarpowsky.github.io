@@ -24,11 +24,11 @@ body.dark-mode .section-btn-bottomline {
 }
 
 body.dark-mode .social-icon {
-    color: white;
+    color: white !important;
 }
 
 body.dark-mode .social-icon:hover {
-    color: #d1d5db;
+    color: #d1d5db !important;
 }
 
 body.dark-mode .section-content button {
@@ -40,7 +40,7 @@ body.dark-mode .section-content {
 }
 
 body.dark-mode #clock {
-    color: white;
+    color: white !important;
 }
 
 body.dark-mode .ImageBorder {
@@ -63,11 +63,11 @@ body.light-mode .section-btn-bottomline {
 }
 
 body.light-mode .social-icon {
-    color: black;
+    color: #333 !important;
 }
 
 body.light-mode .social-icon:hover {
-    color: #4a5568;
+    color: #4a5568 !important;
 }
 
 body.light-mode .section-content {
@@ -79,7 +79,7 @@ body.light-mode .section-content button {
 }
 
 body.light-mode #clock {
-    color: #2f2e2e;
+    color: #333 !important;
 }
 
 body.light-mode .ImageBorder {
@@ -98,8 +98,37 @@ body.light-mode .ImageBorder {
     justify-content: center;
     transition: all 0.3s ease;
     outline: none;
+    position: relative;
+    z-index: 100;
 }
 
 .mode-toggle:hover {
     transform: rotate(180deg);
+}
+
+/* Fix clickable area for social icons */
+.social-icon {
+    display: inline-flex;
+    padding: 0.5rem;
+    cursor: pointer;
+    z-index: 100;
+}
+
+/* Footer positioning fixes */
+footer {
+    z-index: 60;
+}
+
+/* Fix for social icons */
+.social-icons {
+    z-index: 100;
+}
+
+/* Fix for clock */
+#clock {
+    display: inline-block;
+    min-width: 80px;
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    z-index: 100;
 }

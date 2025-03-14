@@ -1,0 +1,17 @@
+# Enable URL rewriting
+RewriteEngine On
+
+# Rewrite /about to /pages/about.html
+RewriteRule ^about$ pages/about.html [L]
+
+# Rewrite /experience to /pages/experience.html
+RewriteRule ^experience$ pages/experience.html [L]
+
+# Rewrite /projects to /pages/projects.html
+RewriteRule ^projects$ pages/projects.html [L]
+
+# Rewrite /skills to /pages/skills.html
+RewriteRule ^skills$ pages/skills.html [L]
+
+# Rewrite /devices to /pages/devices.html
+RewriteRule ^devices$ pages/devices.html [L]

@@ -24,6 +24,7 @@ body {
     }
 }
 
+/* Page elements animation */
 .section-btn, 
 img, 
 h1, 
@@ -62,4 +63,49 @@ p { animation-delay: 0.6s; }
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+/* Animated skill progress bars */
+@keyframes fillProgressBar {
+    from { width: 0; }
+    to { width: var(--target-width, 100%); }
+}
+
+.skill-progress {
+    animation: fillProgressBar 1s ease-out forwards;
+    animation-play-state: paused;
+}
+
+.skill-progress.animate {
+    animation-play-state: running;
+}
+
+/* Hover effects for interactive elements */
+.hover-scale {
+    transition: transform 0.3s ease;
+}
+
+.hover-scale:hover {
+    transform: scale(1.05);
+}
+
+/* Particle animation for section transitions */
+@keyframes floatParticle {
+    0% {
+        transform: translate(0, 0);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(var(--tx, 50px), var(--ty, -50px));
+        opacity: 0;
+    }
+}
+
+.particle {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: floatParticle 1.5s ease-out forwards;
 }

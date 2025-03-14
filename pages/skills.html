@@ -3,15 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>_sarpowsky</title>
+    <title>Skills - _sarpowsky</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link href="assets/css/styles.css" rel="stylesheet">
+    <link href="../assets/css/styles.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-    
-    <!-- Preload critical assets -->
-    <link rel="preload" href="assets/css/styles.css" as="style">
-    <link rel="preload" href="assets/js/main.js" as="script">
 </head>
 <body class="dark-mode">
     <canvas id="matrix-canvas"></canvas>
@@ -20,23 +16,24 @@
     <!-- Navigation Bar -->
     <nav class="fixed top-0 left-0 w-full p-4 z-50 bg-opacity-90 backdrop-blur-sm">
         <div class="container mx-auto flex justify-between items-center">
-            <a href="index.html" class="text-xl font-bold hover:text-gray-300 transition duration-300">_sarpowsky</a>
+            <a href="../index.html" class="text-xl font-bold hover:text-gray-300 transition duration-300">_sarpowsky</a>
             <div class="flex space-x-6">
-                <a href="pages/about.html" class="hover:text-gray-300 transition duration-300">/hi</a>
-                <a href="pages/experience.html" class="hover:text-gray-300 transition duration-300">/experience</a>
-                <a href="pages/projects.html" class="hover:text-gray-300 transition duration-300">/projects</a>
-                <a href="pages/skills.html" class="hover:text-gray-300 transition duration-300">/skills</a>
-                <a href="pages/devices.html" class="hover:text-gray-300 transition duration-300">/devices</a>
+                <a href="about.html" class="hover:text-gray-300 transition duration-300">/hi</a>
+                <a href="experience.html" class="hover:text-gray-300 transition duration-300">/experience</a>
+                <a href="projects.html" class="hover:text-gray-300 transition duration-300">/projects</a>
+                <a href="skills.html" class="hover:text-gray-300 transition duration-300 font-bold">/skills</a>
+                <a href="devices.html" class="hover:text-gray-300 transition duration-300">/devices</a>
             </div>
         </div>
     </nav>
     
-    <!-- Main Content -->
-    <div class="container mx-auto px-4 pt-24 relative z-10">
-        <div class="flex flex-col items-start h-screen ml-4 pt-16">
-            <img src="https://media.licdn.com/dms/image/v2/D4D03AQGHZymWus4sxg/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1727645545686?e=1738195200&v=beta&t=fjdhm56aTSrOId024zMEpCUg2pzPySyzJftg6lpfsog" alt="Profile Picture" class="rounded-full mb-6 w-36 h-36 object-cover, ImageBorder">
-            <h1 class="text-4xl font-bold mb-4">Sarp Can Karaman</h1>
-            <p class="text-l mb-6">Computer Engineer | DevOps Enthusiast | Back-end Developer</p>
+    <!-- Skills Content -->
+    <div class="container mx-auto pt-24 pb-24 z-10 relative">
+        <div class="content-card bg-opacity-95 rounded-lg p-8 backdrop-blur-sm">
+            <h2 class="text-3xl font-bold text-center mb-8">Skills</h2>
+            <div class="grid md:grid-cols-3 gap-6" id="skills-container">
+                <!-- Skill categories will be dynamically inserted here -->
+            </div>
         </div>
     </div>
     
@@ -60,6 +57,6 @@
     </footer>
     
     <!-- Load modular JavaScript -->
-    <script type="module" src="assets/js/main.js"></script>
+    <script type="module" src="../assets/js/page.js"></script>
 </body>
 </html>

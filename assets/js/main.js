@@ -3,6 +3,8 @@ import MatrixAnimation from './components/matrix.js';
 import Navigation from './components/navigation.js';
 import ThemeToggle from './components/themeToggle.js';
 import Clock from './components/clock.js';
+import CardEffects from './components/cardEffects.js';
+import ParticleEffect from './components/particles.js';
 import { 
     profileData, 
     aboutData, 
@@ -31,6 +33,15 @@ class App {
         if (typeof feather !== 'undefined') {
             feather.replace();
         }
+        
+        // Initialize Card Effects
+        this.initCardEffects();
+        
+        // Add intersection observer for lazy loading
+        this.setupLazyLoading();
+        
+        // Add error handling
+        this.setupErrorHandling();
     }
 
     initMatrix() {
@@ -54,6 +65,64 @@ class App {
     initClock() {
         this.clock = new Clock('clock');
     }
+    
+    initCardEffects() {
+        // Apply 3D effects to project and device cards
+        setTimeout(() => {
+            this.projectCards = new CardEffects('#projects .bg-gray');
+            this.deviceCards = new CardEffects('#devices .bg-gray');
+        }, 1000); // Delay to ensure cards are loaded
+    }
+    
+    setupErrorHandling() {
+        window.addEventListener('error', (event) => {
+            console.error('Global error:', event.error);
+            // Implement graceful fallback for critical features
+            if (event.error.message.includes('canvas') || event.error.message.includes('animation')) {
+                // Fallback for matrix animation
+                document.body.style.background = 'linear-gradient(to bottom, #121212, #1a1a1a)';
+            }
+        });
+    }
+    
+    setupLazyLoading() {
+        if ('IntersectionObserver' in window) {
+            this.lazyLoadImages();
+        } else {
+            // Fallback for browsers that don't support IntersectionObserver
+            this.loadAllImages();
+        }
+    }
+    
+    lazyLoadImages() {
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    const src = img.getAttribute('data-src');
+                    
+                    if (src) {
+                        img.src = src;
+                        img.removeAttribute('data-src');
+                    }
+                    
+                    observer.unobserve(img);
+                }
+            });
+        });
+        
+        // Observe all images with data-src attribute
+        document.querySelectorAll('img[data-src]').forEach(img => {
+            imageObserver.observe(img);
+        });
+    }
+    
+    loadAllImages() {
+        // Fallback method for browsers without IntersectionObserver
+        document.querySelectorAll('img[data-src]').forEach(img => {
+            img.src = img.getAttribute('data-src');
+        });
+    }
 
     loadContent() {
         this.loadProfile();
@@ -68,7 +137,11 @@ class App {
         // Load profile data
         document.querySelector('h1').textContent = profileData.name;
         document.querySelector('p.text-l.mb-6').textContent = profileData.title;
-        document.querySelector('img.rounded-full').src = profileData.profileImage;
+        
+        // Use lazy loading for profile image
+        const profileImg = document.querySelector('img.rounded-full');
+        profileImg.setAttribute('data-src', profileData.profileImage);
+        profileImg.src = this.generatePlaceholder(200, 200);
         
         // Load social links
         const socialLinks = document.querySelectorAll('.social-icon');
@@ -155,18 +228,27 @@ class App {
                 const link = document.createElement('a');
                 link.href = project.link;
                 link.target = '_blank';
-                link.className = 'bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700';
+                link.className = 'bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700 inline-block';
                 link.textContent = 'View Project';
+                link.style.opacity = '1'; // Ensure opacity is set to 1
+                link.style.animation = 'none'; // Disable any animations
                 div.appendChild(link);
             } else if (project.note) {
                 const note = document.createElement('p');
                 note.className = 'bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700';
                 note.textContent = project.note;
+                note.style.opacity = '1'; // Ensure opacity is set to 1
+                note.style.animation = 'none'; // Disable any animations
                 div.appendChild(note);
             }
             
             container.appendChild(div);
         });
+        
+        // Refresh card effects after loading
+        if (this.projectCards) {
+            this.projectCards.refreshCards('#projects .bg-gray');
+        }
     }
 
     loadSkillsSection() {
@@ -179,7 +261,7 @@ class App {
         // Clear existing categories
         container.innerHTML = '';
         
-        // Add skill categories
+        // Add skill categories with animated progress bars
         skillsData.categories.forEach(category => {
             const div = document.createElement('div');
             div.className = 'bg-gray p-6 rounded-lg';
@@ -188,18 +270,78 @@ class App {
             h3.className = 'text-xl font-semibold mb-4';
             h3.textContent = category.name;
             
-            const ul = document.createElement('ul');
-            ul.className = 'list-disc list-inside text-gray-300';
+            div.appendChild(h3);
             
+            // Create skill bars instead of bullet points
             category.skills.forEach(skill => {
-                const li = document.createElement('li');
-                li.textContent = skill;
-                ul.appendChild(li);
+                // Create skill container
+                const skillContainer = document.createElement('div');
+                skillContainer.className = 'mb-4';
+                
+                // Skill name
+                const skillName = document.createElement('div');
+                skillName.className = 'flex justify-between mb-1';
+                
+                const nameSpan = document.createElement('span');
+                nameSpan.className = 'text-gray-300';
+                nameSpan.textContent = skill;
+                
+                skillName.appendChild(nameSpan);
+                
+                // Progress bar container
+                const progressContainer = document.createElement('div');
+                progressContainer.className = 'w-full bg-gray-700 rounded-full h-2.5';
+                
+                // Progress bar (animated)
+                const progressBar = document.createElement('div');
+                progressBar.className = 'bg-blue-600 h-2.5 rounded-full skill-progress';
+                progressBar.style.width = '0%';
+                
+                // Random skill level between 70% and 95%
+                const skillLevel = Math.floor(Math.random() * 26) + 70;
+                
+                // Set data attribute for animation
+                progressBar.setAttribute('data-width', `${skillLevel}%`);
+                
+                progressContainer.appendChild(progressBar);
+                
+                // Assemble skill
+                skillContainer.appendChild(skillName);
+                skillContainer.appendChild(progressContainer);
+                
+                div.appendChild(skillContainer);
             });
             
-            div.appendChild(h3);
-            div.appendChild(ul);
             container.appendChild(div);
+        });
+        
+        // Set up animation for skill bars
+        this.setupSkillAnimations();
+    }
+    
+    setupSkillAnimations() {
+        const skillBars = document.querySelectorAll('.skill-progress');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const bar = entry.target;
+                    const width = bar.getAttribute('data-width');
+                    
+                    // Animate progress bar
+                    setTimeout(() => {
+                        bar.style.transition = 'width 1s ease-in-out';
+                        bar.style.width = width;
+                    }, 200);
+                    
+                    // Stop observing after animation
+                    observer.unobserve(bar);
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        skillBars.forEach(bar => {
+            observer.observe(bar);
         });
     }
 
@@ -223,7 +365,10 @@ class App {
             h3.textContent = device.type;
             
             const img = document.createElement('img');
-            img.src = device.image;
+            // Use data-src for lazy loading
+            img.setAttribute('data-src', device.image);
+            // Use placeholder until image loads
+            img.src = this.generatePlaceholder(200, 200);
             img.className = 'rounded-full mb-6 w-40 h-40 object-cover, ImageBorder';
             img.alt = device.model;
             
@@ -242,8 +387,28 @@ class App {
             
             container.appendChild(div);
         });
+        
+        // Refresh card effects after loading
+        if (this.deviceCards) {
+            this.deviceCards.refreshCards('#devices .bg-gray');
+        }
+    }
+    
+    generatePlaceholder(width, height) {
+        // Generate a simple SVG placeholder
+        return `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 ${width} ${height}'%3E%3Crect width='${width}' height='${height}' fill='%23cccccc'/%3E%3C/svg%3E`;
     }
 }
+
+// Add CSS for skill progress bars
+const styleSheet = document.createElement('style');
+styleSheet.textContent = `
+  .skill-progress {
+    width: 0;
+    transition: width 1s ease-in-out;
+  }
+`;
+document.head.appendChild(styleSheet);
 
 // Initialize the app when the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', () => {

@@ -1,0 +1,92 @@
+/* assets/css/components/pages.css */
+
+/* Full page approach rather than modals */
+.page-content {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 50;
+    overflow-y: auto;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    transform: translateX(100%);
+    opacity: 0;
+    visibility: hidden;
+}
+
+#main-page {
+    z-index: 40;
+}
+
+body.dark-mode .page-content {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+body.light-mode .page-content {
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.page-content.active {
+    transform: translateX(0);
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Slide directions */
+.slide-left {
+    transform: translateX(-100%) !important;
+}
+
+.slide-right {
+    transform: translateX(100%) !important;
+}
+
+/* Back button styling */
+.back-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    transition: transform 0.3s ease;
+    z-index: 100;
+}
+
+.back-button:hover {
+    transform: translateX(-5px);
+}
+
+/* Content container */
+.page-content .container {
+    padding-top: 3rem;
+    padding-bottom: 4rem;
+}
+
+/* Project cards */
+#projects .bg-gray {
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#projects .bg-gray:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Fix for project buttons to ensure consistent animation */
+#projects .bg-gray a, 
+#projects .bg-gray p.bg-gray-800 {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+    transition: background-color 0.3s;
+}
+
+/* Consistent card styles */
+.card-tilt {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}

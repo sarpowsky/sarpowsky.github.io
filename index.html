@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>_sarpowsky</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+</head>
+<body class="dark-mode">
+    <canvas id="matrix-canvas"></canvas>
+    <div class="semi-transparent-layer"></div>
+     <!-- Hero Section -->
+     <div class="container mx-auto px-4 pt-24 relative z-10">
+        <div class="flex flex-col items-start h-screen ml-4">
+                
+            <img src="https://media.licdn.com/dms/image/v2/D4D03AQGHZymWus4sxg/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1727645545686?e=1738195200&v=beta&t=fjdhm56aTSrOId024zMEpCUg2pzPySyzJftg6lpfsog" alt="Profile Picture" class="rounded-full mb-6 w-36 h-36 object-cover, ImageBorder">
+            <h1 class="text-4xl font-bold mb-4"> Sarp Can Karaman </h1>
+            <p class="text-l mb-6">Computer Engineer | DevOps Enthusiast | Back-end Developer</p>
+                    
+            <!-- Section Buttons -->
+            <div class="absolute top-30 right-4 flex flex-col space-y-4 md:space-y-2 sm:space-y-1">
+                <button onclick="showSection('about')" class="section-btn px-2 py-1 md:px-4 md:py-2 text-sm md:text-base relative">
+                    | /hi |
+                    <span class="section-btn-bottomline"></span>
+                </button>
+                <button onclick="showSection('experience')" class="section-btn px-2 py-1 md:px-4 md:py-2 text-sm md:text-base relative">
+                    | /experience |
+                    <span class="section-btn-bottomline"></span>
+                </button>
+                <button onclick="showSection('projects')" class="section-btn px-2 py-1 md:px-4 md:py-2 text-sm md:text-base relative">
+                    | /projects |
+                    <span class="section-btn-bottomline"></span>
+                </button>
+                <button onclick="showSection('skills')" class="section-btn px-2 py-1 md:px-4 md:py-2 text-sm md:text-base relative">
+                    | /skills |
+                    <span class="section-btn-bottomline"></span>
+                </button>
+                <button onclick="showSection('devices')" class="section-btn px-2 py-1 md:px-4 md:py-2 text-sm md:text-base relative">
+                    | /devices |
+                    <span class="section-btn-bottomline"></span>
+                </button>
+            </div>
+
+            <div class="mt-auto w-full">
+                <!-- Social Links -->
+                <div class="fixed bottom-0 left-35 flex space-x-6 items-center mb-4">
+                    <div class="flex justify-center space-x-6 items-center mb-4">
+                        <a href="https://github.com/sarpowsky" target="_blank" class="social-icon text-white hover:text-gray-300"><i data-feather="github"></i></a>
+                        <a href="https://www.linkedin.com/in/sarp-can-karaman-8437761b6/" target="_blank" class="social-icon text-white hover:text-gray-300"><i data-feather="linkedin"></i></a>
+                        <a href="https://www.instagram.com/_sarpowsky/" target="_blank" class="social-icon text-white hover:text-gray-300"><i data-feather="instagram"></i></a>
+                        <a href="https://open.spotify.com/user/ssru8otkx7inhh4g03wlm1j3m?si=6e2ef3eee1534a77" target="_blank" class="social-icon text-white hover:text-gray-300"><i data-feather="music"></i></a>
+                    </div>
+                </div>
+                <div class="fixed bottom-8 left-1/2 transform -translate-x-1/2">
+                    <div class="self-center mb-4">
+                        <button id="mode-toggle" class="mode-toggle text-gray">
+                            <i data-feather="moon"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- Clock -->
+                <div class="fixed bottom-4 left-1/2 transform -translate-x-1/2">
+                    <div id="clock" class="text-l font-600 text-initial"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="sectionContainer" class="hidden"></div>
+    
+    </div>
+    <section id="about" class="section-content hidden">
+        <button onclick="hideSection()" class="absolute top-4 right-4 text-white text-5xl">&times;</button>
+        <div class="container mx-auto text-center max-w-3xl pt-16">
+            <h2 class="text-3xl font-bold mb-8">hi</h2>
+                <h1 class="text-xxl">Hello, I am Sarp</h1>
+                <div class="space-y-5">
+                <p class="text-xxl">Computer Engineering Student at Haliç University</p>
+                    <div class="space-y-5">
+                        <p class="text-xl">
+                            As someone interested in computers in general, I'm driven by a genuine passion for technological innovation. My academic journey is fueled by curiosity and a desire to understand the intricate world of computing.
+                        </p>
+            
+                        <p class="text-xl">
+                            My technical toolkit spans multiple programming languages—Python, Java, JavaScript, and C++—each offering a unique perspective on solving complex challenges. I've developed a particular interest in DevOps and Back-end Development, where I can explore the sophisticated mechanics of modern software systems.
+                        </p>
+            
+                        <p class="text-xl">
+                            Beyond acquiring technical skills, I'm committed to transforming knowledge into meaningful solutions. My goal is to bridge theoretical understanding with practical innovation, continuously learning and adapting in the ever-evolving landscape of technology.
+                        </p>
+                    </div>
+                </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="section-content hidden">
+        <button onclick="hideSection()" class="absolute top-4 right-4 text-white text-5xl">&times;</button>
+        <div class="container mx-auto max-w-4xl pt-16">
+            <h2 class="text-3xl font-bold text-center mb-8">working on this section, for now. :D</h2>
+            <div class="space-y-6">
+                <div class="bg-gray p-6 rounded-lg">
+                    <h3 class="text-xl font-semibold">#</h3>
+                    <p class="text-gray-400">#</p>
+                    <ul class="list-disc list-inside text-gray-300 mt-2">
+                    </ul>
+                </div>
+                <div class="bg-gray p-6 rounded-lg">
+                    <h3 class="text-xl font-semibold">#</h3>
+                    <p class="text-gray-400">#</p>
+                    <ul class="list-disc list-inside text-gray-300 mt-2">
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="section-content hidden">
+        <button onclick="hideSection()" class="absolute top-4 right-4 text-white text-5xl">&times;</button>
+        <div class="container mx-auto pt-16">
+            <h2 class="text-3xl font-bold text-center mb-8">Projects</h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-gray p-6 rounded-lg">
+                    <h3 class="text-xl font-semibold mb-4">Horoscope-Bot</h3>
+                    <p class="text-gray-400 mb-4">A simple, intuitive tool for daily/monthly/date based horoscopes.</p>
+                    <a href="https://github.com/sarpowsky/Horoscope-Bot" target="_blank" class="bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700">View Project</a>
+                </div>
+                <div class="bg-gray p-6 rounded-lg">
+                    <h3 class="text-xl font-semibold mb-4">Developer Portfolio</h3>
+                    <p class="text-gray-400 mb-4">For assembling all the achievements and projects into a simple and user-friendly UI.</p>
+                    <p class="bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700">You're looking at it...</p>
+            </div>
+        </div>
+    </section>
+    <!-- Skills Section -->
+    <section id="skills" class="section-content hidden">
+        <button onclick="hideSection()" class="absolute top-4 right-4 text-white text-5xl">&times;</button>
+        <div class="container mx-auto pt-16">
+            <h2 class="text-3xl font-bold text-center mb-8">Skills</h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Programming Languages -->
+                <div class="bg-gray p-6 rounded-lg">
+                    <h3 class="text-xl font-semibold mb-4">Programming Languages</h3>
+                    <ul class="list-disc list-inside text-gray-300">
+                        <li>Python</li>
+                        <li>Java</li>
+                        <li>JavaScript</li>
+                        <li>C++</li>
+                    </ul>
+                </div>
+
+                <!-- DevOps & Backend Technologies -->
+                <div class="bg-gray p-6 rounded-lg">
+                    <h3 class="text-xl font-semibold mb-4">DevOps & Backend</h3>
+                    <ul class="list-disc list-inside text-gray-300">
+                        <li>#</li>
+                        <li>#</li>
+                        <li>#</li>
+                        <li>#</li>
+                    </ul>
+                </div>
+
+                <!-- Web Technologies -->
+                <div class="bg-gray p-6 rounded-lg">
+                    <h3 class="text-xl font-semibold mb-4">Web Technologies</h3>
+                    <ul class="list-disc list-inside text-gray-300">
+                        <li>HTML/CSS</li>
+                        <li>React</li>
+                        <li>Node.js</li>
+                        <li>#</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Devices Section -->
+    <section id="devices" class="section-content hidden">
+        <button onclick="hideSection()" class="absolute top-4 right-4 text-white text-5xl">&times;</button>
+        <div class="container mx-auto pt-16">
+            <h2 class="text-3xl font-bold text-center mb-8">Devices</h2>
+            <div class="grid md:grid-cols-5 gap-7">
+                <div class="bg-gray p-6 rounded-lg">
+                    <h3 class="text-xl font-semibold mb-4">Laptop</h3>
+                        <img src="https://storage-asset.msi.com/global/picture/image/feature/nb/GF/Katana-15-A13V/photo15-3.png" class="rounded-full mb-6 w-40 h-40 object-cover, ImageBorder">
+                        <h1 class="text-xl text-gray-500 mb-4">Msi Katana 15 B12V</h1>
+                        <p class="text-sm text-gray-400 mb-4">-Very reliable, extremely powerful laptop. 
+                            Because I also love playing video games, it really saves my life.
+                            Battery goes like ≈3 hours, which sometimes isn't quite enough.</p>
+                </div>
+                <div class="bg-gray p-6 rounded-lg">
+                    <h4 class="text-xl font-semibold mb-4">Phone</h3>
+                        <img src="https://cdn.easycep.com/assets/_web/img/product/2022/11/l_apple-iphone-13-pro-max-5918-1-1669322972.webp" class="rounded-full mb-6 w-40 h-40 object-cover, ImageBorder">
+                        <h1 class="text-xl text-gray-500 mb-4">iPhone 13 Pro Max</h1>
+                        <p class="text-sm text-gray-400 mb-4">-I have been using this for about 2.5 years now, battery is still good and reliable.
+                            Camera hasn't aged a bit, still takes amazing photos. I'm really happy with it.</p>
+                </div>
+                <div class="bg-gray p-6 rounded-lg">
+                    <h4 class="text-xl font-semibold mb-4">Headphones</h3>
+                        <img src="https://cdsassets.apple.com/live/SZLF0YNV/images/sp/111851_sp880-airpods-Pro-2nd-gen.png" class="rounded-full mb-6 w-40 h-40 object-cover, ImageBorder">
+                        <h1 class="text-xl text-gray-500 mb-4">Airpods Pro 2.Gen</h1>
+                        <p class="text-sm text-gray-400 mb-4">-The integration with the Apple ecosystem was very desirable when I first thought of buying it.
+                            The sound quality is amazing, and the noise cancellation is really good. It definetely worths every penny.</p>
+                        </p>
+                </div>
+                <div class="bg-gray p-6 rounded-lg">
+                    <h4 class="text-xl font-semibold mb-4">Smartwatch</h3>
+                        <img src="https://www.uwbookstore.com/storeimages/177-1840760-1_hi.png" class="rounded-full mb-6 w-40 h-40 object-cover, ImageBorder">
+                        <h1 class="text-xl text-gray-500 mb-4">Apple Watch Series 9 45mm</h1>
+                        <p class="text-sm text-gray-400 mb-4">-This device is a lifesaver, especially if your routine requires for you to be
+                             constantly on the move, and in the situations you are not able to take out your phone out of your pocket, this
+                             badboy deals with nearyl everything you need that your phone does. 10/10</p>
+                </div>
+                <div class="bg-gray p-6 rounded-lg">
+                    <h4 class="text-xl font-semibold mb-4">Tablet</h3>
+                        <img src="https://www.viewsonic.com/media/catalog/product/cache/b1231e477ffebecb36748a51c37e27d3/w/o/woodpad_right_hires_1.png" class="rounded-full mb-6 w-40 h-40 object-cover, ImageBorder">
+                        <h1 class="text-xl text-gray-500 mb-4">ViewSonic WoodPad 7</h1>
+                        <p class="text-sm text-gray-400 mb-4">-Well, I neither have the budget nor the need to buy an iPad really.
+                            This tablet is really good for my needs, and it's really cheap. Also sometimes I appreciate the luxury
+                        of having a device that makes me able to do digital drawing.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="scripts.js"></script>
+</body>
+</html>

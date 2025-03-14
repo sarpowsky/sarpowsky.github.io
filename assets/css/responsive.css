@@ -1,0 +1,271 @@
+/* assets/css/responsive.css */
+
+/* General Responsive Adjustments */
+@media screen and (max-width: 768px) {
+    body {
+        font-size: 14px;
+    }
+
+    .container {
+        padding: 1rem;
+        margin: 0 auto;
+    }
+
+    /* Responsive Typography */
+    .content-overlay h1 {
+        font-size: 2.5rem;
+    }
+
+    .content-overlay p {
+        font-size: 1.2rem;
+    }
+
+    .section-content h2 {
+        font-size: 2rem;
+    }
+
+    /* Navigation and Buttons */
+    .section-btn {
+        font-size: 0.9rem;
+        margin: 0.3rem 0;
+    }
+
+    /* Profile Section */
+    .flex.flex-col.items-start {
+        align-items: center;
+        text-align: center;
+    }
+
+    .rounded-full.mb-6.w-36.h-36 {
+        width: 28vw;
+        height: 28vw;
+        max-width: 180px;
+        max-height: 180px;
+    }
+
+    /* Social Icons */
+    .fixed.bottom-0.left-35.flex.space-x-6 {
+        position: fixed;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        justify-content: center;
+    }
+
+    .social-icon {
+        margin: 0 10px;
+    }
+
+    /* Sections Layout */
+    .section-content {
+        padding: 1rem;
+        overflow-y: auto;
+    }
+
+    .grid.md\:grid-cols-3,
+    .grid.md\:grid-cols-5 {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    /* Devices Section */
+    #devices .bg-gray {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    #devices img.rounded-full {
+        width: 40vw;
+        height: 40vw;
+        max-width: 250px;
+        max-height: 250px;
+    }
+
+    /* Clock Positioning */
+    #clock {
+        font-size: 1rem;
+    }
+
+    /* Mode Toggle */
+    .mode-toggle {
+        width: 35px;
+        height: 35px;
+    }
+
+    /* Matrix Canvas */
+    #matrix-canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .absolute.top-30.right-4.flex.flex-col.space-y-4.md\:space-y-2.sm\:space-y-1 {
+        position: relative;
+        top: 0;
+        left: 0;
+        right: auto;
+        align-items: flex-start;
+        margin-top: 1rem;
+        margin-left: 1rem;
+        margin-bottom: 1rem;
+        z-index: 10;
+    }
+
+    .section-btn {
+        display: block;
+        margin-bottom: 0.5rem;
+        text-align: left;
+    }
+
+    /* Adjust content positioning to avoid overlap */
+    .container.mx-auto.px-4.pt-24.relative.z-10 {
+        padding-top: 6rem;
+    }
+
+    /* Ensure profile picture and name are below buttons */
+    .flex.flex-col.items-start.h-screen.ml-4 {
+        justify-content: center;
+        margin-left: 0;
+        text-align: center;
+        align-items: center;
+    }
+
+    .container.mx-auto.px-4.pt-24.relative.z-10 {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .flex.flex-col.items-start.h-screen.ml-4 {
+        margin-left: 0;
+        align-items: flex-start;
+        text-align: left;
+        width: 100%;
+    }
+
+    /* Left-align profile picture */
+    .rounded-full.mb-6.w-36.h-36 {
+        align-self: flex-start;
+        margin-left: 0;
+    }
+
+    /* Mode Toggle Positioning */
+    .mode-toggle {
+        position: fixed;
+        bottom: 80px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 100;        
+        margin-left: -10px;
+    }
+
+    /* Social Icons Positioning */
+    .fixed.bottom-0.left-35.flex.space-x-6.items-center.mb-4 {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* Clock Positioning */
+    .fixed.bottom-4.left-1\/2.transform.-translate-x-1\/2 {
+        bottom: 10px;
+    }
+}
+
+/* Small Mobile Devices */
+@media screen and (max-width: 480px) {
+    body {
+        font-size: 12px;
+    }
+
+    .content-overlay h1 {
+        font-size: 2rem;
+    }
+
+    .content-overlay p {
+        font-size: 1rem;
+    }
+
+    .section-btn {
+        font-size: 0.8rem;
+    }
+
+    .social-icon {
+        margin: 0 5px;
+    }
+
+    #devices img.rounded-full {
+        width: 50vw;
+        height: 50vw;
+        max-width: 200px;
+        max-height: 200px;
+    }
+    
+    .absolute.top-30.right-4.flex.flex-col.space-y-4.md\:space-y-2.sm\:space-y-1 {
+        margin-left: 0.5rem;
+    }
+
+    .section-btn {
+        font-size: 0.9rem;
+    }
+    
+    .mode-toggle {
+        bottom: 70px;
+    }
+}
+
+/* Landscape Orientation */
+@media screen and (max-width: 900px) and (orientation: landscape) {
+    .section-content {
+        overflow-y: scroll;
+        padding-bottom: 100px;
+    }
+
+    .section-btn {
+        margin: 0.2rem 0;
+    }
+    
+    .flex.flex-col.items-start.h-screen.ml-4 {
+        padding-top: 2rem;
+    }
+
+    .rounded-full.mb-6.w-36.h-36 {
+        width: 30vw;
+        height: 30vw;
+        max-width: 150px;
+        max-height: 150px;
+    }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* Focus styles for better accessibility */
+:focus {
+    outline: 3px solid var(--accent-color);
+    outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    :root {
+        --primary-dark: #000000;
+        --primary-light: #ffffff;
+        --text-dark: #ffffff;
+        --text-light: #000000;
+    }
+}

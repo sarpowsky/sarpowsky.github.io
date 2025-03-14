@@ -1,0 +1,55 @@
+<!-- components/header.html -->
+<div class="container mx-auto px-4 pt-24 relative z-10">
+    <div class="flex flex-col items-start h-screen ml-4">
+        <img src="" alt="Profile Picture" class="rounded-full mb-6 w-36 h-36 object-cover, ImageBorder">
+        <h1 class="text-4xl font-bold mb-4"></h1>
+        <p class="text-l mb-6"></p>
+                
+        <!-- Section Buttons -->
+        <div class="absolute top-30 right-4 flex flex-col space-y-4 md:space-y-2 sm:space-y-1">
+            <button class="section-btn px-2 py-1 md:px-4 md:py-2 text-sm md:text-base relative" data-section="about">
+                | /hi |
+                <span class="section-btn-bottomline"></span>
+            </button>
+            <button class="section-btn px-2 py-1 md:px-4 md:py-2 text-sm md:text-base relative" data-section="experience">
+                | /experience |
+                <span class="section-btn-bottomline"></span>
+            </button>
+            <button class="section-btn px-2 py-1 md:px-4 md:py-2 text-sm md:text-base relative" data-section="projects">
+                | /projects |
+                <span class="section-btn-bottomline"></span>
+            </button>
+            <button class="section-btn px-2 py-1 md:px-4 md:py-2 text-sm md:text-base relative" data-section="skills">
+                | /skills |
+                <span class="section-btn-bottomline"></span>
+            </button>
+            <button class="section-btn px-2 py-1 md:px-4 md:py-2 text-sm md:text-base relative" data-section="devices">
+                | /devices |
+                <span class="section-btn-bottomline"></span>
+            </button>
+        </div>
+
+        <div class="mt-auto w-full">
+            <!-- Social Links -->
+            <div class="fixed bottom-0 left-35 flex space-x-6 items-center mb-4">
+                <div class="flex justify-center space-x-6 items-center mb-4">
+                    <a href="" target="_blank" class="social-icon text-white hover:text-gray-300"><i data-feather="github"></i></a>
+                    <a href="" target="_blank" class="social-icon text-white hover:text-gray-300"><i data-feather="linkedin"></i></a>
+                    <a href="" target="_blank" class="social-icon text-white hover:text-gray-300"><i data-feather="instagram"></i></a>
+                    <a href="" target="_blank" class="social-icon text-white hover:text-gray-300"><i data-feather="music"></i></a>
+                </div>
+            </div>
+            <div class="fixed bottom-8 left-1/2 transform -translate-x-1/2">
+                <div class="self-center mb-4">
+                    <button id="mode-toggle" class="mode-toggle text-gray">
+                        <i data-feather="moon"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- Clock -->
+            <div class="fixed bottom-4 left-1/2 transform -translate-x-1/2">
+                <div id="clock" class="text-l font-600 text-initial"></div>
+            </div>
+        </div>
+    </div>
+</div>

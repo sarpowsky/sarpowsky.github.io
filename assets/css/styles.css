@@ -1,0 +1,11 @@
+/* assets/css/styles.css - Main stylesheet that imports all component CSS files */
+
+/* Import component styles */
+@import 'components/matrix.css';
+@import 'components/theme.css';
+@import 'components/layout.css';
+@import 'components/animations.css';
+@import 'components/sections.css';
+
+/* Import responsive styles */
+@import 'responsive.css';

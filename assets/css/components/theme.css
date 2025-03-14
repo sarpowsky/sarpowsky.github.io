@@ -1,0 +1,105 @@
+/* assets/css/components/theme.css */
+@import url('https://fonts.cdnfonts.com/css/thegoodmonolith');
+
+body {
+    font-family: 'TheGoodMonolith', sans-serif;      
+    font-weight: 600;
+    transition: background-color 0.3s, color 0.3s;
+    overflow: hidden;
+}
+
+/* Dark Mode Styles */
+body.dark-mode {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+body.dark-mode .section-btn {
+    background: none;
+    color: white;
+}
+
+body.dark-mode .section-btn-bottomline {
+    background: linear-gradient(to right, transparent, white, transparent);
+}
+
+body.dark-mode .social-icon {
+    color: white;
+}
+
+body.dark-mode .social-icon:hover {
+    color: #d1d5db;
+}
+
+body.dark-mode .section-content button {
+    color: white;
+}
+
+body.dark-mode .section-content {
+    background: rgba(0, 0, 0, 0.95);
+}
+
+body.dark-mode #clock {
+    color: white;
+}
+
+body.dark-mode .ImageBorder {
+    border-color: #ffffff;
+}
+
+/* Light Mode Styles */
+body.light-mode {
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+body.light-mode .section-btn {
+    background: none;
+    color: black;
+}
+
+body.light-mode .section-btn-bottomline {
+    background: linear-gradient(to right, transparent, black, transparent);
+}
+
+body.light-mode .social-icon {
+    color: black;
+}
+
+body.light-mode .social-icon:hover {
+    color: #4a5568;
+}
+
+body.light-mode .section-content {
+    background: rgba(255, 255, 255, 0.95);
+}
+
+body.light-mode .section-content button {
+    color: black;
+}
+
+body.light-mode #clock {
+    color: #2f2e2e;
+}
+
+body.light-mode .ImageBorder {
+    border-color: #000000;
+}
+
+/* Theme toggle */
+.mode-toggle {
+    background: none;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.mode-toggle:hover {
+    transform: rotate(180deg);
+}

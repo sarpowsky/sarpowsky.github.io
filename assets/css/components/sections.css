@@ -1,0 +1,80 @@
+/* assets/css/components/sections.css */
+
+/* Section styling */
+.section-content {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 50;
+    overflow-y: auto;
+    padding: 2rem;
+    animation: fadeIn 0.3s ease-out;
+    min-height: 100vh;
+    padding-bottom: 100px;
+}
+
+/* About section */
+#about h2 {
+    font-size: 2.5rem;
+}
+
+#about .text-xxl {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+}
+
+#about .text-xl {
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+/* Projects section */
+#projects .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+#projects .bg-gray {
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+#projects .bg-gray:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Skills section */
+#skills .list-disc li {
+    margin-bottom: 0.5rem;
+}
+
+/* Devices section */
+#devices .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+}
+
+#devices img {
+    transition: transform 0.3s ease;
+}
+
+#devices img:hover {
+    transform: scale(1.05);
+}
+
+/* Close button styling */
+.close-button {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.close-button:hover {
+    transform: rotate(90deg);
+}

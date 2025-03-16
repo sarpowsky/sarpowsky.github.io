@@ -119,7 +119,7 @@ export default class GitHubCalendar {
 
     async fetchContributions() {
         try {
-            const response = await fetch('/assets/js/data/github-contributions.json');
+            const response = await fetch('assets/js/data/github-contributions.json');
             
             if (!response.ok) throw new Error('Failed to load GitHub contributions');
             

@@ -61,15 +61,30 @@ export const skillsData = {
     categories: [
         {
             name: "Programming Languages",
-            skills: ["Python", "Java", "JavaScript", "C++"]
+            skills: [
+                { name: "Python", level: 70 },
+                { name: "Java", level: 60 },
+                { name: "JavaScript", level: 70 },
+                { name: "C++", level: 40 }
+            ]
         },
         {
             name: "DevOps & Backend",
-            skills: ["#", "#", "#", "#"]
+            skills: [
+                { name: "#", level: 65 },
+                { name: "#", level: 70 },
+                { name: "#", level: 75 },
+                { name: "#", level: 80 }
+            ]
         },
         {
             name: "Web Technologies",
-            skills: ["HTML/CSS", "React", "Node.js", "#"]
+            skills: [
+                { name: "HTML/CSS", level: 85 },
+                { name: "React", level: 70 },
+                { name: "Node.js", level: 75 },
+                { name: "#", level: 65 }
+            ]
         }
     ]
 };

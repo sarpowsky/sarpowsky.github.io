@@ -6,6 +6,7 @@
 @import 'components/layout.css';
 @import 'components/animations.css';
 @import 'components/pages.css';
+@import 'components/widgets.css';
 
 /* Import responsive styles */
 @import 'responsive.css';

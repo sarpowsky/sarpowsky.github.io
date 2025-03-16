@@ -1,0 +1,269 @@
+/* assets/css/components/widgets.css */
+
+/* LinkedIn Carousel Styles */
+.linkedin-section {
+    margin-bottom: 2rem;
+}
+
+.linkedin-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+}
+
+.linkedin-carousel {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 0.5rem;
+    overflow: hidden;
+    position: relative;
+    height: 200px;
+}
+
+body.light-mode .linkedin-carousel {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.linkedin-carousel-slides {
+    display: flex;
+    transition: transform 0.5s ease;
+    height: 100%;
+}
+
+.linkedin-carousel-slide {
+    flex: 0 0 100%;
+    padding: 1rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.linkedin-icon {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    color: #0077B5;
+}
+
+.linkedin-post-title {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.linkedin-post-excerpt {
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    flex-grow: 1;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.linkedin-post-date {
+    font-size: 0.8rem;
+    color: #aaa;
+    margin-bottom: 0.5rem;
+}
+
+.linkedin-post-link {
+    align-self: flex-end;
+    font-size: 0.9rem;
+    color: #0077B5;
+    text-decoration: none;
+}
+
+.carousel-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+    z-index: 10;
+}
+
+body.light-mode .carousel-nav-btn {
+    color: #333;
+}
+
+.carousel-nav-btn:hover {
+    opacity: 1;
+}
+
+.prev-btn {
+    left: 0.5rem;
+}
+
+.next-btn {
+    right: 0.5rem;
+}
+
+.carousel-indicators {
+    position: absolute;
+    bottom: 0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.5rem;
+}
+
+.carousel-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+body.light-mode .carousel-indicator {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.carousel-indicator.active {
+    background-color: white;
+}
+
+body.light-mode .carousel-indicator.active {
+    background-color: #333;
+}
+
+/* GitHub Calendar Styles */
+.github-section {
+    margin: 2rem auto;
+    max-width: 800px;
+    text-align: center;
+}
+
+.github-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+}
+
+.github-calendar {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    font-size: 0.9rem;
+    display: inline-block;
+}
+
+body.light-mode .github-calendar {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.github-calendar-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.github-calendar-header h3 {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.github-calendar-grid {
+    position: relative;
+    min-height: 100px;
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+}
+
+.github-calendar-loading {
+    text-align: center;
+    padding: 1rem;
+}
+
+/* Table-based layout for consistent sizing */
+.contribution-table {
+    border-spacing: 2px;
+    border-collapse: separate;
+    table-layout: fixed;
+    margin: 0 auto;
+}
+
+.contribution-cell {
+    width: 10px;
+    height: 10px;
+    padding: 0;
+    border-radius: 2px;
+}
+
+/* Contribution levels */
+body.dark-mode .contribution-cell.level-0 {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+body.dark-mode .contribution-cell.level-1 {
+    background-color: rgba(0, 255, 65, 0.25);
+}
+
+body.dark-mode .contribution-cell.level-2 {
+    background-color: rgba(0, 255, 65, 0.45);
+}
+
+body.dark-mode .contribution-cell.level-3 {
+    background-color: rgba(0, 255, 65, 0.65);
+}
+
+body.dark-mode .contribution-cell.level-4 {
+    background-color: rgba(0, 255, 65, 0.85);
+}
+
+body.light-mode .contribution-cell.level-0 {
+    background-color: #ebedf0;
+}
+
+body.light-mode .contribution-cell.level-1 {
+    background-color: #9be9a8;
+}
+
+body.light-mode .contribution-cell.level-2 {
+    background-color: #40c463;
+}
+
+body.light-mode .contribution-cell.level-3 {
+    background-color: #30a14e;
+}
+
+body.light-mode .contribution-cell.level-4 {
+    background-color: #216e39;
+}
+
+.contribution-cell.empty {
+    background-color: transparent;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .linkedin-column, .profile-column {
+        width: 100%;
+        padding-left: 0;
+    }
+    
+    .github-section {
+        width: 100%;
+        padding-left: 0;
+    }
+    
+    .github-calendar-grid {
+        overflow-x: auto;
+    }
+    
+    .contribution-table {
+        border-spacing: 1px;
+    }
+    
+    .contribution-cell {
+        width: 8px;
+        height: 8px;
+    }
+}

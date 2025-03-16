@@ -4,7 +4,8 @@ import Navigation from './components/navigation.js';
 import ThemeToggle from './components/themeToggle.js';
 import Clock from './components/clock.js';
 import CardEffects from './components/cardEffects.js';
-import ParticleEffect from './components/particles.js';
+import LinkedInCarousel from './components/linkedInCarousel.js';
+import GitHubCalendar from './components/gitHubCalendar.js';
 import { 
     profileData, 
     aboutData, 
@@ -28,6 +29,9 @@ class App {
         
         // Load content
         this.loadContent();
+        
+        // Initialize widgets
+        this.initWidgets();
         
         // Initialize Feather icons
         if (typeof feather !== 'undefined') {
@@ -72,6 +76,30 @@ class App {
             this.projectCards = new CardEffects('#projects .bg-gray');
             this.deviceCards = new CardEffects('#devices .bg-gray');
         }, 1000); // Delay to ensure cards are loaded
+    }
+    
+    initWidgets() {
+        this.initLinkedInCarousel();
+        this.initGitHubCalendar();
+    }
+
+    async initLinkedInCarousel() {
+        try {
+            const posts = await LinkedInCarousel.fetchPosts();
+            this.linkedInCarousel = new LinkedInCarousel('linkedin-carousel', posts);
+        } catch (error) {
+            console.error('Failed to initialize LinkedIn carousel:', error);
+        }
+    }
+
+    initGitHubCalendar() {
+        try {
+            // Use the GitHub username from profileData
+            const username = profileData.social.github.split('/').pop();
+            this.gitHubCalendar = new GitHubCalendar('github-calendar', username);
+        } catch (error) {
+            console.error('Failed to initialize GitHub calendar:', error);
+        }
     }
     
     setupErrorHandling() {
@@ -153,10 +181,12 @@ class App {
 
     loadAboutSection() {
         const aboutSection = document.getElementById('about');
-        const aboutTitle = aboutSection.querySelector('h2');
-        const aboutGreeting = aboutSection.querySelector('h1');
-        const aboutSubtitle = aboutSection.querySelector('p.text-xxl');
-        const paragraphs = aboutSection.querySelectorAll('p.text-xl');
+        const aboutTitle = aboutSection?.querySelector('h2');
+        const aboutGreeting = aboutSection?.querySelector('h1');
+        const aboutSubtitle = aboutSection?.querySelector('p.text-xxl');
+        const paragraphs = aboutSection?.querySelectorAll('p.text-xl');
+        
+        if (!aboutSection) return;
         
         aboutTitle.textContent = aboutData.title;
         aboutGreeting.textContent = aboutData.greeting;
@@ -171,6 +201,8 @@ class App {
 
     loadExperienceSection() {
         const experienceSection = document.getElementById('experience');
+        if (!experienceSection) return;
+        
         const expTitle = experienceSection.querySelector('h2');
         const expItems = experienceSection.querySelectorAll('.bg-gray');
         
@@ -200,6 +232,8 @@ class App {
 
     loadProjectsSection() {
         const projectsSection = document.getElementById('projects');
+        if (!projectsSection) return;
+        
         const title = projectsSection.querySelector('h2');
         const container = projectsSection.querySelector('.grid');
         
@@ -253,6 +287,8 @@ class App {
 
     loadSkillsSection() {
         const skillsSection = document.getElementById('skills');
+        if (!skillsSection) return;
+        
         const title = skillsSection.querySelector('h2');
         const container = skillsSection.querySelector('.grid');
         
@@ -261,7 +297,7 @@ class App {
         // Clear existing categories
         container.innerHTML = '';
         
-        // Add skill categories with animated progress bars
+        // Add skill categories with progress bars
         skillsData.categories.forEach(category => {
             const div = document.createElement('div');
             div.className = 'bg-gray p-6 rounded-lg';
@@ -272,19 +308,35 @@ class App {
             
             div.appendChild(h3);
             
-            // Create skill bars instead of bullet points
+            // Create skill bars
             category.skills.forEach(skill => {
                 // Create skill container
                 const skillContainer = document.createElement('div');
                 skillContainer.className = 'mb-4';
                 
-                // Skill name
+                // Skill name and percentage
                 const skillName = document.createElement('div');
                 skillName.className = 'flex justify-between mb-1';
                 
                 const nameSpan = document.createElement('span');
                 nameSpan.className = 'text-gray-300';
-                nameSpan.textContent = skill;
+                
+                // Check if skill is string or object
+                if (typeof skill === 'string') {
+                    nameSpan.textContent = skill;
+                    // Add a default level (80%)
+                    const levelSpan = document.createElement('span');
+                    levelSpan.className = 'text-gray-400';
+                    levelSpan.textContent = '80%';
+                    skillName.appendChild(levelSpan);
+                } else {
+                    nameSpan.textContent = skill.name;
+                    // Add skill level percentage text
+                    const levelSpan = document.createElement('span');
+                    levelSpan.className = 'text-gray-400';
+                    levelSpan.textContent = `${skill.level}%`;
+                    skillName.appendChild(levelSpan);
+                }
                 
                 skillName.appendChild(nameSpan);
                 
@@ -292,16 +344,16 @@ class App {
                 const progressContainer = document.createElement('div');
                 progressContainer.className = 'w-full bg-gray-700 rounded-full h-2.5';
                 
-                // Progress bar (animated)
+                // Progress bar
                 const progressBar = document.createElement('div');
-                progressBar.className = 'bg-blue-600 h-2.5 rounded-full skill-progress';
-                progressBar.style.width = '0%';
+                progressBar.className = 'bg-green-600 h-2.5 rounded-full';
                 
-                // Random skill level between 70% and 95%
-                const skillLevel = Math.floor(Math.random() * 26) + 70;
-                
-                // Set data attribute for animation
-                progressBar.setAttribute('data-width', `${skillLevel}%`);
+                // Set the width directly
+                if (typeof skill === 'string') {
+                    progressBar.style.width = '80%'; // Default value
+                } else {
+                    progressBar.style.width = `${skill.level}%`;
+                }
                 
                 progressContainer.appendChild(progressBar);
                 
@@ -314,39 +366,12 @@ class App {
             
             container.appendChild(div);
         });
-        
-        // Set up animation for skill bars
-        this.setupSkillAnimations();
-    }
-    
-    setupSkillAnimations() {
-        const skillBars = document.querySelectorAll('.skill-progress');
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const bar = entry.target;
-                    const width = bar.getAttribute('data-width');
-                    
-                    // Animate progress bar
-                    setTimeout(() => {
-                        bar.style.transition = 'width 1s ease-in-out';
-                        bar.style.width = width;
-                    }, 200);
-                    
-                    // Stop observing after animation
-                    observer.unobserve(bar);
-                }
-            });
-        }, { threshold: 0.1 });
-        
-        skillBars.forEach(bar => {
-            observer.observe(bar);
-        });
     }
 
     loadDevicesSection() {
         const devicesSection = document.getElementById('devices');
+        if (!devicesSection) return;
+        
         const title = devicesSection.querySelector('h2');
         const container = devicesSection.querySelector('.grid');
         
@@ -399,16 +424,6 @@ class App {
         return `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 ${width} ${height}'%3E%3Crect width='${width}' height='${height}' fill='%23cccccc'/%3E%3C/svg%3E`;
     }
 }
-
-// Add CSS for skill progress bars
-const styleSheet = document.createElement('style');
-styleSheet.textContent = `
-  .skill-progress {
-    width: 0;
-    transition: width 1s ease-in-out;
-  }
-`;
-document.head.appendChild(styleSheet);
 
 // Initialize the app when the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', () => {

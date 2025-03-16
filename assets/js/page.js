@@ -131,7 +131,7 @@ class PageApp {
         const container = document.getElementById('skills-container');
         if (!container) return;
         
-        // Add skill categories with animated progress bars
+        // Add skill categories with progress bars
         skillsData.categories.forEach(category => {
             const div = document.createElement('div');
             div.className = 'bg-gray p-6 rounded-lg';
@@ -148,13 +148,29 @@ class PageApp {
                 const skillContainer = document.createElement('div');
                 skillContainer.className = 'mb-4';
                 
-                // Skill name
+                // Skill name and percentage
                 const skillName = document.createElement('div');
                 skillName.className = 'flex justify-between mb-1';
                 
                 const nameSpan = document.createElement('span');
                 nameSpan.className = 'text-gray-300';
-                nameSpan.textContent = skill;
+                
+                // Check if skill is string or object
+                if (typeof skill === 'string') {
+                    nameSpan.textContent = skill;
+                    // Add a default level (80%)
+                    const levelSpan = document.createElement('span');
+                    levelSpan.className = 'text-gray-400';
+                    levelSpan.textContent = '80%';
+                    skillName.appendChild(levelSpan);
+                } else {
+                    nameSpan.textContent = skill.name;
+                    // Add skill level percentage text
+                    const levelSpan = document.createElement('span');
+                    levelSpan.className = 'text-gray-400';
+                    levelSpan.textContent = `${skill.level}%`;
+                    skillName.appendChild(levelSpan);
+                }
                 
                 skillName.appendChild(nameSpan);
                 
@@ -162,17 +178,20 @@ class PageApp {
                 const progressContainer = document.createElement('div');
                 progressContainer.className = 'w-full bg-gray-700 rounded-full h-2.5';
                 
-                // Progress bar (animated)
+                // Progress bar
                 const progressBar = document.createElement('div');
-                progressBar.className = 'bg-blue-600 h-2.5 rounded-full skill-progress';
-                progressBar.style.width = '0%';
+                progressBar.className = 'bg-green-600 h-2.5 rounded-full';
                 
-                // Random skill level between 70% and 95%
-                const skillLevel = Math.floor(Math.random() * 26) + 70;
-                progressBar.setAttribute('data-width', `${skillLevel}%`);
+                // Set the width directly
+                if (typeof skill === 'string') {
+                    progressBar.style.width = '80%'; // Default value
+                } else {
+                    progressBar.style.width = `${skill.level}%`;
+                }
                 
                 progressContainer.appendChild(progressBar);
                 
+                // Assemble skill
                 skillContainer.appendChild(skillName);
                 skillContainer.appendChild(progressContainer);
                 
@@ -180,34 +199,6 @@ class PageApp {
             });
             
             container.appendChild(div);
-        });
-        
-        // Set up animation for skill bars
-        this.setupSkillAnimations();
-    }
-    
-    setupSkillAnimations() {
-        const skillBars = document.querySelectorAll('.skill-progress');
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const bar = entry.target;
-                    const width = bar.getAttribute('data-width');
-                    
-                    // Animate progress bar
-                    setTimeout(() => {
-                        bar.style.transition = 'width 1s ease-in-out';
-                        bar.style.width = width;
-                    }, 200);
-                    
-                    observer.unobserve(bar);
-                }
-            });
-        }, { threshold: 0.1 });
-        
-        skillBars.forEach(bar => {
-            observer.observe(bar);
         });
     }
 

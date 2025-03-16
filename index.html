@@ -31,17 +31,35 @@
         </div>
     </nav>
     
-    <!-- Main Content -->
+    <!-- Main Content and LinkedIn container -->
     <div class="container mx-auto px-4 pt-24 relative z-10">
-        <div class="flex flex-col items-start h-screen ml-4 pt-16">
-            <img src="https://media.licdn.com/dms/image/v2/D4D03AQGHZymWus4sxg/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1727645545686?e=1738195200&v=beta&t=fjdhm56aTSrOId024zMEpCUg2pzPySyzJftg6lpfsog" alt="Profile Picture" class="rounded-full mb-6 w-36 h-36 object-cover, ImageBorder">
-            <h1 class="text-4xl font-bold mb-4">Sarp Can Karaman</h1>
-            <p class="text-l mb-6">Computer Engineer | DevOps Enthusiast | Back-end Developer</p>
+        <div class="flex flex-col md:flex-row">
+            <!-- Profile Column (Left) -->
+            <div class="profile-column w-full md:w-1/2 pl-4">
+                <div class="flex flex-col items-start pt-16">
+                    <img src="https://media.licdn.com/dms/image/v2/D4D03AQGHZymWus4sxg/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1727645545686?e=1738195200&v=beta&t=fjdhm56aTSrOId024zMEpCUg2pzPySyzJftg6lpfsog" alt="Profile Picture" class="rounded-full mb-6 w-36 h-36 object-cover, ImageBorder">
+                    <h1 class="text-4xl font-bold mb-4">Sarp Can Karaman</h1>
+                    <p class="text-l mb-6">Computer Engineer | DevOps Enthusiast | Back-end Developer</p>
+                </div>
+            </div>
+            
+            <!-- LinkedIn Carousel (Right) -->
+            <div class="linkedin-column w-full md:w-1/2 md:pl-8 mt-8 md:mt-0">
+                <div class="linkedin-section pt-16">
+                    <h2>Latest LinkedIn Posts</h2>
+                    <div id="linkedin-carousel"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- GitHub Calendar (Below) -->
+        <div class="github-section mt-10 pl-4">
+            <div id="github-calendar" class="github-calendar"></div>
         </div>
     </div>
     
     <!-- Footer -->
-    <footer class="fixed bottom-0 left-0 w-full p-4 bg-opacity-80 backdrop-blur-sm">
+    <footer class="w-full p-4 bg-opacity-80 backdrop-blur-sm mt-10">
         <div class="container mx-auto flex justify-between items-center">
             <div class="social-icons flex space-x-6">
                 <a href="https://github.com/sarpowsky" target="_blank" class="social-icon hover:text-gray-300"><i data-feather="github"></i></a>

@@ -1,4 +1,4 @@
-# _sarpowsky Portfolio Website
+# _sarpowsky Portfolio Website 
 
 A modern, interactive personal portfolio website with Matrix-inspired animation, responsive design, and dynamic content loading.
 

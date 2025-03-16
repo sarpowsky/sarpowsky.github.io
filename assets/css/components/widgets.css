@@ -146,15 +146,11 @@ body.light-mode .carousel-indicator.active {
 }
 
 .github-calendar {
-    background-color: rgba(0, 0, 0, 0.3);
     border-radius: 0.5rem;
     padding: 1rem;
     font-size: 0.9rem;
     display: inline-block;
-}
-
-body.light-mode .github-calendar {
-    background-color: rgba(255, 255, 255, 0.3);
+    position: relative;
 }
 
 .github-calendar-header {
@@ -195,47 +191,64 @@ body.light-mode .github-calendar {
     height: 10px;
     padding: 0;
     border-radius: 2px;
+    border: 1px solid rgba(0, 255, 65, 0.1);
+    transition: all 0.3s ease;
 }
 
-/* Contribution levels */
+body.light-mode .contribution-cell {
+    border: 1px solid rgba(0, 100, 0, 0.1);
+}
+
+/* Dark mode contribution cell borders */
 body.dark-mode .contribution-cell.level-0 {
     background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(0, 255, 65, 0.05);
 }
 
 body.dark-mode .contribution-cell.level-1 {
     background-color: rgba(0, 255, 65, 0.25);
+    border-color: rgba(0, 255, 65, 0.3);
 }
 
 body.dark-mode .contribution-cell.level-2 {
     background-color: rgba(0, 255, 65, 0.45);
+    border-color: rgba(0, 255, 65, 0.5);
 }
 
 body.dark-mode .contribution-cell.level-3 {
     background-color: rgba(0, 255, 65, 0.65);
+    border-color: rgba(0, 255, 65, 0.7);
 }
 
 body.dark-mode .contribution-cell.level-4 {
     background-color: rgba(0, 255, 65, 0.85);
+    border-color: rgba(0, 255, 65, 0.9);
 }
 
+/* Light mode contribution cell borders */
 body.light-mode .contribution-cell.level-0 {
     background-color: #ebedf0;
+    border-color: rgba(0, 100, 0, 0.05);
 }
 
 body.light-mode .contribution-cell.level-1 {
     background-color: #9be9a8;
+    border-color: rgba(0, 100, 0, 0.2);
 }
 
 body.light-mode .contribution-cell.level-2 {
     background-color: #40c463;
+    border-color: rgba(0, 100, 0, 0.3);
 }
 
 body.light-mode .contribution-cell.level-3 {
     background-color: #30a14e;
+    border-color: rgba(0, 100, 0, 0.4);
 }
 
 body.light-mode .contribution-cell.level-4 {
     background-color: #216e39;
+    border-color: rgba(0, 100, 0, 0.5);
 }
 
 .contribution-cell.empty {
@@ -266,4 +279,41 @@ body.light-mode .contribution-cell.level-4 {
         width: 8px;
         height: 8px;
     }
+}
+
+/* Update LinkedIn icon and link colors */
+.linkedin-icon {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+}
+
+body.dark-mode .linkedin-icon {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+body.light-mode .linkedin-icon {
+    color: rgba(0, 0, 0, 0.8);
+}
+
+.linkedin-post-link {
+    align-self: flex-end;
+    font-size: 0.9rem;
+    transition: color 0.3s;
+}
+
+body.dark-mode .linkedin-post-link {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+body.dark-mode .linkedin-post-link:hover {
+    color: white;
+}
+
+body.light-mode .linkedin-post-link {
+    color: rgba(0, 0, 0, 0.7);
+}
+
+body.light-mode .linkedin-post-link:hover {
+    color: black;
 }

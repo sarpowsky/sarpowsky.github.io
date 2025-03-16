@@ -48,6 +48,7 @@ export default class LinkedInCarousel {
             content.appendChild(excerpt);
             content.appendChild(date);
             
+            // LinkedIn icon with theme-aware colors
             const icon = document.createElement('div');
             icon.className = 'linkedin-icon';
             icon.innerHTML = '<i data-feather="linkedin"></i>';
@@ -58,7 +59,7 @@ export default class LinkedInCarousel {
             if (post.link) {
                 const link = document.createElement('a');
                 link.href = post.link;
-                link.target = '_blank';
+                link.target = "_blank";
                 link.className = 'linkedin-post-link';
                 link.textContent = 'Read more';
                 slide.appendChild(link);
@@ -176,26 +177,16 @@ export default class LinkedInCarousel {
     }
 
     static async fetchPosts() {
-        // Mock data (would be replaced with actual LinkedIn API integration)
-        return [
-            {
-                title: "New Project Launch",
-                excerpt: "Excited to announce the launch of our latest project. Stay tuned for more updates!",
-                date: "2 days ago",
-                link: "https://linkedin.com"
-            },
-            {
-                title: "DevOps Best Practices",
-                excerpt: "Here are some DevOps best practices I've learned over the years...",
-                date: "1 week ago",
-                link: "https://linkedin.com"
-            },
-            {
-                title: "Back-end Development Tips",
-                excerpt: "These back-end development tips have saved me countless hours...",
-                date: "2 weeks ago",
-                link: "https://linkedin.com"
-            }
-        ];
+        try {
+            // Load from local JSON file instead of API
+            const response = await fetch('/assets/js/data/linkedin-posts.json');
+            
+            if (!response.ok) throw new Error('Failed to load LinkedIn posts');
+            
+            return await response.json();
+        } catch (error) {
+            console.error('Error fetching LinkedIn posts:', error);
+            return [];
+        }
     }
 }

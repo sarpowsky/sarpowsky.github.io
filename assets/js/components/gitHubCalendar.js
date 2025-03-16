@@ -3,8 +3,8 @@ export default class GitHubCalendar {
     constructor(containerId, username) {
         this.container = document.getElementById(containerId);
         this.username = username;
-        this.cellSize = 10; // Default cell size
-        this.gap = 2; // Gap between cells
+        this.cellSize = 10;
+        this.gap = 2;
         this.initialize();
     }
 
@@ -19,6 +19,7 @@ export default class GitHubCalendar {
         header.className = 'github-calendar-header';
         
         const title = document.createElement('h3');
+        title.textContent = `GitHub Contributions`;
         header.appendChild(title);
         
         this.calendarContainer = document.createElement('div');
@@ -31,15 +32,14 @@ export default class GitHubCalendar {
         
         this.container.appendChild(header);
         this.container.appendChild(this.calendarContainer);
-        // Removed footer with legend
     }
 
     async fetchAndDisplayData() {
         try {
-            const contributionData = await this.fetchMockData();
+            const contributionData = await this.fetchContributions();
             this.calendarContainer.innerHTML = '';
             
-            // Create table structure for consistent sizing
+            // Create table structure
             const table = document.createElement('table');
             table.className = 'contribution-table';
             const tbody = document.createElement('tbody');
@@ -47,11 +47,10 @@ export default class GitHubCalendar {
             // Organize data by week and day
             const weeks = this.organizeByWeek(contributionData);
             
-            // Create a row for each day of week (7 days)
+            // Create rows for each day of week
             for (let dayOfWeek = 0; dayOfWeek < 7; dayOfWeek++) {
                 const row = document.createElement('tr');
                 
-                // Create a cell for each week (53 weeks)
                 for (let week = 0; week < weeks.length; week++) {
                     const cell = document.createElement('td');
                     const day = weeks[week][dayOfWeek];
@@ -86,7 +85,7 @@ export default class GitHubCalendar {
         let currentWeek = [];
         let dayOfWeek = new Date(days[0].date).getDay();
         
-        // Fill in empty days at start of first week
+        // Fill empty days at start of first week
         for (let i = 0; i < dayOfWeek; i++) {
             currentWeek.push(null);
         }
@@ -95,9 +94,8 @@ export default class GitHubCalendar {
             const date = new Date(day.date);
             dayOfWeek = date.getDay();
             
-            // If we reached Sunday (0) and already have data, start a new week
+            // New week on Sunday
             if (dayOfWeek === 0 && currentWeek.length > 0) {
-                // Fill in any remaining days
                 while (currentWeek.length < 7) {
                     currentWeek.push(null);
                 }
@@ -107,9 +105,8 @@ export default class GitHubCalendar {
             
             currentWeek.push(day);
             
-            // If we're at the last day, push this week
+            // Last day
             if (day === days[days.length - 1]) {
-                // Fill in any remaining days
                 while (currentWeek.length < 7) {
                     currentWeek.push(null);
                 }
@@ -120,8 +117,20 @@ export default class GitHubCalendar {
         return weeks;
     }
 
-    // Mock data function (to be replaced with actual GitHub API in production)
-    async fetchMockData() {
+    async fetchContributions() {
+        try {
+            const response = await fetch('/assets/js/data/github-contributions.json');
+            
+            if (!response.ok) throw new Error('Failed to load GitHub contributions');
+            
+            return await response.json();
+        } catch (error) {
+            console.error('Error fetching GitHub contributions:', error);
+            return this.generateMockData();
+        }
+    }
+
+    generateMockData() {
         const days = [];
         const now = new Date();
         
@@ -131,31 +140,15 @@ export default class GitHubCalendar {
             
             const formattedDate = date.toISOString().split('T')[0];
             
-            let count = 0;
-            const random = Math.random();
-            
-            if (random < 0.6) {
-                count = 0;
-            } else if (random < 0.8) {
-                count = Math.floor(Math.random() * 3) + 1;
-            } else if (random < 0.95) {
-                count = Math.floor(Math.random() * 5) + 3;
-            } else {
-                count = Math.floor(Math.random() * 10) + 8;
-            }
-            
+            // Random contribution data
+            let count = Math.random() < 0.7 ? 0 : Math.floor(Math.random() * 10);
             let level = 0;
-            if (count === 0) {
-                level = 0;
-            } else if (count <= 2) {
-                level = 1;
-            } else if (count <= 5) {
-                level = 2;
-            } else if (count <= 10) {
-                level = 3;
-            } else {
-                level = 4;
-            }
+            
+            if (count === 0) level = 0;
+            else if (count <= 2) level = 1;
+            else if (count <= 5) level = 2;
+            else if (count <= 10) level = 3;
+            else level = 4;
             
             days.push({
                 date: formattedDate,

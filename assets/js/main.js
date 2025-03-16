@@ -258,22 +258,37 @@ class App {
             div.appendChild(h3);
             div.appendChild(desc);
             
-            if (project.link) {
-                const link = document.createElement('a');
-                link.href = project.link;
-                link.target = '_blank';
-                link.className = 'bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700 inline-block';
-                link.textContent = 'View Project';
-                link.style.opacity = '1'; // Ensure opacity is set to 1
-                link.style.animation = 'none'; // Disable any animations
-                div.appendChild(link);
-            } else if (project.note) {
+            // Check if project has a note property
+            if (project.note) {
                 const note = document.createElement('p');
                 note.className = 'bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700';
                 note.textContent = project.note;
-                note.style.opacity = '1'; // Ensure opacity is set to 1
-                note.style.animation = 'none'; // Disable any animations
+                note.style.opacity = '1';
+                note.style.animation = 'none';
                 div.appendChild(note);
+            } 
+            // Show 'View Project' button if link exists or is null (but property exists)
+            // Default to '#' if link is null to ensure the button appears
+            else if ('link' in project || project.link === null) {
+                const link = document.createElement('a');
+                link.href = project.link || '#';
+                link.target = '_blank';
+                link.className = 'bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700 inline-block';
+                link.textContent = 'View Project';
+                link.style.opacity = '1';
+                link.style.animation = 'none';
+                div.appendChild(link);
+            }
+            // Add default View Project button if neither note nor link property exists
+            else {
+                const link = document.createElement('a');
+                link.href = '#';
+                link.target = '_blank';
+                link.className = 'bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700 inline-block';
+                link.textContent = 'View Project';
+                link.style.opacity = '1';
+                link.style.animation = 'none';
+                div.appendChild(link);
             }
             
             container.appendChild(div);

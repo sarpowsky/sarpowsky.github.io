@@ -4,6 +4,9 @@ import ThemeToggle from './components/themeToggle.js';
 import Clock from './components/clock.js';
 import CardEffects from './components/cardEffects.js';
 import { 
+    profileData,
+    aboutData,
+    experienceData,
     projectsData, 
     skillsData, 
     devicesData 
@@ -68,6 +71,12 @@ class PageApp {
 
     loadPageContent() {
         switch (this.pageName) {
+            case 'about':
+                this.loadAbout();
+                break;
+            case 'experience':
+                this.loadExperience();
+                break;
             case 'projects':
                 this.loadProjects();
                 break;
@@ -77,6 +86,72 @@ class PageApp {
             case 'devices':
                 this.loadDevices();
                 break;
+        }
+    }
+
+    loadAbout() {
+        const container = document.querySelector('.content-card');
+        if (!container) return;
+        
+        // Get title element
+        const titleElement = container.querySelector('h2');
+        if (titleElement) titleElement.textContent = aboutData.title;
+        
+        // Get greeting element
+        const greetingElement = container.querySelector('h1');
+        if (greetingElement) greetingElement.textContent = aboutData.greeting;
+        
+        // Get subtitle element
+        const subtitleElement = container.querySelector('p.text-xxl');
+        if (subtitleElement) subtitleElement.textContent = aboutData.subtitle;
+        
+        // Update paragraphs
+        const paragraphs = container.querySelectorAll('p.text-xl');
+        if (paragraphs.length > 0) {
+            aboutData.paragraphs.forEach((text, index) => {
+                if (paragraphs[index]) {
+                    paragraphs[index].textContent = text;
+                }
+            });
+        }
+    }
+
+    loadExperience() {
+        const container = document.querySelector('.content-card');
+        if (!container) return;
+        
+        // Get title element
+        const titleElement = container.querySelector('h2');
+        if (titleElement) titleElement.textContent = experienceData.title;
+        
+        // Get experience items
+        const expItems = container.querySelectorAll('.bg-gray');
+        
+        // Only proceed if we have experience data to show
+        if (experienceData.experiences.length > 0 && experienceData.title !== "working on this section, for now. :D") {
+            experienceData.experiences.forEach((exp, index) => {
+                if (expItems[index]) {
+                    const title = expItems[index].querySelector('h3');
+                    const company = expItems[index].querySelector('p');
+                    const points = expItems[index].querySelector('ul');
+                    
+                    if (title) title.textContent = exp.title;
+                    if (company) company.textContent = exp.company;
+                    
+                    // Update points if they exist
+                    if (points && exp.points) {
+                        // Clear existing list items
+                        points.innerHTML = '';
+                        
+                        // Add new points
+                        exp.points.forEach(point => {
+                            const li = document.createElement('li');
+                            li.textContent = point;
+                            points.appendChild(li);
+                        });
+                    }
+                }
+            });
         }
     }
 
@@ -100,22 +175,37 @@ class PageApp {
             div.appendChild(h3);
             div.appendChild(desc);
             
-            if (project.link) {
-                const link = document.createElement('a');
-                link.href = project.link;
-                link.target = '_blank';
-                link.className = 'bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700 inline-block';
-                link.textContent = 'View Project';
-                link.style.opacity = '1';
-                link.style.animation = 'none'; 
-                div.appendChild(link);
-            } else if (project.note) {
+            // Check if project has a note property
+            if (project.note) {
                 const note = document.createElement('p');
                 note.className = 'bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700';
                 note.textContent = project.note;
                 note.style.opacity = '1';
                 note.style.animation = 'none';
                 div.appendChild(note);
+            } 
+            // Show 'View Project' button if link exists or is null (but property exists)
+            // Default to '#' if link is null to ensure the button appears
+            else if ('link' in project || project.link === null) {
+                const link = document.createElement('a');
+                link.href = project.link || '#';
+                link.target = '_blank';
+                link.className = 'bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700 inline-block';
+                link.textContent = 'View Project';
+                link.style.opacity = '1';
+                link.style.animation = 'none';
+                div.appendChild(link);
+            }
+            // Add default View Project button if neither note nor link property exists
+            else {
+                const link = document.createElement('a');
+                link.href = '#';
+                link.target = '_blank';
+                link.className = 'bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700 inline-block';
+                link.textContent = 'View Project';
+                link.style.opacity = '1';
+                link.style.animation = 'none';
+                div.appendChild(link);
             }
             
             container.appendChild(div);

@@ -128,5 +128,3 @@ Distributed under the MIT License. See `LICENSE` for more information.
 ## Contact
 
 Sarp Can Karaman - [LinkedIn](https://www.linkedin.com/in/sarp-can-karaman-8437761b6/)
-
-Project Link: [https://github.com/yourusername/portfolio-website](https://https://github.com/sarpowsky/sarpowsky.github.io)

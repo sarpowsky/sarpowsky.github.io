@@ -24,7 +24,6 @@ export const aboutData = {
 
 export const experienceData = {
     title: "Experience",
-    note: "working on this section, for now. :D",
     experiences: [
         {
             title: "#",
@@ -43,9 +42,9 @@ export const projectsData = {
     title: "Projects",
     projects: [
         {
-            title: "PityPal Analytics Platform",
-            description: "Advanced predictive system with custom-trained ML models for probability estimation, data visualization, and real-time analytics with React frontend and Python microservices backend.",
-            link: null
+            title: "PityPal",
+            description: "An app for the game Genshin Impact. Advanced predictive system with custom-trained ML models for probability estimation, data visualization, and real-time analytics with React frontend and Python microservices backend.",
+            link: "https://github.com/sarpowsky/PityPal"
         },
         {
             title: "Horoscope-Bot",

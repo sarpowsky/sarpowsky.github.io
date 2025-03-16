@@ -24,6 +24,9 @@ jobs:
         run: |
           mkdir -p assets/js/data
           node .github/scripts/generate-contributions.js
+        env:
+          GITHUB_PAT: ${{ secrets.PAT_TOKEN }}
+          USERNAME: sarpowsky
 
       - name: Commit and push if changed
         run: |

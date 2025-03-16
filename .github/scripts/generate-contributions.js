@@ -1,11 +1,10 @@
 const https = require('https');
 const fs = require('fs');
 
-// Get username from repository name
-const repoName = process.env.GITHUB_REPOSITORY;
-const username = repoName.split('/')[0];
+// Get username from environment or use hardcoded value
+const username = process.env.USERNAME || 'sarpowsky';
 
-console.log(`Repository: ${repoName}, Username: ${username}`);
+console.log(`Fetching data for username: ${username}`);
 
 // GraphQL query for contributions
 const query = `
@@ -31,7 +30,7 @@ const requestOptions = {
   path: '/graphql',
   method: 'POST',
   headers: {
-    'Authorization': `Bearer ${process.env.GITHUB_TOKEN}`,
+    'Authorization': `Bearer ${process.env.GITHUB_PAT}`,
     'User-Agent': 'GitHub-Action',
     'Content-Type': 'application/json'
   }
@@ -53,10 +52,13 @@ const req = https.request(requestOptions, (res) => {
       console.log('Response received, parsing JSON...');
       const jsonData = JSON.parse(data);
       
-      console.log('API response:', JSON.stringify(jsonData));
+      // Log a truncated version of the response for debugging
+      console.log('API response status:', res.statusCode);
+      console.log('API response errors:', jsonData.errors || 'None');
       
       if (jsonData.errors || !jsonData.data || !jsonData.data.user) {
         console.error('Invalid or error response from GitHub API');
+        console.error('Error details:', jsonData.errors);
         generateMockData();
         return;
       }
@@ -144,6 +146,6 @@ function saveContributions(data) {
   console.log('GitHub contribution data saved successfully!');
 }
 
-// Execute the request or generate mock data
+// Execute the request
 req.write(JSON.stringify({ query }));
 req.end();

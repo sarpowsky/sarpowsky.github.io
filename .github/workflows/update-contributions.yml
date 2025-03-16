@@ -22,7 +22,7 @@ jobs:
           mkdir -p assets/js/data
           node .github/scripts/generate-contributions.js
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
       - name: Commit and push if changed
         run: |

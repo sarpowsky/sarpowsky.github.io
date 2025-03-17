@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found</title>
+</head>
+<body>
+    <script>
+        const path = window.location.pathname;
+        const cleanPath = path.endsWith('/') ? path.slice(0, -1) : path;
+        const redirectMap = {
+            '/about': '/pages/about.html',
+            '/experience': '/pages/experience.html',
+            '/projects': '/pages/projects.html',
+            '/skills': '/pages/skills.html',
+            '/devices': '/pages/devices.html'
+        };
+        
+        const redirectTo = redirectMap[cleanPath];
+        if (redirectTo) {
+            window.location.replace(redirectTo);
+        }
+    </script>
+    <p>Redirecting...</p>
+</body>
+</html>

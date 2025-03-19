@@ -37,10 +37,9 @@
     }
 
     .rounded-full.mb-6.w-36.h-36 {
-        width: 28vw;
-        height: 28vw;
-        max-width: 180px;
-        max-height: 180px;
+        align-self: center !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
     }
 
     /* Social Icons */
@@ -152,30 +151,52 @@
         align-self: flex-start;
         margin-left: 0;
     }
-
-    /* Mode Toggle Positioning */
-    .mode-toggle {
-        position: fixed;
-        bottom: 80px;
-        left: 50%;
-        transform: translateX(-50%);
-        z-index: 100;        
-        margin-left: -10px;
+    
+    /* Improved footer layout positioning */
+    footer {
+        position: relative;
+        padding: 30px 0 20px 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
-    /* Social Icons Positioning */
-    .fixed.bottom-0.left-35.flex.space-x-6.items-center.mb-4 {
-        position: fixed;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%);
+    footer .social-icons {
+        position: relative !important;
+        display: flex;
+        margin: 0 auto 30px auto !important;
+        order: 1;
         width: 100%;
-        justify-content: center;
+        justify-content: center !important;
     }
-
-    /* Clock Positioning */
-    .fixed.bottom-4.left-1\/2.transform.-translate-x-1\/2 {
-        bottom: 10px;
+    
+    footer .mode-toggle {
+        position: relative !important;
+        display: block;
+        margin: 0 auto 15px auto !important;
+        order: 2;
+        left: 6px !important;
+    }
+    
+    footer #clock {
+        position: relative !important;
+        display: block;
+        margin: 0 auto 5px auto !important;
+        order: 3;
+        text-align: center;
+    }
+    
+    /* Fix flex container */
+    footer .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+    
+    footer .flex.items-center {
+        flex-direction: column;
+        width: 100%;
     }
 }
 
@@ -214,10 +235,6 @@
 
     .section-btn {
         font-size: 0.9rem;
-    }
-    
-    .mode-toggle {
-        bottom: 70px;
     }
 }
 

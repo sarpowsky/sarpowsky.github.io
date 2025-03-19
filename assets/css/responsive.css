@@ -11,6 +11,32 @@
         margin: 0 auto;
     }
 
+    /* Mobile Navigation - Two-row Horizontal Layout */
+    nav {
+        background-color: rgba(0, 0, 0, 0.85);
+    }
+    
+    body.light-mode nav {
+        background-color: rgba(255, 255, 255, 0.85);
+    }
+    
+    /* Add more top padding to content to account for two-row nav */
+    .container.mx-auto.pt-24, 
+    .container.mx-auto.text-center.max-w-3xl.pt-24,
+    .container.mx-auto.max-w-4xl.pt-24 {
+        padding-top: 6rem;
+    }
+    
+    /* Reduce spacing between nav items on mobile */
+    nav .space-x-4 > * + * {
+        margin-left: 0.75rem;
+    }
+    
+    /* Make nav links slightly smaller on mobile */
+    nav a {
+        font-size: 0.9rem;
+    }
+
     /* Responsive Typography */
     .content-overlay h1 {
         font-size: 2.5rem;
@@ -235,6 +261,15 @@
 
     .section-btn {
         font-size: 0.9rem;
+    }
+    
+    /* Further reduce font size for nav links on very small screens */
+    nav a {
+        font-size: 0.8rem;
+    }
+    
+    nav .space-x-4 > * + * {
+        margin-left: 0.5rem;
     }
 }
 

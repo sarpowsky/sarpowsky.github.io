@@ -42,18 +42,23 @@ export const projectsData = {
     title: "Projects",
     projects: [
         {
+            title: "Metro Simulation",
+            description: "A simulation of a driverless metro system that finds optimal routes between stations using path-finding algorithms. Features a Dijkstra for minimal-transfer routes, A* for fastest routes, and an interactive visualization system with matplotlib. Includes a GUI interface for selecting stations and viewing animated route simulations. Developed during the Python with AI Introduction Bootcamp by Akbank and Global AI Hub.",
+            link: "https://github.com/sarpowsky/akbank-metro-simulation"
+        },
+        {
             title: "PityPal",
-            description: "An app for the game Genshin Impact. Advanced predictive system with custom-trained ML models for probability estimation, data visualization, and real-time analytics with React frontend and Python microservices backend.",
+            description: "Predictive analytics tool for Genshin Impact built with Python backend (NumPy, Pandas, Scikit-learn) and React frontend. Features custom probability models for gacha prediction, SQLite database integration, and comprehensive data visualization dashboard with real-time rate calculation.",
             link: "https://github.com/sarpowsky/PityPal"
         },
         {
             title: "Horoscope-Bot",
-            description: "Telegram-based information retrieval system built with Python, featuring RESTful API integration, stateful conversation handling, and automated data processing.",
+            description: "Python-based Telegram bot leveraging aiohttp for RESTful API integration with external horoscope services. Implements stateful conversation flow with SQLite persistence, automated scheduled updates via cron tasks, and NLP-enhanced user intent recognition.",
             link: "https://github.com/sarpowsky/Horoscope-Bot"
         },
         {
             title: "Developer Portfolio",
-            description: "React-based personal showcase with modular component architecture and responsive design principles.",
+            description: "Modern JavaScript portfolio with ES6 modules, Canvas-based Matrix animation, and modular component architecture. Features responsive design with Tailwind CSS, dark/light theme switching, and interactive content visualization including latest LinkedIn posts.",
             link: null,
             note: "You're looking at it..."
         }
@@ -64,30 +69,33 @@ export const skillsData = {
     title: "Technical Competencies",
     categories: [
         {
-            name: "Core Technologies",
+            name: "Programming Languages",
             skills: [
-                { name: "Python (ML/DL)", level: 75 },
-                { name: "Statistical Modeling", level: 65 },
-                { name: "Frontend Development", level: 60 },
-                { name: "Database Systems", level: 65 }
+                { name: "Python", level: 75 },
+                { name: "JavaScript", level: 70 },
+                { name: "Java", level: 70 },
+                { name: "C++/C", level: 50 },
+                { name: "C#", level: 45 }
             ]
         },
         {
-            name: "ML/DL Engineering",
+            name: "ML & Data Science",
             skills: [
-                { name: "Model Training & Fine-tuning", level: 70 },
-                { name: "Predictive Analytics", level: 65 },
-                { name: "Data Visualization", level: 60 },
-                { name: "Feature Engineering", level: 65 }
+                { name: "NumPy/Pandas", level: 70 },
+                { name: "Scikit-learn", level: 65 },
+                { name: "Matplotlib/Visualization", level: 60 },
+                { name: "Statistical Modeling", level: 55 },
+                { name: "Deep Learning", level: 50 }
             ]
         },
         {
-            name: "Software Architecture",
+            name: "Web Development",
             skills: [
-                { name: "Microservices Design", level: 60 },
-                { name: "API Development", level: 68 },
-                { name: "Full-Stack Integration", level: 62 },
-                { name: "Modular Systems", level: 70 }
+                { name: "HTML/CSS", level: 75 },
+                { name: "React", level: 70 },
+                { name: "RESTful APIs", level: 75 },
+                { name: "FastAPI", level: 70 },
+                { name: "SQL/SQLite", level: 70 }
             ]
         }
     ]

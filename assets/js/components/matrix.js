@@ -7,11 +7,6 @@ export default class MatrixAnimation {
         this.fontSize = 10;
         this.lastRender = 0;
         this.FRAME_THRESHOLD = 1000 / 30; // Cap at 30 FPS
-        this.mouseX = 0;
-        this.mouseY = 0;
-        this.mouseRadius = 100; // Radius of mouse influence
-        this.mouseIntensity = 50; // How much mouse affects the animation
-        this.mouseActive = false;
         this.dropSpeed = 0.5; // Default speed
         this.initialize();
     }
@@ -20,14 +15,6 @@ export default class MatrixAnimation {
         this.resizeCanvas();
         window.addEventListener('resize', () => this.resizeCanvas());
         this.initializeDrops();
-        
-        // Add mouse movement tracking
-        this.canvas.addEventListener('mousemove', (e) => this.handleMouseMove(e));
-        this.canvas.addEventListener('mouseenter', () => this.mouseActive = true);
-        this.canvas.addEventListener('mouseleave', () => this.mouseActive = false);
-        
-        // Add click effect
-        this.canvas.addEventListener('click', (e) => this.createRipple(e));
         
         // Watch for theme changes
         this.watchThemeChanges();
@@ -71,9 +58,6 @@ export default class MatrixAnimation {
         for (let x = 0; x < this.columns; x++) {
             this.dropColors[x] = this.getMatrixColor();
         }
-        
-        // Initialize ripples array
-        this.ripples = [];
     }
     
     getMatrixColor() {
@@ -90,40 +74,6 @@ export default class MatrixAnimation {
             return 'rgb(0, 0, 0)';
         }
     }
-    
-    handleMouseMove(e) {
-        const rect = this.canvas.getBoundingClientRect();
-        this.mouseX = e.clientX - rect.left;
-        this.mouseY = e.clientY - rect.top;
-    }
-    
-    createRipple(e) {
-        const rect = this.canvas.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        
-        this.ripples.push({
-            x,
-            y,
-            radius: 10,
-            maxRadius: 200,
-            opacity: 1,
-            speed: 5
-        });
-    }
-    
-    updateRipples() {
-        for (let i = 0; i < this.ripples.length; i++) {
-            const ripple = this.ripples[i];
-            ripple.radius += ripple.speed;
-            ripple.opacity -= 0.01;
-            
-            if (ripple.opacity <= 0 || ripple.radius >= ripple.maxRadius) {
-                this.ripples.splice(i, 1);
-                i--;
-            }
-        }
-    }
 
     drawMatrix(backgroundColor) {
         const isDarkMode = document.body.classList.contains('dark-mode');
@@ -131,33 +81,12 @@ export default class MatrixAnimation {
         this.ctx.fillStyle = backgroundColor;
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
-        // Draw ripples
-        this.drawRipples();
-        
-        // Update ripples
-        this.updateRipples();
-
         // Calculate how mouse position affects drops
         for (let i = 0; i < this.drops.length; i++) {
             const x = i * this.fontSize;
             
-            // Modify drop speed based on mouse proximity if mouse is active
-            if (this.mouseActive) {
-                const distance = Math.sqrt(
-                    Math.pow(x - this.mouseX, 2) + 
-                    Math.pow(this.drops[i] * this.fontSize - this.mouseY, 2)
-                );
-                
-                if (distance < this.mouseRadius) {
-                    // Accelerate drops near the mouse
-                    const acceleration = 1 - (distance / this.mouseRadius);
-                    this.drops[i] += this.dropSpeed + (acceleration * this.mouseIntensity * 0.01);
-                } else {
-                    this.drops[i] += this.dropSpeed;
-                }
-            } else {
-                this.drops[i] += this.dropSpeed;
-            }
+            // Standard drop speed
+            this.drops[i] += this.dropSpeed;
             
             // Draw character with probability check to reduce density
             if (Math.random() > 0.7) {
@@ -180,21 +109,6 @@ export default class MatrixAnimation {
                     this.dropColors[i] = this.getMatrixColor();
                 }
             }
-        }
-    }
-    
-    drawRipples() {
-        const isDarkMode = document.body.classList.contains('dark-mode');
-        const rippleColor = isDarkMode ? 'rgba(0, 255, 70, ' : 'rgba(0, 0, 0, ';
-        
-        for (let i = 0; i < this.ripples.length; i++) {
-            const ripple = this.ripples[i];
-            
-            this.ctx.beginPath();
-            this.ctx.arc(ripple.x, ripple.y, ripple.radius, 0, Math.PI * 2);
-            this.ctx.strokeStyle = rippleColor + ripple.opacity + ')';
-            this.ctx.lineWidth = 2;
-            this.ctx.stroke();
         }
     }
 

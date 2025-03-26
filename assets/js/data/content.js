@@ -14,11 +14,13 @@ export const profileData = {
 export const aboutData = {
     title: "hi",
     greeting: "Hello, I am Sarp",
-    subtitle: "Computer Engineering Student & ML Specialist at Haliç University",
+    subtitle: "a Computer Engineering Student at Haliç University",
     paragraphs: [
-        "I architect intelligent systems at the intersection of machine learning and practical software engineering. My work focuses on transforming complex statistical models into deployable solutions with measurable impact.",
-        "My technical foundation is built on advanced Python programming for ML/DL implementations, statistical modeling, and predictive analytics. I specialize in creating modular, production-ready systems that integrate seamlessly with modern application architectures.",
-        "Beyond model development, I excel at the full ML engineering lifecycle—from data preprocessing and feature engineering to model training, evaluation, and deployment. My approach combines mathematical rigor with clean code architecture, ensuring both theoretical soundness and practical usability."
+        "I build stuff where code meets machine learning. Still figuring it all out as a second-year student, but I've been a fast learner and fell in love with how ML can turn data into something actually useful. Nothing beats that feeling when your model finally works really.",
+        
+        "Python's definitely my language of choice most of the times. I practically live in NumPy and Pandas these days. I'm ''the'' annoying friend who always talks about writing clean code and break everything into modules. My GitHub is practically a shrine to commented code.",
+        
+        "I enjoy the whole ML process, from cleaning up messy datasets (which can be a real pain, but still) to seeing models come alive in production. Still learning tons every day, but that's the fun part. When I'm not debugging my code until the sunrise, I'm probably playing around with a new visualization library or optimizing something that was working perfectly fine already, just to break it and repeat this cycle again."
     ]
 };
 
@@ -59,8 +61,7 @@ export const projectsData = {
         {
             title: "Developer Portfolio",
             description: "Modern JavaScript portfolio with ES6 modules, Canvas-based Matrix animation, and modular component architecture. Features responsive design with Tailwind CSS, dark/light theme switching, and interactive content visualization including latest LinkedIn posts.",
-            link: null,
-            note: "You're looking at it..."
+            link: "https://github.com/sarpowsky/sarpowsky.github.io",
         }
     ]
 };

@@ -42,7 +42,7 @@ export default class LinkedInCarousel {
             
             const date = document.createElement('div');
             date.className = 'linkedin-post-date';
-            date.textContent = post.date;
+            date.textContent = this.formatRelativeTime(post.date);
             
             content.appendChild(title);
             content.appendChild(excerpt);
@@ -124,6 +124,42 @@ export default class LinkedInCarousel {
             this.nextSlide();
         } else if (endX - startX > 50) {
             this.prevSlide();
+        }
+    }
+
+    formatRelativeTime(dateString) {
+        const postDate = new Date(dateString);
+        const now = new Date();
+        
+        // Calculate the difference in milliseconds
+        const diffMs = now - postDate;
+        
+        // Convert to days
+        const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+        
+        if (diffDays < 1) {
+            return 'today';
+        } else if (diffDays === 1) {
+            return 'yesterday';
+        } else if (diffDays < 7) {
+            return `${diffDays} days ago`;
+        } else if (diffDays < 14) {
+            return '1 week ago';
+        } else if (diffDays < 21) {
+            return '2 weeks ago';
+        } else if (diffDays < 28) {
+            return '3 weeks ago';
+        } else {
+            // Calculate months
+            const diffMonths = Math.floor(diffDays / 30);
+            
+            if (diffMonths < 1) {
+                return '3+ weeks ago';
+            } else if (diffMonths === 1) {
+                return '1 month ago';
+            } else {
+                return `${diffMonths} months ago`;
+            }
         }
     }
 

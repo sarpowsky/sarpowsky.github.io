@@ -1,23 +1,23 @@
 [
-  {
-    "title": "Completed Global AI Hub Akbank Python and AI Bootcamp",
-    "excerpt": "Successfully completed the Global AI Hub Akbank Python and AI Introduction Bootcamp. Created a solid project that helped with my algorithms course at university. Bootcamp experience was valuable with helpful mentors, though project review feedback could be improved.",
-    "date": "2025-04-09",
-    "link": "https://www.linkedin.com/posts/sarpcankaraman_i-have-successfully-officially-completed-activity-7315733875421274112-oDJI?utm_source=share&utm_medium=member_desktop&rcm=ACoAADJNmDMBloPMX7k5i0FE7RpTovrdNs09xlA",
+{
+    "title": "Turquake - Earthquake Analysis & Prediction System",
+    "excerpt": "Completed comprehensive ML system analyzing 125 years of Turkish earthquake data. Features LightGBM with R² 0.95, K-Means/DBSCAN clustering, 80+ engineered features, GPU acceleration with PyTorch, and interactive Streamlit web app with risk maps for 50 Turkish cities.",
+    "date": "2025-05-31",
+    "link": "https://www.linkedin.com/feed/update/urn:li:activity:7334647453800882178/",
     "image": null
   },
   {
-    "title": "Accepted to Huawei Cloud Programs",
-    "excerpt": "Received acceptance to both Huawei Cloud Hızlandırma Program (4 weeks) and Huawei Cloud DevOps Bootcamp (12 weeks). Looking forward to these intense but fruitful programs in areas I'm strongly interested in.",
-    "date": "2025-04-08",
-    "link": "https://www.linkedin.com/posts/sarpcankaraman_today-i-have-recieved-acception-mails-to-activity-7315386422138445824-hYqO?utm_source=share&utm_medium=member_desktop&rcm=ACoAADJNmDMBloPMX7k5i0FE7RpTovrdNs09xlA",
+    "title": "Summer Internship Opportunity - ML/Data Science",
+    "excerpt": "2nd year Computer Engineering student seeking 30-day summer internship in ML/Data Science. Proficient in Python, NumPy, Pandas, Scikit-learn, JavaScript, React, SQL, and API development. Looking to combine theoretical knowledge with practical experience.",
+    "date": "2025-05-12",
+    "link": "https://www.linkedin.com/feed/update/urn:li:activity:7327782815654154240/",
     "image": null
   },
   {
-    "title": "Metro Route Optimization Project",
-    "excerpt": "Completed a metro route optimization project for the Akbank Python & AI Bootcamp. Built a simulation system that finds fastest routes and routes with minimum transfers using BFS and A* algorithms. Created an interactive GUI with matplotlib and networkx showing color-coded metro lines and animated route traversals.",
-    "date": "2025-03-27",
-    "link": "https://www.linkedin.com/posts/sarpcankaraman_python-graphalgorithms-transportation-activity-7311062732789747713-fXnd?utm_source=share&utm_medium=member_desktop&rcm=ACoAADJNmDMBloPMX7k5i0FE7RpTovrdNs09xlA",
+    "title": "Accepted to Techcareer.net Backend Development Workshop",
+    "excerpt": "Excited to announce my acceptance to the Backend Development Essentials Workshop by Techcareer.net. Looking forward to expanding my backend development skills and learning new technologies in this comprehensive program.",
+    "date": "2025-04-24",
+    "link": "https://www.linkedin.com/feed/update/urn:li:activity:7321110435787624449/",
     "image": null
   }
 ]

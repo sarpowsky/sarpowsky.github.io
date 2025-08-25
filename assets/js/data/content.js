@@ -28,14 +28,20 @@ export const experienceData = {
     title: "Experience",
     experiences: [
         {
-            title: "#",
-            company: "#",
-            points: []
-        },
-        {
-            title: "#",
-            company: "#",
-            points: []
+            title: "Data & AI Intern",
+            company: "TECHBROS • July - August 2025 • İstanbul, Türkiye",
+            points: [
+                "Participated in TechBros InternCamp2025, a comprehensive training program covering enterprise systems, data analytics, and emerging technologies",
+                "Developed expertise in ERP and CRM systems architecture and integration patterns",
+                "Implemented DevOps methodologies and deployment pipelines for scalable applications",
+                "Gained hands-on experience in Business Intelligence and Data Analytics fundamentals",
+                "Designed and optimized Data Warehousing solutions and ETL/ELT processes",
+                "Created interactive data visualizations and performed advanced statistical analysis",
+                "Worked with SQL and NoSQL database management systems for enterprise applications",
+                "Explored Generative AI applications and implementation strategies in real-world scenarios",
+                "Integrated Machine Learning solutions into enterprise environments and workflows",
+                "Participated in technical workshops and delivered presentations on emerging technologies"
+            ]
         }
     ]
 };

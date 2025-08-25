@@ -1,23 +1,23 @@
 [
-{
-    "title": "Turquake - Earthquake Analysis & Prediction System",
-    "excerpt": "Completed comprehensive ML system analyzing 125 years of Turkish earthquake data. Features LightGBM with R² 0.95, K-Means/DBSCAN clustering, 80+ engineered features, GPU acceleration with PyTorch, and interactive Streamlit web app with risk maps for 50 Turkish cities.",
-    "date": "2025-05-31",
-    "link": "https://www.linkedin.com/feed/update/urn:li:activity:7334647453800882178/",
+  {
+    "title": "Completed 6-Week Internship at TECHBROS",
+    "excerpt": "Transformative journey into data engineering, business intelligence, and machine learning. Mastered ETL/ELT processes, PostgreSQL, Power BI dashboards, and built ML-powered platforms including Spotify music intelligence system with mood classification and recommendation engines.",
+    "date": "2025-08-25",
+    "link": "https://www.linkedin.com/feed/update/urn:li:activity:7365748173790756864/",
     "image": null
   },
   {
-    "title": "Summer Internship Opportunity - ML/Data Science",
-    "excerpt": "2nd year Computer Engineering student seeking 30-day summer internship in ML/Data Science. Proficient in Python, NumPy, Pandas, Scikit-learn, JavaScript, React, SQL, and API development. Looking to combine theoretical knowledge with practical experience.",
-    "date": "2025-05-12",
-    "link": "https://www.linkedin.com/feed/update/urn:li:activity:7327782815654154240/",
+    "title": "Global AI Hub Python 202 Bootcamp Project Feedback",
+    "excerpt": "Received feedback on ambitious CLI-to-fullstack evolution project. Started as simple book tracker, evolved through 3 stages: OOP foundation, Open Library API integration, and React app with interactive multi-floor library visualization. Learned valuable lessons about project scoping and real-world development challenges.",
+    "date": "2025-08-25",
+    "link": "https://www.linkedin.com/feed/update/urn:li:activity:7365743499675160576/",
     "image": null
   },
   {
-    "title": "Accepted to Techcareer.net Backend Development Workshop",
-    "excerpt": "Excited to announce my acceptance to the Backend Development Essentials Workshop by Techcareer.net. Looking forward to expanding my backend development skills and learning new technologies in this comprehensive program.",
-    "date": "2025-04-24",
-    "link": "https://www.linkedin.com/feed/update/urn:li:activity:7321110435787624449/",
+    "title": "2025 AI Hackathon Completion - First Hackathon Experience",
+    "excerpt": "Completed my first hackathon organized by BTK Akademi, Google, and Türkiye Girişimcilik Vakfı. Eye-opening experience in time management and project scoping under pressure. Learned to focus on functional solutions rather than perfection, and gained valuable insights into competitive development.",
+    "date": "2025-08-21",
+    "link": "https://www.linkedin.com/feed/update/urn:li:activity:7364282479215624193/",
     "image": null
   }
 ]

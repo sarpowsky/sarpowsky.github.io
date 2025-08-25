@@ -86,33 +86,47 @@ export const skillsData = {
     title: "Technical Competencies",
     categories: [
         {
-            name: "Programming Languages",
+            name: "Data Science & Machine Learning",
             skills: [
-                { name: "Python", level: 75 },
-                { name: "JavaScript", level: 70 },
-                { name: "Java", level: 70 },
-                { name: "C++/C", level: 50 },
-                { name: "C#", level: 45 }
+                { name: "Python (Advanced)", level: 70 },
+                { name: "NumPy/Pandas/SciPy", level: 65 },
+                { name: "Scikit-learn/XGBoost", level: 60 },
+                { name: "PyTorch/TensorFlow", level: 55 },
+                { name: "Statistical Analysis", level: 60 },
+                { name: "Feature Engineering", level: 55 }
             ]
         },
         {
-            name: "ML & Data Science",
+            name: "Data Engineering & Analytics",
             skills: [
-                { name: "NumPy/Pandas", level: 70 },
-                { name: "Scikit-learn", level: 65 },
-                { name: "Matplotlib/Visualization", level: 60 },
-                { name: "Statistical Modeling", level: 55 },
-                { name: "Deep Learning", level: 50 }
+                { name: "SQL/PostgreSQL/MySQL", level: 65 },
+                { name: "ETL/ELT Processes", level: 60 },
+                { name: "Data Warehousing", level: 55 },
+                { name: "Power BI/Tableau", level: 55 },
+                { name: "Apache Airflow", level: 45 },
+                { name: "Data Pipeline Design", level: 50 }
             ]
         },
         {
-            name: "Web Development",
+            name: "Cloud & Enterprise Systems",
             skills: [
-                { name: "HTML/CSS", level: 75 },
-                { name: "React", level: 70 },
-                { name: "RESTful APIs", level: 75 },
-                { name: "FastAPI", level: 70 },
-                { name: "SQL/SQLite", level: 70 }
+                { name: "Huawei Cloud Platform", level: 50 },
+                { name: "Google Cloud Platform", level: 45 },
+                { name: "ERP/CRM Integration", level: 50 },
+                { name: "DevOps/Docker/CI-CD", level: 45 },
+                { name: "Business Intelligence", level: 55 },
+                { name: "Enterprise Architecture", level: 40 }
+            ]
+        },
+        {
+            name: "Development & Tools",
+            skills: [
+                { name: "FastAPI/RESTful APIs", level: 60 },
+                { name: "Git/Version Control", level: 65 },
+                { name: "JavaScript/React", level: 55 },
+                { name: "Jupyter/Google Colab", level: 70 },
+                { name: "AI Development Tools", level: 60 },
+                { name: "Technical Documentation", level: 60 }
             ]
         }
     ]

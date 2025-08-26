@@ -12,7 +12,7 @@ import {
     experienceData, 
     projectsData, 
     skillsData, 
-    devicesData 
+    certificatesData 
 } from './data/content.js';
 
 class App {
@@ -71,10 +71,9 @@ class App {
     }
     
     initCardEffects() {
-        // Apply 3D effects to project and device cards
+        // Apply 3D effects to project cards (certificates are handled on their own page)
         setTimeout(() => {
             this.projectCards = new CardEffects('#projects .bg-gray');
-            this.deviceCards = new CardEffects('#devices .bg-gray');
         }, 1000); // Delay to ensure cards are loaded
     }
     
@@ -158,7 +157,7 @@ class App {
         this.loadExperienceSection();
         this.loadProjectsSection();
         this.loadSkillsSection();
-        this.loadDevicesSection();
+        this.loadCertificatesSection();
     }
 
     loadProfile() {
@@ -181,16 +180,16 @@ class App {
 
     loadAboutSection() {
         const aboutSection = document.getElementById('about');
+        if (!aboutSection) return;
+        
         const aboutTitle = aboutSection?.querySelector('h2');
         const aboutGreeting = aboutSection?.querySelector('h1');
         const aboutSubtitle = aboutSection?.querySelector('p.text-xxl');
         const paragraphs = aboutSection?.querySelectorAll('p.text-xl');
         
-        if (!aboutSection) return;
-        
-        aboutTitle.textContent = aboutData.title;
-        aboutGreeting.textContent = aboutData.greeting;
-        aboutSubtitle.textContent = aboutData.subtitle;
+        if (aboutTitle) aboutTitle.textContent = aboutData.title;
+        if (aboutGreeting) aboutGreeting.textContent = aboutData.greeting;
+        if (aboutSubtitle) aboutSubtitle.textContent = aboutData.subtitle;
         
         aboutData.paragraphs.forEach((text, index) => {
             if (paragraphs[index]) {
@@ -206,7 +205,7 @@ class App {
         const expTitle = experienceSection.querySelector('h2');
         const expItems = experienceSection.querySelectorAll('.bg-gray');
         
-        expTitle.textContent = experienceData.note;
+        if (expTitle) expTitle.textContent = experienceData.title;
         
         experienceData.experiences.forEach((exp, index) => {
             if (expItems[index]) {
@@ -214,18 +213,20 @@ class App {
                 const company = expItems[index].querySelector('p');
                 const points = expItems[index].querySelector('ul');
                 
-                title.textContent = exp.title;
-                company.textContent = exp.company;
+                if (title) title.textContent = exp.title;
+                if (company) company.textContent = exp.company;
                 
-                // Clear existing points
-                points.innerHTML = '';
-                
-                // Add new points
-                exp.points.forEach(point => {
-                    const li = document.createElement('li');
-                    li.textContent = point;
-                    points.appendChild(li);
-                });
+                if (points) {
+                    // Clear existing points
+                    points.innerHTML = '';
+                    
+                    // Add new points
+                    exp.points.forEach(point => {
+                        const li = document.createElement('li');
+                        li.textContent = point;
+                        points.appendChild(li);
+                    });
+                }
             }
         });
     }
@@ -237,7 +238,8 @@ class App {
         const title = projectsSection.querySelector('h2');
         const container = projectsSection.querySelector('.grid');
         
-        title.textContent = projectsData.title;
+        if (title) title.textContent = projectsData.title;
+        if (!container) return;
         
         // Clear existing projects
         container.innerHTML = '';
@@ -307,7 +309,8 @@ class App {
         const title = skillsSection.querySelector('h2');
         const container = skillsSection.querySelector('.grid');
         
-        title.textContent = skillsData.title;
+        if (title) title.textContent = skillsData.title;
+        if (!container) return;
         
         // Clear existing categories
         container.innerHTML = '';
@@ -383,55 +386,10 @@ class App {
         });
     }
 
-    loadDevicesSection() {
-        const devicesSection = document.getElementById('devices');
-        if (!devicesSection) return;
-        
-        const title = devicesSection.querySelector('h2');
-        const container = devicesSection.querySelector('.grid');
-        
-        title.textContent = devicesData.title;
-        
-        // Clear existing devices
-        container.innerHTML = '';
-        
-        // Add devices
-        devicesData.devices.forEach(device => {
-            const div = document.createElement('div');
-            div.className = 'bg-gray p-6 rounded-lg';
-            
-            const h3 = document.createElement('h3');
-            h3.className = 'text-xl font-semibold mb-4';
-            h3.textContent = device.type;
-            
-            const img = document.createElement('img');
-            // Use data-src for lazy loading
-            img.setAttribute('data-src', device.image);
-            // Use placeholder until image loads
-            img.src = this.generatePlaceholder(200, 200);
-            img.className = 'rounded-full mb-6 w-40 h-40 object-cover, ImageBorder';
-            img.alt = device.model;
-            
-            const model = document.createElement('h1');
-            model.className = 'text-xl text-gray-500 mb-4';
-            model.textContent = device.model;
-            
-            const desc = document.createElement('p');
-            desc.className = 'text-sm text-gray-400 mb-4';
-            desc.textContent = '-' + device.description;
-            
-            div.appendChild(h3);
-            div.appendChild(img);
-            div.appendChild(model);
-            div.appendChild(desc);
-            
-            container.appendChild(div);
-        });
-        
-        // Refresh card effects after loading
-        if (this.deviceCards) {
-            this.deviceCards.refreshCards('#devices .bg-gray');
-        }
+    loadCertificatesSection() {
+        // Certificates are handled on their dedicated page
+        // This method is here for consistency and future expansion
+        console.log('Certificates data available:', certificatesData.certificates.length, 'certificates');
     }
     
     generatePlaceholder(width, height) {

@@ -3,13 +3,15 @@ import MatrixAnimation from './components/matrix.js';
 import ThemeToggle from './components/themeToggle.js';
 import Clock from './components/clock.js';
 import CardEffects from './components/cardEffects.js';
+import CertificateModal from './components/certificateModal.js';
+import ExperienceModal from './components/experienceModal.js';
 import { 
     profileData,
     aboutData,
     experienceData,
     projectsData, 
     skillsData, 
-    devicesData 
+    certificatesData 
 } from './data/content.js';
 
 class PageApp {
@@ -29,6 +31,14 @@ class PageApp {
         this.initMatrix();
         this.initThemeToggle();
         this.initClock();
+        
+        // Initialize modals based on page
+        if (this.pageName === 'certificates') {
+            this.initCertificateModal();
+        }
+        if (this.pageName === 'experience') {
+            this.initExperienceModal();
+        }
         
         // Initialize page-specific content
         this.loadPageContent();
@@ -60,6 +70,18 @@ class PageApp {
         this.clock = new Clock('clock');
     }
     
+    initCertificateModal() {
+        // Initialize the certificate modal for the certificates page
+        this.certificateModal = new CertificateModal();
+    }
+    
+    initExperienceModal() {
+        // Initialize the experience modal for the experience page
+        console.log('Initializing experience modal...'); // Debug log
+        this.experienceModal = new ExperienceModal();
+        console.log('Experience modal initialized:', this.experienceModal); // Debug log
+    }
+    
     setupErrorHandling() {
         window.addEventListener('error', (event) => {
             console.error('Global error:', event.error);
@@ -83,8 +105,8 @@ class PageApp {
             case 'skills':
                 this.loadSkills();
                 break;
-            case 'devices':
-                this.loadDevices();
+            case 'certificates':
+                this.loadCertificates();
                 break;
         }
     }
@@ -117,42 +139,138 @@ class PageApp {
     }
 
     loadExperience() {
-        const container = document.querySelector('.content-card');
-        if (!container) return;
+        console.log('Loading experience section...'); // Debug log
+        const container = document.getElementById('experience-container');
+        if (!container) {
+            console.error('Experience container not found');
+            return;
+        }
         
-        // Get title element
-        const titleElement = container.querySelector('h2');
-        if (titleElement) titleElement.textContent = experienceData.title;
+        console.log('Experience data:', experienceData); // Debug log
         
-        // Get experience items
-        const expItems = container.querySelectorAll('.bg-gray');
+        // Clear existing content
+        container.innerHTML = '';
         
-        // Only proceed if we have experience data to show
-        if (experienceData.experiences.length > 0 && experienceData.title !== "working on this section, for now. :D") {
-            experienceData.experiences.forEach((exp, index) => {
-                if (expItems[index]) {
-                    const title = expItems[index].querySelector('h3');
-                    const company = expItems[index].querySelector('p');
-                    const points = expItems[index].querySelector('ul');
-                    
-                    if (title) title.textContent = exp.title;
-                    if (company) company.textContent = exp.company;
-                    
-                    // Update points if they exist
-                    if (points && exp.points) {
-                        // Clear existing list items
-                        points.innerHTML = '';
-                        
-                        // Add new points
-                        exp.points.forEach(point => {
-                            const li = document.createElement('li');
-                            li.textContent = point;
-                            points.appendChild(li);
-                        });
-                    }
+        // Check if we have experiences to display
+        if (!experienceData || !experienceData.experiences || experienceData.experiences.length === 0) {
+            console.error('No experience data found');
+            container.innerHTML = '<p class="text-center text-gray-500">No experience data available</p>';
+            return;
+        }
+        
+        // Add experience cards
+        experienceData.experiences.forEach((experience, index) => {
+            console.log('Creating card for experience:', experience.title); // Debug log
+            
+            const card = document.createElement('div');
+            card.className = 'experience-card bg-gray rounded-lg cursor-pointer';
+            
+            const cardContent = document.createElement('div');
+            cardContent.className = 'experience-card-content';
+            
+            // Card header with logo and basic info
+            const header = document.createElement('div');
+            header.className = 'experience-card-header';
+            
+            // Company logo
+            const logo = document.createElement('img');
+            logo.src = experience.logo || '/images/experience/default-company.png';
+            logo.className = 'experience-card-logo';
+            logo.alt = `${experience.company} Logo`;
+            logo.loading = 'lazy';
+            
+            // Handle logo error with placeholder
+            logo.addEventListener('error', () => {
+                this.createExperienceLogoPlaceholder(logo, experience.company);
+            });
+            
+            // Experience info
+            const info = document.createElement('div');
+            info.className = 'experience-card-info';
+            
+            const title = document.createElement('h3');
+            title.className = 'experience-card-title';
+            title.textContent = experience.title;
+            
+            const company = document.createElement('p');
+            company.className = 'experience-card-company';
+            company.textContent = `${experience.company} • ${experience.location}`;
+            
+            const duration = document.createElement('p');
+            duration.className = 'experience-card-duration';
+            duration.textContent = experience.duration;
+            
+            info.appendChild(title);
+            info.appendChild(company);
+            info.appendChild(duration);
+            
+            header.appendChild(logo);
+            header.appendChild(info);
+            
+            // Summary
+            const summary = document.createElement('p');
+            summary.className = 'experience-card-summary';
+            summary.textContent = experience.summary;
+            
+            // Experience type badge
+            const typeBadge = document.createElement('span');
+            typeBadge.className = 'experience-card-type';
+            typeBadge.textContent = experience.type;
+            
+            // Assemble card
+            cardContent.appendChild(header);
+            cardContent.appendChild(summary);
+            cardContent.appendChild(typeBadge);
+            
+            card.appendChild(cardContent);
+            
+            // Add click event to open modal
+            card.addEventListener('click', () => {
+                console.log('Card clicked, opening modal for:', experience.title);
+                if (this.experienceModal) {
+                    this.experienceModal.open(experience);
+                } else {
+                    console.error('Experience modal not initialized');
                 }
             });
-        }
+            
+            container.appendChild(card);
+        });
+        
+        // Initialize card effects after loading
+        setTimeout(() => {
+            this.experienceCards = new CardEffects('#experience-container .experience-card');
+        }, 500);
+    }
+    
+    createExperienceLogoPlaceholder(img, companyName) {
+        // Create a simple company logo placeholder
+        const canvas = document.createElement('canvas');
+        canvas.width = 100;
+        canvas.height = 100;
+        const ctx = canvas.getContext('2d');
+        
+        // Set background based on theme
+        const isDarkMode = document.body.classList.contains('dark-mode');
+        ctx.fillStyle = isDarkMode ? '#374151' : '#f3f4f6';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        // Add border
+        ctx.strokeStyle = isDarkMode ? '#6b7280' : '#d1d5db';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(1, 1, canvas.width - 2, canvas.height - 2);
+        
+        // Add company initial or building icon
+        ctx.fillStyle = isDarkMode ? '#9ca3af' : '#6b7280';
+        ctx.font = 'bold 36px Arial';
+        ctx.textAlign = 'center';
+        
+        // Use company initial if available, otherwise use building emoji
+        const initial = companyName ? companyName.charAt(0).toUpperCase() : '🏢';
+        ctx.fillText(initial, canvas.width / 2, canvas.height / 2 + 12);
+        
+        // Replace image source with canvas data
+        img.src = canvas.toDataURL();
     }
 
     loadProjects() {
@@ -292,44 +410,65 @@ class PageApp {
         });
     }
 
-    loadDevices() {
-        const container = document.getElementById('devices-container');
+    loadCertificates() {
+        const container = document.getElementById('certificates-container');
         if (!container) return;
         
-        // Add devices
-        devicesData.devices.forEach(device => {
+        // Add certificates
+        certificatesData.certificates.forEach(certificate => {
             const div = document.createElement('div');
-            div.className = 'bg-gray p-6 rounded-lg';
+            div.className = 'certificate-card bg-gray p-0 rounded-lg cursor-pointer';
             
-            const h3 = document.createElement('h3');
-            h3.className = 'text-xl font-semibold mb-4';
-            h3.textContent = device.type;
-            
+            // Certificate image
             const img = document.createElement('img');
-            img.src = device.image;
-            img.className = 'rounded-full mb-6 w-40 h-40 object-cover, ImageBorder';
-            img.alt = device.model;
+            img.src = certificate.image;
+            img.className = 'certificate-card-image w-full h-48 object-cover';
+            img.alt = certificate.name;
             img.loading = 'lazy';
             
-            const model = document.createElement('h1');
-            model.className = 'text-xl text-gray-500 mb-4';
-            model.textContent = device.model;
+            // Handle image loading errors with placeholder
+            img.addEventListener('error', () => {
+                CertificateModal.handleImageError(img, certificate);
+            });
             
-            const desc = document.createElement('p');
-            desc.className = 'text-sm text-gray-400 mb-4';
-            desc.textContent = '-' + device.description;
+            // Certificate info container
+            const infoDiv = document.createElement('div');
+            infoDiv.className = 'certificate-card-info p-4';
             
-            div.appendChild(h3);
+            const name = document.createElement('h3');
+            name.className = 'certificate-card-name text-lg font-semibold mb-2';
+            name.textContent = certificate.name;
+            
+            const company = document.createElement('p');
+            company.className = 'certificate-card-company text-blue-600 font-medium mb-1';
+            company.textContent = certificate.company;
+            
+            const date = document.createElement('p');
+            date.className = 'certificate-card-date text-sm text-gray-500';
+            date.textContent = certificate.date;
+            
+            // Assemble info container
+            infoDiv.appendChild(name);
+            infoDiv.appendChild(company);
+            infoDiv.appendChild(date);
+            
+            // Assemble card
             div.appendChild(img);
-            div.appendChild(model);
-            div.appendChild(desc);
+            div.appendChild(infoDiv);
+            
+            // Add click event to open modal
+            div.addEventListener('click', () => {
+                if (this.certificateModal) {
+                    this.certificateModal.open(certificate);
+                }
+            });
             
             container.appendChild(div);
         });
         
-        // Initialize card effects
+        // Initialize card effects after loading
         setTimeout(() => {
-            this.deviceCards = new CardEffects('#devices-container .bg-gray');
+            this.certificateCards = new CardEffects('#certificates-container .certificate-card');
         }, 500);
     }
 }

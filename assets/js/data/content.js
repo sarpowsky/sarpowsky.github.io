@@ -1,4 +1,7 @@
 // assets/js/data/content.js
+// Import separate data components
+import { experienceData } from './experienceData.js';
+
 export const profileData = {
     name: "Sarp Can Karaman",
     profileImage: "/images/profile-picture.png",
@@ -24,27 +27,8 @@ export const aboutData = {
     ]
 };
 
-export const experienceData = {
-    title: "Experience",
-    experiences: [
-        {
-            title: "Data & AI Intern",
-            company: "TECHBROS • July - August 2025 • İstanbul, Türkiye",
-            points: [
-                "Participated in TechBros InternCamp2025, a comprehensive training program covering enterprise systems, data analytics, and emerging technologies",
-                "Developed expertise in ERP and CRM systems architecture and integration patterns",
-                "Implemented DevOps methodologies and deployment pipelines for scalable applications",
-                "Gained hands-on experience in Business Intelligence and Data Analytics fundamentals",
-                "Designed and optimized Data Warehousing solutions and ETL/ELT processes",
-                "Created interactive data visualizations and performed advanced statistical analysis",
-                "Worked with SQL and NoSQL database management systems for enterprise applications",
-                "Explored Generative AI applications and implementation strategies in real-world scenarios",
-                "Integrated Machine Learning solutions into enterprise environments and workflows",
-                "Participated in technical workshops and delivered presentations on emerging technologies"
-            ]
-        }
-    ]
-};
+// Export experience data from separate component
+export { experienceData };
 
 export const projectsData = {
     title: "Projects",
@@ -132,38 +116,57 @@ export const skillsData = {
     ]
 };
 
-export const devicesData = {
-    title: "Devices",
-    devices: [
+export const certificatesData = {
+    title: "Certificates & Achievements",
+    certificates: [
         {
-            type: "Laptop",
-            model: "Msi Katana 15 B12V",
-            image: "/images/msi-katana.png",
-            description: "Very reliable, extremely powerful laptop. Because I also love playing video games, it really saves my life. Battery goes like ≈3 hours, which sometimes isn't quite enough."
+            name: "InternCamp2025",
+            company: "TECHBROS",
+            date: "August 2025",
+            image: "/images/certificates/interncamp2025.png",
+            description: "Comprehensive month-long training program covering enterprise systems, data analytics, and emerging technologies including ERP/CRM integration, DevOps, BI, and ML applications."
         },
         {
-            type: "Phone",
-            model: "iPhone 13 Pro Max",
-            image: "/images/phone.png",
-            description: "I have been using this for about 2.5 years now, battery is still good and reliable. Camera hasn't aged a bit, still takes amazing photos. I'm really happy with it."
+            name: "SQL Mastery Workshop",
+            company: "Techcareer.net",
+            date: "August 2025",
+            image: "/images/certificates/sql-mastery.png",
+            description: "Advanced SQL workshop covering complex queries, optimization techniques, window functions, and database performance tuning."
         },
         {
-            type: "Headphones",
-            model: "Airpods Pro 2.Gen",
-            image: "/images/airpods-pro.png",
-            description: "The integration with the Apple ecosystem was very desirable when I first thought of buying it. The sound quality is amazing, and the noise cancellation is really good. It definetely worths every penny."
+            name: "Digital Marketing 101 Bootcamp",
+            company: "Techcareer.net",
+            date: "August 2025",
+            image: "/images/certificates/digital-marketing.png",
+            description: "Fundamentals of digital marketing including SEO, social media marketing, content strategy, and analytics."
         },
         {
-            type: "Smartwatch",
-            model: "Apple Watch Series 9 45mm",
-            image: "/images/apple-watch.png",
-            description: "This device is a lifesaver, especially if your routine requires for you to be constantly on the move, and in the situations you are not able to take out your phone out of your pocket, this badboy deals with nearyl everything you need that your phone does. 10/10"
+            name: "Akbank Makine Öğrenmesine Giriş Bootcamp",
+            company: "Global AI Hub",
+            date: "June 2025",
+            image: "/images/certificates/akbank-ml.png",
+            description: "Introduction to Machine Learning bootcamp covering supervised and unsupervised learning, model evaluation, and practical ML implementations."
         },
         {
-            type: "Tablet",
-            model: "ViewSonic WoodPad 7",
-            image: "/images/viewsonic-woodpad.png",
-            description: "Well, I neither have the budget nor the need to buy an iPad really. This tablet is really good for my needs, and it's really cheap. Also sometimes I appreciate the luxury of having a device that makes me able to do digital drawing."
+            name: "Introduction to Machine Learning",
+            company: "AI Business School",
+            date: "May 2025",
+            image: "/images/certificates/intro-ml.png",
+            description: "Comprehensive introduction to machine learning concepts, algorithms, and business applications of AI technologies."
+        },
+        {
+            name: "Backend Development Essentials Workshop",
+            company: "Techcareer.net",
+            date: "May 2025",
+            image: "/images/certificates/backend-dev.png",
+            description: "Essential backend development skills including API design, database integration, server architecture, and deployment strategies."
+        },
+        {
+            name: "Akbank Python and AI Introduction Bootcamp",
+            company: "Global AI Hub",
+            date: "April 2025",
+            image: "/images/certificates/python-ai.png",
+            description: "Introduction to Python programming and AI fundamentals, covering data structures, algorithms, and basic AI implementations."
         }
     ]
 };

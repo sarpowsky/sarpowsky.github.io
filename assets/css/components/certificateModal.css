@@ -1,0 +1,306 @@
+/* assets/css/components/certificateModal.css */
+
+/* Modal overlay */
+.certificate-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.certificate-modal-overlay.certificate-modal-open {
+    opacity: 1;
+}
+
+/* Modal content container */
+.certificate-modal-content {
+    border-radius: 12px;
+    max-width: 90%;
+    max-height: 90%;
+    width: 800px;
+    position: relative;
+    transform: scale(0.9) translateY(20px);
+    transition: transform 0.3s ease-in-out;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+}
+
+/* Use consistent bg-gray styling with more transparent glass effect */
+body.dark-mode .certificate-modal-content {
+    background: rgba(0, 0, 0, 0.85); /* Dark transparent glass */
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.light-mode .certificate-modal-content {
+    background: rgba(255, 255, 255, 0.85); /* Light transparent glass */
+    color: #000000;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.certificate-modal-overlay.certificate-modal-open .certificate-modal-content {
+    transform: scale(1) translateY(0);
+}
+
+/* Close button */
+.certificate-modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    z-index: 1001;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.certificate-modal-close:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    transform: rotate(90deg);
+}
+
+body.dark-mode .certificate-modal-close {
+    color: #ccc;
+}
+
+body.dark-mode .certificate-modal-close:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Certificate image container */
+.certificate-modal-image-container {
+    padding: 20px 20px 0 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 300px;
+}
+
+.certificate-modal-image {
+    max-width: 100%;
+    max-height: 400px;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease;
+}
+
+.certificate-modal-image:hover {
+    transform: scale(1.02);
+}
+
+/* Certificate information */
+.certificate-modal-info {
+    padding: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+body.dark-mode .certificate-modal-info {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.certificate-modal-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #000000;
+}
+
+body.dark-mode .certificate-modal-name {
+    color: #ffffff;
+}
+
+.certificate-modal-company {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #666666;
+    margin-bottom: 4px;
+}
+
+body.dark-mode .certificate-modal-company {
+    color: #cccccc;
+}
+
+.certificate-modal-date {
+    font-size: 0.9rem;
+    color: #666666;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+body.dark-mode .certificate-modal-date {
+    color: #cccccc;
+}
+
+.certificate-modal-description {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #4b5563;
+}
+
+body.dark-mode .certificate-modal-description {
+    color: #d1d5db;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .certificate-modal-content {
+        width: 95%;
+        max-height: 95%;
+        margin: 20px;
+    }
+
+    .certificate-modal-image-container {
+        padding: 15px;
+        min-height: 200px;
+    }
+
+    .certificate-modal-image {
+        max-height: 250px;
+    }
+
+    .certificate-modal-info {
+        padding: 15px;
+    }
+
+    .certificate-modal-name {
+        font-size: 1.2rem;
+    }
+
+    .certificate-modal-company {
+        font-size: 1rem;
+    }
+
+    .certificate-modal-description {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .certificate-modal-content {
+        width: 98%;
+        max-height: 98%;
+        margin: 10px;
+        border-radius: 8px;
+    }
+
+    .certificate-modal-image-container {
+        padding: 10px;
+        min-height: 150px;
+    }
+
+    .certificate-modal-image {
+        max-height: 200px;
+    }
+
+    .certificate-modal-info {
+        padding: 12px;
+    }
+
+    .certificate-modal-name {
+        font-size: 1.1rem;
+    }
+
+    .certificate-modal-description {
+        font-size: 0.85rem;
+    }
+}
+
+/* Certificate cards styling with transparent glass effect */
+.certificate-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+body.dark-mode .certificate-card {
+    background: rgba(0, 0, 0, 0.75); /* Dark transparent glass */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+}
+
+body.light-mode .certificate-card {
+    background: rgba(255, 255, 255, 0.75); /* Light transparent glass */
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+}
+
+.certificate-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.certificate-card-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+body.dark-mode .certificate-card-image {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.certificate-card:hover .certificate-card-image {
+    transform: scale(1.05);
+}
+
+.certificate-card-info {
+    padding: 16px;
+}
+
+.certificate-card-name {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: #000000;
+}
+
+body.dark-mode .certificate-card-name {
+    color: #ffffff;
+}
+
+.certificate-card-company {
+    font-size: 0.9rem;
+    color: #666666;
+    margin-bottom: 2px;
+}
+
+body.dark-mode .certificate-card-company {
+    color: #cccccc;
+}
+
+.certificate-card-date {
+    font-size: 0.8rem;
+    color: #666666;
+}
+
+body.dark-mode .certificate-card-date {
+    color: #cccccc;
+}

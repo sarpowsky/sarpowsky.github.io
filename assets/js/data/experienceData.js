@@ -9,7 +9,7 @@ export const experienceData = {
             location: "İstanbul, Türkiye",
             duration: "July - August 2025",
             type: "Internship",
-            logo: "/images/experience/techbros-logo.png",
+            logo: "../images/experience/techbros-logo.jpeg",
             summary: "Comprehensive training program covering enterprise systems, data analytics, and emerging technologies through hands-on workshops and technical presentations.",
             description: "Participated in TechBros InternCamp2025, an intensive month-long training program that provided comprehensive exposure to enterprise-level technologies and modern data engineering practices. The program combined theoretical learning with practical implementation across multiple technology domains.",
             responsibilities: [

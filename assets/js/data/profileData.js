@@ -1,7 +1,7 @@
 // assets/js/data/profileData.js
 export const profileData = {
     name: "Sarp Can Karaman",
-    profileImage: "/images/profile-picture.png",
+    profileImage: "../images/profile-picture.png",
     title: "_sarpowsky | Data Science & ML | Computer Engineering Student",
     social: {
         github: "https://github.com/sarpowsky",

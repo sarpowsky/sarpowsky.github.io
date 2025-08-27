@@ -229,30 +229,25 @@ body.dark-mode .certificate-modal-description {
 
 /* Certificate cards styling with transparent glass effect */
 .certificate-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 12px;
     overflow: hidden;
     cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-body.dark-mode .certificate-card {
-    background: rgba(0, 0, 0, 0.75); /* Dark transparent glass */
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-}
-
-body.light-mode .certificate-card {
-    background: rgba(255, 255, 255, 0.75); /* Light transparent glass */
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
 }
 
 .certificate-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Text colors for readability on transparent background */
+body.dark-mode .certificate-card {
+    color: #ffffff;
+}
+
+body.light-mode .certificate-card {
+    color: #000000;
 }
 
 .certificate-card-image {

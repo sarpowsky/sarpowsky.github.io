@@ -1,7 +1,45 @@
 // assets/js/data/experienceData.js
 export const experienceData = {
-    title: "Professional Experience",
+    title: " Experience",
     experiences: [
+                {
+            id: "bluesense",
+            title: "AI Engineer Intern",
+            company: "BLUESENSE",
+            location: "İstanbul, Türkiye",
+            duration: "September 2025 - Ongoing",
+            type: "Internship",
+            logo: "../images/experience/bluesense_ai_logo.jpeg",
+            summary: "",
+            description:"",
+            responsibilities: [
+            ],
+            technologies: [
+            ],
+            achievements: [
+            ],
+            skills_gained: [
+            ]
+        },
+        {
+            id: "social-office",
+            title: "IT Intern",
+            company: "Social Office",
+            location: "İstanbul, Türkiye",
+            duration: "September 2025 - Ongoing",
+            type: "Internship",
+            logo: "../images/experience/social-office-logo.jpeg",
+            summary: "",
+            description:"",
+            responsibilities: [
+            ],
+            technologies: [
+            ],
+            achievements: [
+            ],
+            skills_gained: [
+            ]
+        },
         {
             id: "techbros-intern-2025",
             title: "Data & AI Intern",

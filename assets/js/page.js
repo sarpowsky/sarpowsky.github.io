@@ -35,6 +35,16 @@ import CertificateModal from './components/certificateModal.js';
 import ExperienceModal from './components/experienceModal.js';
 
 // ---------------------------------------------------------------------------
+// UTILITY IMPORTS
+// ---------------------------------------------------------------------------
+
+import { 
+    showLoading, 
+    hideLoading, 
+    showContentSourceIndicator 
+} from './utils/loadingHelper.js';
+
+// ---------------------------------------------------------------------------
 // CONTENT IMPORTS
 // ---------------------------------------------------------------------------
 
@@ -224,6 +234,14 @@ class PageApp {
                 }
             });
         }
+        
+        // Add content loaded animation
+        container.classList.add('content-loaded');
+        
+        // Show content source in debug mode
+        if (ContentfulConfig.debug) {
+            showContentSourceIndicator(this.contentSource, 'about');
+        }
     }
 
     // -------------------------------------------------------------------------
@@ -236,6 +254,9 @@ class PageApp {
             console.error('Experience container not found');
             return;
         }
+        
+        // Show skeleton loader while fetching content
+        showLoading(container, 'skeleton', { skeletonType: 'experienceCard', count: 3 });
         
         // Try loading from Contentful first
         let data = staticExperienceData;
@@ -270,6 +291,14 @@ class PageApp {
             const card = this.createExperienceCard(experience);
             container.appendChild(card);
         });
+        
+        // Add stagger animation to cards
+        container.classList.add('stagger-fade-in');
+        
+        // Show content source in debug mode
+        if (ContentfulConfig.debug) {
+            showContentSourceIndicator(this.contentSource, 'experience');
+        }
         
         // Initialize card effects after loading
         setTimeout(() => {
@@ -381,6 +410,9 @@ class PageApp {
         const container = document.getElementById('projects-container');
         if (!container) return;
         
+        // Show skeleton loader while fetching content
+        showLoading(container, 'skeleton', { skeletonType: 'projectCard', count: 6 });
+        
         // Try loading from Contentful first
         let data = staticProjectsData;
         
@@ -443,6 +475,14 @@ class PageApp {
             container.appendChild(div);
         });
         
+        // Add stagger animation to cards
+        container.classList.add('stagger-fade-in');
+        
+        // Show content source in debug mode
+        if (ContentfulConfig.debug) {
+            showContentSourceIndicator(this.contentSource, 'projects');
+        }
+        
         // Initialize card effects
         setTimeout(() => {
             this.projectCards = new CardEffects('#projects-container .bg-gray');
@@ -456,6 +496,9 @@ class PageApp {
     async loadSkills() {
         const container = document.getElementById('skills-container');
         if (!container) return;
+        
+        // Show skeleton loader while fetching content
+        showLoading(container, 'skeleton', { skeletonType: 'skillCategory', count: 4 });
         
         // Try loading from Contentful first
         let data = staticSkillsData;
@@ -537,6 +580,14 @@ class PageApp {
             
             container.appendChild(div);
         });
+        
+        // Add stagger animation to cards
+        container.classList.add('stagger-fade-in');
+        
+        // Show content source in debug mode
+        if (ContentfulConfig.debug) {
+            showContentSourceIndicator(this.contentSource, 'skills');
+        }
     }
 
     // -------------------------------------------------------------------------
@@ -546,6 +597,9 @@ class PageApp {
     async loadCertificates() {
         const container = document.getElementById('certificates-container');
         if (!container) return;
+        
+        // Show skeleton loader while fetching content
+        showLoading(container, 'skeleton', { skeletonType: 'certificateCard', count: 6 });
         
         // Try loading from Contentful first
         let data = staticCertificatesData;
@@ -622,6 +676,14 @@ class PageApp {
             
             container.appendChild(div);
         });
+        
+        // Add stagger animation to cards
+        container.classList.add('stagger-fade-in');
+        
+        // Show content source in debug mode
+        if (ContentfulConfig.debug) {
+            showContentSourceIndicator(this.contentSource, 'certificates');
+        }
         
         // Initialize card effects
         setTimeout(() => {

@@ -1,0 +1,452 @@
+/* assets/css/components/loading.css */
+/* ============================================================================
+   LOADING STATES & SKELETON LOADERS
+   ============================================================================
+   Provides visual feedback during content loading from Contentful.
+   These styles ensure a smooth user experience even on slow connections.
+   
+   USAGE:
+   ------
+   Add 'skeleton' class to any element to show a loading animation.
+   Add 'loading' class to containers to show a spinner overlay.
+   
+   EXAMPLE:
+   --------
+   <div class="skeleton skeleton-text"></div>
+   <div class="skeleton skeleton-avatar"></div>
+   <div class="skeleton skeleton-card"></div>
+============================================================================ */
+
+/* ---------------------------------------------------------------------------
+   SKELETON BASE STYLES
+--------------------------------------------------------------------------- */
+
+.skeleton {
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.05) 0%,
+        rgba(255, 255, 255, 0.15) 50%,
+        rgba(255, 255, 255, 0.05) 100%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.5s infinite;
+    border-radius: 4px;
+}
+
+/* Light mode skeleton colors */
+body.light-mode .skeleton {
+    background: linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0.05) 0%,
+        rgba(0, 0, 0, 0.1) 50%,
+        rgba(0, 0, 0, 0.05) 100%
+    );
+    background-size: 200% 100%;
+}
+
+@keyframes skeleton-shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* ---------------------------------------------------------------------------
+   SKELETON VARIANTS
+--------------------------------------------------------------------------- */
+
+/* Text skeleton - single line */
+.skeleton-text {
+    height: 1em;
+    width: 100%;
+    margin-bottom: 0.5rem;
+}
+
+.skeleton-text.short {
+    width: 60%;
+}
+
+.skeleton-text.medium {
+    width: 80%;
+}
+
+/* Title skeleton - larger text */
+.skeleton-title {
+    height: 2rem;
+    width: 50%;
+    margin-bottom: 1rem;
+}
+
+/* Avatar/profile image skeleton */
+.skeleton-avatar {
+    width: 144px;
+    height: 144px;
+    border-radius: 50%;
+}
+
+/* Card skeleton - for project/experience cards */
+.skeleton-card {
+    height: 200px;
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+/* Image skeleton - rectangular image placeholder */
+.skeleton-image {
+    height: 150px;
+    width: 100%;
+    border-radius: 8px;
+}
+
+/* Progress bar skeleton */
+.skeleton-progress {
+    height: 10px;
+    width: 100%;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+}
+
+/* Button skeleton */
+.skeleton-button {
+    height: 40px;
+    width: 120px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+/* ---------------------------------------------------------------------------
+   LOADING SPINNER
+--------------------------------------------------------------------------- */
+
+.loading-spinner {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    border-top-color: #00FF41;
+    border-radius: 50%;
+    animation: spinner-rotate 0.8s linear infinite;
+}
+
+body.light-mode .loading-spinner {
+    border-color: rgba(0, 0, 0, 0.1);
+    border-top-color: #00aa00;
+}
+
+@keyframes spinner-rotate {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Large spinner variant */
+.loading-spinner.large {
+    width: 48px;
+    height: 48px;
+    border-width: 4px;
+}
+
+/* Small spinner variant */
+.loading-spinner.small {
+    width: 16px;
+    height: 16px;
+    border-width: 2px;
+}
+
+/* ---------------------------------------------------------------------------
+   LOADING OVERLAY
+--------------------------------------------------------------------------- */
+
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+body.light-mode .loading-overlay {
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.loading-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Loading overlay content */
+.loading-overlay-content {
+    text-align: center;
+}
+
+.loading-overlay-text {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+body.light-mode .loading-overlay-text {
+    color: rgba(0, 0, 0, 0.7);
+}
+
+/* ---------------------------------------------------------------------------
+   CONTENT LOADING STATE
+--------------------------------------------------------------------------- */
+
+/* Container loading state - dims content while loading */
+.content-loading {
+    position: relative;
+    pointer-events: none;
+}
+
+.content-loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 10;
+}
+
+body.light-mode .content-loading::after {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+/* ---------------------------------------------------------------------------
+   PULSE ANIMATION (alternative to shimmer)
+--------------------------------------------------------------------------- */
+
+.skeleton-pulse {
+    animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes skeleton-pulse {
+    0%, 100% {
+        opacity: 0.4;
+    }
+    50% {
+        opacity: 0.8;
+    }
+}
+
+/* ---------------------------------------------------------------------------
+   SKELETON LAYOUTS
+--------------------------------------------------------------------------- */
+
+/* Profile skeleton layout */
+.skeleton-profile {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.skeleton-profile .skeleton-avatar {
+    margin-bottom: 1rem;
+}
+
+.skeleton-profile .skeleton-name {
+    height: 2.5rem;
+    width: 200px;
+}
+
+.skeleton-profile .skeleton-title {
+    height: 1.2rem;
+    width: 300px;
+}
+
+/* Card grid skeleton layout */
+.skeleton-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Experience card skeleton */
+.skeleton-experience-card {
+    display: flex;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+}
+
+body.light-mode .skeleton-experience-card {
+    background: rgba(0, 0, 0, 0.03);
+}
+
+.skeleton-experience-card .skeleton-logo {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+
+.skeleton-experience-card .skeleton-info {
+    flex: 1;
+}
+
+/* Skill bar skeleton */
+.skeleton-skill-bar {
+    margin-bottom: 1rem;
+}
+
+.skeleton-skill-bar .skeleton-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.skeleton-skill-bar .skeleton-label span {
+    height: 1rem;
+    display: inline-block;
+}
+
+.skeleton-skill-bar .skeleton-label span:first-child {
+    width: 100px;
+}
+
+.skeleton-skill-bar .skeleton-label span:last-child {
+    width: 40px;
+}
+
+/* ---------------------------------------------------------------------------
+   FADE TRANSITIONS
+--------------------------------------------------------------------------- */
+
+/* Content fade in after loading */
+.content-loaded {
+    animation: content-fade-in 0.3s ease-out;
+}
+
+@keyframes content-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ---------------------------------------------------------------------------
+   DEBUG INDICATOR
+--------------------------------------------------------------------------- */
+
+/* Shows content source during debug mode */
+.content-source-indicator {
+    position: fixed;
+    bottom: 60px;
+    right: 10px;
+    padding: 4px 8px;
+    font-size: 10px;
+    font-family: monospace;
+    border-radius: 4px;
+    z-index: 9999;
+    opacity: 0.8;
+    pointer-events: none;
+}
+
+.content-source-indicator.contentful {
+    background: #00aa00;
+    color: white;
+}
+
+.content-source-indicator.static {
+    background: #ff9900;
+    color: black;
+}
+
+.content-source-indicator.cached {
+    background: #0099ff;
+    color: white;
+}
+
+/* ---------------------------------------------------------------------------
+   RESPONSIVE ADJUSTMENTS
+--------------------------------------------------------------------------- */
+
+@media (max-width: 768px) {
+    .skeleton-avatar {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .skeleton-card {
+        height: 150px;
+    }
+    
+    .skeleton-profile .skeleton-name {
+        width: 150px;
+    }
+    
+    .skeleton-profile .skeleton-title {
+        width: 200px;
+    }
+}
+
+/* ---------------------------------------------------------------------------
+   REDUCED MOTION
+--------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+    .skeleton,
+    .loading-spinner,
+    .skeleton-pulse {
+        animation: none;
+    }
+    
+    .skeleton {
+        background: rgba(255, 255, 255, 0.1);
+    }
+    
+    body.light-mode .skeleton {
+        background: rgba(0, 0, 0, 0.08);
+    }
+}
+
+/* ---------------------------------------------------------------------------
+   STAGGERED FADE-IN ANIMATION
+--------------------------------------------------------------------------- */
+
+/* Apply to parent container, children will animate in sequence */
+.stagger-fade-in > * {
+    opacity: 0;
+    animation: content-fade-in 0.4s ease-out forwards;
+}
+
+/* Stagger delays for up to 12 items - covers most grid layouts */
+.stagger-fade-in > *:nth-child(1) { animation-delay: 0.05s; }
+.stagger-fade-in > *:nth-child(2) { animation-delay: 0.1s; }
+.stagger-fade-in > *:nth-child(3) { animation-delay: 0.15s; }
+.stagger-fade-in > *:nth-child(4) { animation-delay: 0.2s; }
+.stagger-fade-in > *:nth-child(5) { animation-delay: 0.25s; }
+.stagger-fade-in > *:nth-child(6) { animation-delay: 0.3s; }
+.stagger-fade-in > *:nth-child(7) { animation-delay: 0.35s; }
+.stagger-fade-in > *:nth-child(8) { animation-delay: 0.4s; }
+.stagger-fade-in > *:nth-child(9) { animation-delay: 0.45s; }
+.stagger-fade-in > *:nth-child(10) { animation-delay: 0.5s; }
+.stagger-fade-in > *:nth-child(11) { animation-delay: 0.55s; }
+.stagger-fade-in > *:nth-child(12) { animation-delay: 0.6s; }
+
+/* Disable stagger animation for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .stagger-fade-in > * {
+        animation: none;
+        opacity: 1;
+    }
+}

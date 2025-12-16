@@ -1,4 +1,28 @@
 // assets/js/main.js
+// ============================================================================
+// MAIN APPLICATION ENTRY POINT
+// ============================================================================
+// This is the main JavaScript file for the portfolio homepage (index.html).
+// It initializes all components and loads content dynamically from Contentful
+// with automatic fallback to static data.
+//
+// CONTENT LOADING STRATEGY:
+// -------------------------
+// 1. Show page immediately with loading states
+// 2. Fetch content from Contentful (or cache) in background
+// 3. Update UI as content arrives
+// 4. Fall back to static data if Contentful unavailable
+//
+// This approach provides:
+//   - Fast initial page load
+//   - Dynamic content from CMS
+//   - Graceful degradation if API fails
+// ============================================================================
+
+// ---------------------------------------------------------------------------
+// COMPONENT IMPORTS
+// ---------------------------------------------------------------------------
+
 import MatrixAnimation from './components/matrix.js';
 import Navigation from './components/navigation.js';
 import ThemeToggle from './components/themeToggle.js';
@@ -6,47 +30,93 @@ import Clock from './components/clock.js';
 import CardEffects from './components/cardEffects.js';
 import LinkedInCarousel from './components/linkedInCarousel.js';
 import GitHubCalendar from './components/gitHubCalendar.js';
+
+// ---------------------------------------------------------------------------
+// CONTENT IMPORTS
+// ---------------------------------------------------------------------------
+// We import both static data (for immediate use) and async loaders (for CMS)
+
 import { 
-    profileData, 
-    aboutData, 
-    experienceData, 
-    projectsData, 
-    skillsData, 
-    certificatesData 
+    // Static data - used as immediate fallback
+    profileData as staticProfileData,
+    aboutData as staticAboutData,
+    experienceData as staticExperienceData,
+    projectsData as staticProjectsData,
+    skillsData as staticSkillsData,
+    certificatesData as staticCertificatesData,
+    
+    // Async loaders - fetch from Contentful with fallback
+    loadProfile,
+    loadAbout,
+    loadExperiences,
+    loadProjects,
+    loadSkills,
+    loadCertificates,
+    loadLinkedInPosts,
+    
+    // Utilities
+    isContentfulConfigured,
+    getContentSourceInfo
 } from './data/content.js';
+
+import ContentfulConfig from './config/contentful.config.js';
+
+// ============================================================================
+// MAIN APPLICATION CLASS
+// ============================================================================
 
 class App {
     constructor() {
+        // Track loaded content for debugging
+        this.contentSources = {};
+        this.isContentLoaded = false;
+        
+        // Initialize the app
         this.initialize();
     }
 
-    initialize() {
-        // Initialize components
+    // -------------------------------------------------------------------------
+    // INITIALIZATION
+    // -------------------------------------------------------------------------
+
+    async initialize() {
+        // Phase 1: Initialize visual components immediately
+        // (These don't depend on content data)
         this.initMatrix();
         this.initNavigation();
         this.initThemeToggle();
         this.initClock();
         
-        // Load content
-        this.loadContent();
+        // Phase 2: Load static content immediately for fast initial render
+        this.loadStaticContent();
         
-        // Initialize widgets
-        this.initWidgets();
-        
-        // Initialize Feather icons
+        // Phase 3: Initialize Feather icons
         if (typeof feather !== 'undefined') {
             feather.replace();
         }
         
-        // Initialize Card Effects
+        // Phase 4: Fetch dynamic content from Contentful in background
+        // This will update the UI once data arrives
+        await this.loadDynamicContent();
+        
+        // Phase 5: Initialize widgets that depend on content
+        await this.initWidgets();
+        
+        // Phase 6: Initialize interactive effects
         this.initCardEffects();
         
-        // Add intersection observer for lazy loading
+        // Phase 7: Setup utilities
         this.setupLazyLoading();
-        
-        // Add error handling
         this.setupErrorHandling();
+        this.setupDebugMode();
+        
+        this.isContentLoaded = true;
+        this.log('App initialization complete');
     }
+
+    // -------------------------------------------------------------------------
+    // COMPONENT INITIALIZATION
+    // -------------------------------------------------------------------------
 
     initMatrix() {
         try {
@@ -71,21 +141,121 @@ class App {
     }
     
     initCardEffects() {
-        // Apply 3D effects to project cards (certificates are handled on their own page)
+        // Apply 3D effects to project cards after content is loaded
         setTimeout(() => {
             this.projectCards = new CardEffects('#projects .bg-gray');
-        }, 1000); // Delay to ensure cards are loaded
+        }, 1000);
     }
-    
-    initWidgets() {
-        this.initLinkedInCarousel();
+
+    // -------------------------------------------------------------------------
+    // CONTENT LOADING
+    // -------------------------------------------------------------------------
+
+    /**
+     * Loads static content immediately for fast initial render
+     * This ensures the page looks good even before Contentful responds
+     */
+    loadStaticContent() {
+        this.log('Loading static content for initial render...');
+        
+        // Use static data for immediate display
+        this.loadProfileUI(staticProfileData);
+        this.loadAboutSectionUI(staticAboutData);
+        this.loadExperienceSectionUI(staticExperienceData);
+        this.loadProjectsSectionUI(staticProjectsData);
+        this.loadSkillsSectionUI(staticSkillsData);
+    }
+
+    /**
+     * Fetches content from Contentful and updates the UI
+     * Falls back gracefully to static data if unavailable
+     */
+    async loadDynamicContent() {
+        // Check if Contentful is configured
+        if (!isContentfulConfigured()) {
+            this.log('Contentful not configured - using static data only');
+            return;
+        }
+
+        this.log('Fetching dynamic content from Contentful...');
+
+        try {
+            // Fetch all content in parallel for better performance
+            const [
+                profile,
+                about,
+                experiences,
+                projects,
+                skills,
+                certificates
+            ] = await Promise.all([
+                loadProfile(),
+                loadAbout(),
+                loadExperiences(),
+                loadProjects(),
+                loadSkills(),
+                loadCertificates()
+            ]);
+
+            // Update UI with dynamic content (only if different from static)
+            if (profile && profile !== staticProfileData) {
+                this.loadProfileUI(profile);
+                this.contentSources.profile = 'contentful';
+            }
+            
+            if (about && about !== staticAboutData) {
+                this.loadAboutSectionUI(about);
+                this.contentSources.about = 'contentful';
+            }
+            
+            if (experiences && experiences !== staticExperienceData) {
+                this.loadExperienceSectionUI(experiences);
+                this.contentSources.experiences = 'contentful';
+            }
+            
+            if (projects && projects !== staticProjectsData) {
+                this.loadProjectsSectionUI(projects);
+                this.contentSources.projects = 'contentful';
+            }
+            
+            if (skills && skills !== staticSkillsData) {
+                this.loadSkillsSectionUI(skills);
+                this.contentSources.skills = 'contentful';
+            }
+
+            this.log('Dynamic content loaded successfully');
+
+        } catch (error) {
+            console.error('Error loading dynamic content:', error);
+            this.log('Falling back to static content');
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // WIDGET INITIALIZATION
+    // -------------------------------------------------------------------------
+
+    async initWidgets() {
+        await this.initLinkedInCarousel();
         this.initGitHubCalendar();
     }
 
     async initLinkedInCarousel() {
         try {
-            const posts = await LinkedInCarousel.fetchPosts();
-            this.linkedInCarousel = new LinkedInCarousel('linkedin-carousel', posts);
+            // First try to load from Contentful
+            let posts = await loadLinkedInPosts();
+            
+            // If Contentful didn't return posts, fall back to JSON file
+            if (!posts || posts.length === 0) {
+                posts = await LinkedInCarousel.fetchPosts();
+                this.contentSources.linkedInPosts = 'json-file';
+            } else {
+                this.contentSources.linkedInPosts = 'contentful';
+            }
+            
+            if (posts && posts.length > 0) {
+                this.linkedInCarousel = new LinkedInCarousel('linkedin-carousel', posts);
+            }
         } catch (error) {
             console.error('Failed to initialize LinkedIn carousel:', error);
         }
@@ -93,20 +263,236 @@ class App {
 
     initGitHubCalendar() {
         try {
-            // Use the GitHub username from profileData
-            const username = profileData.social.github.split('/').pop();
+            // Extract username from GitHub URL
+            const githubUrl = staticProfileData.social?.github || '';
+            const username = githubUrl.split('/').pop() || 'sarpowsky';
             this.gitHubCalendar = new GitHubCalendar('github-calendar', username);
         } catch (error) {
             console.error('Failed to initialize GitHub calendar:', error);
         }
     }
+
+    // -------------------------------------------------------------------------
+    // UI UPDATE METHODS
+    // -------------------------------------------------------------------------
+
+    loadProfileUI(data) {
+        if (!data) return;
+
+        // Update name
+        const nameEl = document.querySelector('h1');
+        if (nameEl) nameEl.textContent = data.name || '';
+        
+        // Update title/description
+        const titleEl = document.querySelector('p.text-l.mb-6');
+        if (titleEl) titleEl.textContent = data.title || '';
+        
+        // Update profile image with lazy loading
+        const profileImg = document.querySelector('img.rounded-full');
+        if (profileImg && data.profileImage) {
+            profileImg.setAttribute('data-src', data.profileImage);
+            profileImg.src = this.generatePlaceholder(200, 200);
+        }
+        
+        // Update social links
+        const socialLinks = document.querySelectorAll('.social-icon');
+        if (socialLinks.length >= 4 && data.social) {
+            if (data.social.github) socialLinks[0].href = data.social.github;
+            if (data.social.linkedin) socialLinks[1].href = data.social.linkedin;
+            if (data.social.instagram) socialLinks[2].href = data.social.instagram;
+            if (data.social.spotify) socialLinks[3].href = data.social.spotify;
+        }
+    }
+
+    loadAboutSectionUI(data) {
+        const aboutSection = document.getElementById('about');
+        if (!aboutSection || !data) return;
+        
+        const aboutTitle = aboutSection.querySelector('h2');
+        const aboutGreeting = aboutSection.querySelector('h1');
+        const aboutSubtitle = aboutSection.querySelector('p.text-xxl');
+        const paragraphs = aboutSection.querySelectorAll('p.text-xl');
+        
+        if (aboutTitle) aboutTitle.textContent = data.title || '';
+        if (aboutGreeting) aboutGreeting.textContent = data.greeting || '';
+        if (aboutSubtitle) aboutSubtitle.textContent = data.subtitle || '';
+        
+        if (data.paragraphs) {
+            data.paragraphs.forEach((text, index) => {
+                if (paragraphs[index]) {
+                    paragraphs[index].textContent = text;
+                }
+            });
+        }
+    }
+
+    loadExperienceSectionUI(data) {
+        const experienceSection = document.getElementById('experience');
+        if (!experienceSection || !data) return;
+        
+        const expTitle = experienceSection.querySelector('h2');
+        const expItems = experienceSection.querySelectorAll('.bg-gray');
+        
+        if (expTitle) expTitle.textContent = data.title || '';
+        
+        if (data.experiences) {
+            data.experiences.forEach((exp, index) => {
+                if (expItems[index]) {
+                    const title = expItems[index].querySelector('h3');
+                    const company = expItems[index].querySelector('p');
+                    const points = expItems[index].querySelector('ul');
+                    
+                    if (title) title.textContent = exp.title || '';
+                    if (company) company.textContent = exp.company || '';
+                    
+                    if (points && exp.points) {
+                        points.innerHTML = '';
+                        exp.points.forEach(point => {
+                            const li = document.createElement('li');
+                            li.textContent = point;
+                            points.appendChild(li);
+                        });
+                    }
+                }
+            });
+        }
+    }
+
+    loadProjectsSectionUI(data) {
+        const projectsSection = document.getElementById('projects');
+        if (!projectsSection || !data) return;
+        
+        const title = projectsSection.querySelector('h2');
+        const container = projectsSection.querySelector('.grid');
+        
+        if (title) title.textContent = data.title || '';
+        if (!container || !data.projects) return;
+        
+        // Clear existing projects
+        container.innerHTML = '';
+        
+        // Add projects
+        data.projects.forEach(project => {
+            const div = document.createElement('div');
+            div.className = 'bg-gray p-6 rounded-lg';
+            
+            const h3 = document.createElement('h3');
+            h3.className = 'text-xl font-semibold mb-4';
+            h3.textContent = project.title || '';
+            
+            const desc = document.createElement('p');
+            desc.className = 'text-gray-400 mb-4';
+            desc.textContent = project.description || '';
+            
+            div.appendChild(h3);
+            div.appendChild(desc);
+            
+            // Add note or link
+            if (project.note) {
+                const note = document.createElement('p');
+                note.className = 'bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700';
+                note.textContent = project.note;
+                note.style.opacity = '1';
+                note.style.animation = 'none';
+                div.appendChild(note);
+            } else {
+                const link = document.createElement('a');
+                link.href = project.link || '#';
+                link.target = '_blank';
+                link.className = 'bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700 inline-block';
+                link.textContent = 'View Project';
+                link.style.opacity = '1';
+                link.style.animation = 'none';
+                div.appendChild(link);
+            }
+            
+            container.appendChild(div);
+        });
+        
+        // Refresh card effects after updating
+        if (this.projectCards) {
+            this.projectCards.refreshCards('#projects .bg-gray');
+        }
+    }
+
+    loadSkillsSectionUI(data) {
+        const skillsSection = document.getElementById('skills');
+        if (!skillsSection || !data) return;
+        
+        const title = skillsSection.querySelector('h2');
+        const container = skillsSection.querySelector('.grid');
+        
+        if (title) title.textContent = data.title || '';
+        if (!container || !data.categories) return;
+        
+        // Clear existing categories
+        container.innerHTML = '';
+        
+        // Add skill categories
+        data.categories.forEach(category => {
+            const div = document.createElement('div');
+            div.className = 'bg-gray p-6 rounded-lg';
+            
+            const h3 = document.createElement('h3');
+            h3.className = 'text-xl font-semibold mb-4';
+            h3.textContent = category.name || '';
+            
+            div.appendChild(h3);
+            
+            // Create skill bars
+            if (category.skills) {
+                category.skills.forEach(skill => {
+                    const skillContainer = document.createElement('div');
+                    skillContainer.className = 'mb-4';
+                    
+                    const skillName = document.createElement('div');
+                    skillName.className = 'flex justify-between mb-1';
+                    
+                    const nameSpan = document.createElement('span');
+                    nameSpan.className = 'text-gray-300';
+                    
+                    // Handle both string and object formats
+                    const skillNameText = typeof skill === 'string' ? skill : skill.name;
+                    const skillLevel = typeof skill === 'string' ? 80 : skill.level;
+                    
+                    nameSpan.textContent = skillNameText;
+                    
+                    const levelSpan = document.createElement('span');
+                    levelSpan.className = 'text-gray-400';
+                    levelSpan.textContent = `${skillLevel}%`;
+                    
+                    skillName.appendChild(nameSpan);
+                    skillName.appendChild(levelSpan);
+                    
+                    // Progress bar
+                    const progressContainer = document.createElement('div');
+                    progressContainer.className = 'w-full bg-gray-700 rounded-full h-2.5';
+                    
+                    const progressBar = document.createElement('div');
+                    progressBar.className = 'bg-green-600 h-2.5 rounded-full';
+                    progressBar.style.width = `${skillLevel}%`;
+                    
+                    progressContainer.appendChild(progressBar);
+                    skillContainer.appendChild(skillName);
+                    skillContainer.appendChild(progressContainer);
+                    
+                    div.appendChild(skillContainer);
+                });
+            }
+            
+            container.appendChild(div);
+        });
+    }
+
+    // -------------------------------------------------------------------------
+    // UTILITY METHODS
+    // -------------------------------------------------------------------------
     
     setupErrorHandling() {
         window.addEventListener('error', (event) => {
             console.error('Global error:', event.error);
-            // Implement graceful fallback for critical features
-            if (event.error.message.includes('canvas') || event.error.message.includes('animation')) {
-                // Fallback for matrix animation
+            if (event.error?.message?.includes('canvas') || 
+                event.error?.message?.includes('animation')) {
                 document.body.style.background = 'linear-gradient(to bottom, #121212, #1a1a1a)';
             }
         });
@@ -116,7 +502,6 @@ class App {
         if ('IntersectionObserver' in window) {
             this.lazyLoadImages();
         } else {
-            // Fallback for browsers that don't support IntersectionObserver
             this.loadAllImages();
         }
     }
@@ -138,267 +523,43 @@ class App {
             });
         });
         
-        // Observe all images with data-src attribute
         document.querySelectorAll('img[data-src]').forEach(img => {
             imageObserver.observe(img);
         });
     }
     
     loadAllImages() {
-        // Fallback method for browsers without IntersectionObserver
         document.querySelectorAll('img[data-src]').forEach(img => {
             img.src = img.getAttribute('data-src');
         });
     }
-
-    loadContent() {
-        this.loadProfile();
-        this.loadAboutSection();
-        this.loadExperienceSection();
-        this.loadProjectsSection();
-        this.loadSkillsSection();
-        this.loadCertificatesSection();
-    }
-
-    loadProfile() {
-        // Load profile data
-        document.querySelector('h1').textContent = profileData.name;
-        document.querySelector('p.text-l.mb-6').textContent = profileData.title;
-        
-        // Use lazy loading for profile image
-        const profileImg = document.querySelector('img.rounded-full');
-        profileImg.setAttribute('data-src', profileData.profileImage);
-        profileImg.src = this.generatePlaceholder(200, 200);
-        
-        // Load social links
-        const socialLinks = document.querySelectorAll('.social-icon');
-        socialLinks[0].href = profileData.social.github;
-        socialLinks[1].href = profileData.social.linkedin;
-        socialLinks[2].href = profileData.social.instagram;
-        socialLinks[3].href = profileData.social.spotify;
-    }
-
-    loadAboutSection() {
-        const aboutSection = document.getElementById('about');
-        if (!aboutSection) return;
-        
-        const aboutTitle = aboutSection?.querySelector('h2');
-        const aboutGreeting = aboutSection?.querySelector('h1');
-        const aboutSubtitle = aboutSection?.querySelector('p.text-xxl');
-        const paragraphs = aboutSection?.querySelectorAll('p.text-xl');
-        
-        if (aboutTitle) aboutTitle.textContent = aboutData.title;
-        if (aboutGreeting) aboutGreeting.textContent = aboutData.greeting;
-        if (aboutSubtitle) aboutSubtitle.textContent = aboutData.subtitle;
-        
-        aboutData.paragraphs.forEach((text, index) => {
-            if (paragraphs[index]) {
-                paragraphs[index].textContent = text;
-            }
-        });
-    }
-
-    loadExperienceSection() {
-        const experienceSection = document.getElementById('experience');
-        if (!experienceSection) return;
-        
-        const expTitle = experienceSection.querySelector('h2');
-        const expItems = experienceSection.querySelectorAll('.bg-gray');
-        
-        if (expTitle) expTitle.textContent = experienceData.title;
-        
-        experienceData.experiences.forEach((exp, index) => {
-            if (expItems[index]) {
-                const title = expItems[index].querySelector('h3');
-                const company = expItems[index].querySelector('p');
-                const points = expItems[index].querySelector('ul');
-                
-                if (title) title.textContent = exp.title;
-                if (company) company.textContent = exp.company;
-                
-                if (points) {
-                    // Clear existing points
-                    points.innerHTML = '';
-                    
-                    // Add new points
-                    exp.points.forEach(point => {
-                        const li = document.createElement('li');
-                        li.textContent = point;
-                        points.appendChild(li);
-                    });
-                }
-            }
-        });
-    }
-
-    loadProjectsSection() {
-        const projectsSection = document.getElementById('projects');
-        if (!projectsSection) return;
-        
-        const title = projectsSection.querySelector('h2');
-        const container = projectsSection.querySelector('.grid');
-        
-        if (title) title.textContent = projectsData.title;
-        if (!container) return;
-        
-        // Clear existing projects
-        container.innerHTML = '';
-        
-        // Add projects
-        projectsData.projects.forEach(project => {
-            const div = document.createElement('div');
-            div.className = 'bg-gray p-6 rounded-lg';
-            
-            const h3 = document.createElement('h3');
-            h3.className = 'text-xl font-semibold mb-4';
-            h3.textContent = project.title;
-            
-            const desc = document.createElement('p');
-            desc.className = 'text-gray-400 mb-4';
-            desc.textContent = project.description;
-            
-            div.appendChild(h3);
-            div.appendChild(desc);
-            
-            // Check if project has a note property
-            if (project.note) {
-                const note = document.createElement('p');
-                note.className = 'bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700';
-                note.textContent = project.note;
-                note.style.opacity = '1';
-                note.style.animation = 'none';
-                div.appendChild(note);
-            } 
-            // Show 'View Project' button if link exists or is null (but property exists)
-            // Default to '#' if link is null to ensure the button appears
-            else if ('link' in project || project.link === null) {
-                const link = document.createElement('a');
-                link.href = project.link || '#';
-                link.target = '_blank';
-                link.className = 'bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700 inline-block';
-                link.textContent = 'View Project';
-                link.style.opacity = '1';
-                link.style.animation = 'none';
-                div.appendChild(link);
-            }
-            // Add default View Project button if neither note nor link property exists
-            else {
-                const link = document.createElement('a');
-                link.href = '#';
-                link.target = '_blank';
-                link.className = 'bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700 inline-block';
-                link.textContent = 'View Project';
-                link.style.opacity = '1';
-                link.style.animation = 'none';
-                div.appendChild(link);
-            }
-            
-            container.appendChild(div);
-        });
-        
-        // Refresh card effects after loading
-        if (this.projectCards) {
-            this.projectCards.refreshCards('#projects .bg-gray');
-        }
-    }
-
-    loadSkillsSection() {
-        const skillsSection = document.getElementById('skills');
-        if (!skillsSection) return;
-        
-        const title = skillsSection.querySelector('h2');
-        const container = skillsSection.querySelector('.grid');
-        
-        if (title) title.textContent = skillsData.title;
-        if (!container) return;
-        
-        // Clear existing categories
-        container.innerHTML = '';
-        
-        // Add skill categories with progress bars
-        skillsData.categories.forEach(category => {
-            const div = document.createElement('div');
-            div.className = 'bg-gray p-6 rounded-lg';
-            
-            const h3 = document.createElement('h3');
-            h3.className = 'text-xl font-semibold mb-4';
-            h3.textContent = category.name;
-            
-            div.appendChild(h3);
-            
-            // Create skill bars
-            category.skills.forEach(skill => {
-                // Create skill container
-                const skillContainer = document.createElement('div');
-                skillContainer.className = 'mb-4';
-                
-                // Skill name and percentage
-                const skillName = document.createElement('div');
-                skillName.className = 'flex justify-between mb-1';
-                
-                const nameSpan = document.createElement('span');
-                nameSpan.className = 'text-gray-300';
-                
-                // Check if skill is string or object
-                if (typeof skill === 'string') {
-                    nameSpan.textContent = skill;
-                    // Add a default level (80%)
-                    const levelSpan = document.createElement('span');
-                    levelSpan.className = 'text-gray-400';
-                    levelSpan.textContent = '80%';
-                    skillName.appendChild(levelSpan);
-                } else {
-                    nameSpan.textContent = skill.name;
-                    // Add skill level percentage text
-                    const levelSpan = document.createElement('span');
-                    levelSpan.className = 'text-gray-400';
-                    levelSpan.textContent = `${skill.level}%`;
-                    skillName.appendChild(levelSpan);
-                }
-                
-                skillName.appendChild(nameSpan);
-                
-                // Progress bar container
-                const progressContainer = document.createElement('div');
-                progressContainer.className = 'w-full bg-gray-700 rounded-full h-2.5';
-                
-                // Progress bar
-                const progressBar = document.createElement('div');
-                progressBar.className = 'bg-green-600 h-2.5 rounded-full';
-                
-                // Set the width directly
-                if (typeof skill === 'string') {
-                    progressBar.style.width = '80%'; // Default value
-                } else {
-                    progressBar.style.width = `${skill.level}%`;
-                }
-                
-                progressContainer.appendChild(progressBar);
-                
-                // Assemble skill
-                skillContainer.appendChild(skillName);
-                skillContainer.appendChild(progressContainer);
-                
-                div.appendChild(skillContainer);
-            });
-            
-            container.appendChild(div);
-        });
-    }
-
-    loadCertificatesSection() {
-        // Certificates are handled on their dedicated page
-        // This method is here for consistency and future expansion
-        console.log('Certificates data available:', certificatesData.certificates.length, 'certificates');
-    }
     
     generatePlaceholder(width, height) {
-        // Generate a simple SVG placeholder
         return `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 ${width} ${height}'%3E%3Crect width='${width}' height='${height}' fill='%23cccccc'/%3E%3C/svg%3E`;
+    }
+
+    setupDebugMode() {
+        if (!ContentfulConfig.debug) return;
+        
+        // Expose app instance for debugging
+        window.__portfolioApp = this;
+        
+        // Log content source info
+        console.log('📊 Content Sources:', this.contentSources);
+        console.log('📊 Content Info:', getContentSourceInfo());
+    }
+
+    log(message) {
+        if (ContentfulConfig.debug) {
+            console.log(`🚀 [App] ${message}`);
+        }
     }
 }
 
-// Initialize the app when the DOM is fully loaded
+// ============================================================================
+// INITIALIZE APPLICATION
+// ============================================================================
+
 document.addEventListener('DOMContentLoaded', () => {
     new App();
 });

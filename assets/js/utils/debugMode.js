@@ -16,7 +16,7 @@
 // ============================================================================
 
 import ContentfulConfig from '../config/contentful.config.js';
-import { clearAllCache, getCacheStats } from '../services/cacheService.js';
+import cacheService from '../services/cacheService.js';
 import { isContentfulConfigured } from '../data/content.js';
 
 // ---------------------------------------------------------------------------
@@ -51,8 +51,8 @@ export function initDebugMode() {
     // Expose debug utilities to window for console access
     window.__portfolioDebug = {
         showStats: showDebugStats,
-        clearCache: clearAllCache,
-        getCacheStats: getCacheStats,
+        clearCache: () => cacheService.clearAll(),
+        getCacheStats: () => cacheService.getStats(),
         testContentful: testContentfulConnection,
         getState: () => debugState,
         getContentSources: () => debugState.contentSources,
@@ -167,10 +167,22 @@ function showDebugStats() {
     
     // Cache Stats
     console.group('Cache');
-    const cacheStats = getCacheStats();
-    console.log('Entries:', cacheStats.entries);
-    console.log('Total Size:', formatBytes(cacheStats.totalSize));
-    console.log('Oldest Entry:', cacheStats.oldestEntry || 'N/A');
+    const cacheStats = cacheService.getStats();
+    console.log('Available:', cacheStats.available);
+    console.log('Enabled:', cacheStats.enabled);
+    console.log('Version:', cacheStats.version);
+    console.log('Entries:', Object.keys(cacheStats.entries || {}).length);
+    
+    // Show individual entry status
+    if (cacheStats.entries) {
+        Object.entries(cacheStats.entries).forEach(([type, info]) => {
+            if (info.cached) {
+                console.log(`  ${type}: cached (${info.age}, TTL: ${info.ttl})`);
+            } else {
+                console.log(`  ${type}: not cached`);
+            }
+        });
+    }
     console.groupEnd();
     
     // Load Times
@@ -272,7 +284,10 @@ function toggleDebugOverlay() {
     `;
     
     const updateOverlay = () => {
-        const cacheStats = getCacheStats();
+        const cacheStats = cacheService.getStats();
+        const entryCount = Object.keys(cacheStats.entries || {}).length;
+        const cachedCount = Object.values(cacheStats.entries || {}).filter(e => e.cached).length;
+        
         overlay.innerHTML = `
             <div style="font-weight: bold; margin-bottom: 10px; font-size: 14px;">
                 🔧 Debug Overlay
@@ -282,7 +297,7 @@ function toggleDebugOverlay() {
                 <strong>Contentful:</strong> ${isContentfulConfigured() ? '✓ Connected' : '✗ Not configured'}
             </div>
             <div style="margin-bottom: 8px;">
-                <strong>Cache:</strong> ${cacheStats.entries} entries (${formatBytes(cacheStats.totalSize)})
+                <strong>Cache:</strong> ${cachedCount}/${entryCount} types cached
             </div>
             <div style="margin-bottom: 8px;">
                 <strong>Content Sources:</strong>

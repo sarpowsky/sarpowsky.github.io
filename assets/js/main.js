@@ -32,6 +32,12 @@ import LinkedInCarousel from './components/linkedInCarousel.js';
 import GitHubCalendar from './components/gitHubCalendar.js';
 
 // ---------------------------------------------------------------------------
+// UTILITY IMPORTS
+// ---------------------------------------------------------------------------
+
+import { initDebugMode, debugLog, trackContentSource } from './utils/debugMode.js';
+
+// ---------------------------------------------------------------------------
 // CONTENT IMPORTS
 // ---------------------------------------------------------------------------
 // We import both static data (for immediate use) and async loaders (for CMS)
@@ -539,19 +545,27 @@ class App {
     }
 
     setupDebugMode() {
+        // Initialize the debug mode utilities
+        initDebugMode();
+        
         if (!ContentfulConfig.debug) return;
         
         // Expose app instance for debugging
         window.__portfolioApp = this;
         
-        // Log content source info
-        console.log('📊 Content Sources:', this.contentSources);
-        console.log('📊 Content Info:', getContentSourceInfo());
+        // Track content sources for each type
+        Object.entries(this.contentSources).forEach(([type, source]) => {
+            trackContentSource(type, source);
+        });
+        
+        // Log content source summary
+        debugLog('App', 'Content Sources:', this.contentSources);
+        debugLog('App', 'Content Info:', getContentSourceInfo());
     }
 
     log(message) {
         if (ContentfulConfig.debug) {
-            console.log(`🚀 [App] ${message}`);
+            debugLog('App', message);
         }
     }
 }

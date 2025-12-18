@@ -44,6 +44,8 @@ import {
     showContentSourceIndicator 
 } from './utils/loadingHelper.js';
 
+import { initDebugMode, debugLog, trackContentSource } from './utils/debugMode.js';
+
 // ---------------------------------------------------------------------------
 // CONTENT IMPORTS
 // ---------------------------------------------------------------------------
@@ -153,6 +155,9 @@ class PageApp {
     }
     
     setupErrorHandling() {
+        // Initialize debug mode utilities
+        initDebugMode();
+        
         window.addEventListener('error', (event) => {
             console.error('Global error:', event.error);
             if (event.error?.message?.includes('canvas') || 
@@ -160,6 +165,11 @@ class PageApp {
                 document.body.style.background = 'linear-gradient(to bottom, #121212, #1a1a1a)';
             }
         });
+        
+        // Expose page app for debugging
+        if (ContentfulConfig.debug) {
+            window.__portfolioPageApp = this;
+        }
     }
 
     // -------------------------------------------------------------------------
@@ -696,9 +706,7 @@ class PageApp {
     // -------------------------------------------------------------------------
 
     log(message) {
-        if (ContentfulConfig.debug) {
-            console.log(`📄 [Page:${this.pageName}] ${message}`);
-        }
+        debugLog(`Page:${this.pageName}`, message);
     }
 }
 

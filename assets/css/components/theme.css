@@ -132,3 +132,47 @@ footer {
     font-family: 'Inter', sans-serif;
     z-index: 100;
 }
+
+/* Contact Buttons */
+.contact-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    border: 2px solid currentColor;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.contact-btn i,
+.contact-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+body.dark-mode .contact-btn {
+    color: #e0e0e0;
+    border-color: #e0e0e0;
+    background: transparent;
+}
+
+body.dark-mode .contact-btn:hover {
+    background: #e0e0e0;
+    color: #121212;
+}
+
+body.light-mode .contact-btn {
+    color: #333;
+    border-color: #333;
+    background: transparent;
+}
+
+body.light-mode .contact-btn:hover {
+    background: #333;
+    color: #f4f4f4;
+}

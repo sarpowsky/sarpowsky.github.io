@@ -90,10 +90,27 @@ nav.fixed {
       font-family: 'Inter', sans-serif;
       transition: color 0.3s;
   }
-  
+
   html, body {
       height: 100%;
       margin: 0;
       overflow-x: hidden;
       overflow-y: auto;
+  }
+
+  /* Footer positioning - ensures footer stays at bottom */
+  body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+  }
+
+  body > .container,
+  body > div.container {
+      flex: 1 0 auto;
+  }
+
+  footer {
+      flex-shrink: 0;
+      margin-top: auto;
   }

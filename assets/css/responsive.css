@@ -68,6 +68,17 @@
         margin-right: auto !important;
     }
 
+    /* Contact Buttons */
+    .contact-buttons {
+        justify-content: center;
+        width: 100%;
+    }
+
+    .contact-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+    }
+
     /* Social Icons */
     .fixed.bottom-0.left-35.flex.space-x-6 {
         position: fixed;

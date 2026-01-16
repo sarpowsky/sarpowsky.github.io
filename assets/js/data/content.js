@@ -41,7 +41,6 @@ import { profileData as staticProfileData } from './profileData.js';
 import { aboutData as staticAboutData } from './aboutData.js';
 import { experienceData as staticExperienceData } from './experienceData.js';
 import { projectsData as staticProjectsData } from './projectsData.js';
-import { skillsData as staticSkillsData } from './skillsData.js';
 import { certificatesData as staticCertificatesData } from './certificatesData.js';
 
 // ---------------------------------------------------------------------------
@@ -54,7 +53,6 @@ import {
     fetchAbout,
     fetchExperiences,
     fetchProjects,
-    fetchSkillCategories,
     fetchCertificates,
     fetchLinkedInPosts,
     fetchAllContent,
@@ -79,7 +77,6 @@ export const profileData = staticProfileData;
 export const aboutData = staticAboutData;
 export const experienceData = staticExperienceData;
 export const projectsData = staticProjectsData;
-export const skillsData = staticSkillsData;
 export const certificatesData = staticCertificatesData;
 
 // ---------------------------------------------------------------------------
@@ -169,26 +166,6 @@ export async function loadProjects(options = {}) {
 }
 
 /**
- * Loads skills data from Contentful, falls back to static if unavailable
- * @param {Object} options - { bypassCache: boolean }
- * @returns {Promise<Object>} Skills data with title and categories array
- */
-export async function loadSkills(options = {}) {
-    try {
-        const contentfulData = await fetchSkillCategories(options);
-        if (contentfulData) {
-            logSource('skills', 'contentful');
-            return contentfulData;
-        }
-    } catch (error) {
-        logError('skills', error);
-    }
-    
-    logSource('skills', 'static');
-    return staticSkillsData;
-}
-
-/**
  * Loads certificates data from Contentful, falls back to static if unavailable
  * @param {Object} options - { bypassCache: boolean }
  * @returns {Promise<Object>} Certificates data with title and certificates array
@@ -244,7 +221,6 @@ export async function loadAllContent(options = {}) {
         about,
         experiences,
         projects,
-        skills,
         certificates,
         linkedInPosts
     ] = await Promise.all([
@@ -252,7 +228,6 @@ export async function loadAllContent(options = {}) {
         loadAbout(options),
         loadExperiences(options),
         loadProjects(options),
-        loadSkills(options),
         loadCertificates(options),
         loadLinkedInPosts(options)
     ]);
@@ -262,7 +237,6 @@ export async function loadAllContent(options = {}) {
         about,
         experiences,
         projects,
-        skills,
         certificates,
         linkedInPosts
     };
@@ -281,7 +255,6 @@ class ContentManager {
             about: null,
             experiences: null,
             projects: null,
-            skills: null,
             certificates: null,
             linkedInPosts: null
         };
@@ -342,7 +315,6 @@ class ContentManager {
             about: staticAboutData,
             experiences: staticExperienceData,
             projects: staticProjectsData,
-            skills: staticSkillsData,
             certificates: staticCertificatesData,
             linkedInPosts: null
         };
@@ -368,7 +340,6 @@ class ContentManager {
             about: loadAbout,
             experiences: loadExperiences,
             projects: loadProjects,
-            skills: loadSkills,
             certificates: loadCertificates,
             linkedInPosts: loadLinkedInPosts
         };
@@ -466,15 +437,13 @@ export default {
     aboutData,
     experienceData,
     projectsData,
-    skillsData,
     certificatesData,
-    
+
     // Async loaders
     loadProfile,
     loadAbout,
     loadExperiences,
     loadProjects,
-    loadSkills,
     loadCertificates,
     loadLinkedInPosts,
     loadAllContent,

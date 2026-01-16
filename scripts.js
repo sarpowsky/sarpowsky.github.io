@@ -63,14 +63,8 @@
             const sections = document.querySelectorAll('.section-content');
             sections.forEach(section => section.classList.add('hidden'));
         
-            // Show the specific section with a delay if it's the skills section
-            if (sectionId === 'skills') {
-                setTimeout(() => {
-                    document.getElementById(sectionId).classList.remove('hidden');
-                }, 300); // 300ms delay, adjust as needed
-            } else {
-                document.getElementById(sectionId).classList.remove('hidden');
-            }
+            // Show the specific section
+            document.getElementById(sectionId).classList.remove('hidden');
         }
         function hideSection() {
             // Hide all section content
@@ -97,7 +91,7 @@
 
         // Add keyboard navigation
         document.addEventListener('keydown', (e) => {
-            const sections = ['about', 'experience', 'projects', 'skills', 'devices'];
+            const sections = ['about', 'experience', 'projects', 'devices'];
             if (e.key === 'Escape') {
                 hideSection();
             } else if (e.key === 'ArrowRight') {

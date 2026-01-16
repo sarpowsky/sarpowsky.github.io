@@ -3,7 +3,7 @@ import ParticleEffect from './particles.js';
 
 export default class Navigation {
     constructor() {
-        this.pages = ['about', 'experience', 'projects', 'skills', 'devices'];
+        this.pages = ['about', 'experience', 'projects', 'devices'];
         this.currentPage = null;
         this.previousPage = null;
         this.particles = new ParticleEffect();

@@ -11,7 +11,6 @@
 // - /pages/about.html       → Loads about data
 // - /pages/experience.html  → Loads experience data + modal
 // - /pages/projects.html    → Loads projects data + card effects
-// - /pages/skills.html      → Loads skills data with progress bars
 // - /pages/certificates.html → Loads certificates + modal
 //
 // CONTENT LOADING STRATEGY:
@@ -50,23 +49,21 @@ import { initDebugMode, debugLog, trackContentSource } from './utils/debugMode.j
 // CONTENT IMPORTS
 // ---------------------------------------------------------------------------
 
-import { 
+import {
     // Static data - immediate fallback
     profileData as staticProfileData,
     aboutData as staticAboutData,
     experienceData as staticExperienceData,
     projectsData as staticProjectsData,
-    skillsData as staticSkillsData,
     certificatesData as staticCertificatesData,
-    
+
     // Async loaders - fetch from Contentful with fallback
     loadProfile,
     loadAbout,
     loadExperiences,
     loadProjects,
-    loadSkills,
     loadCertificates,
-    
+
     // Utilities
     isContentfulConfigured
 } from './data/content.js';
@@ -187,9 +184,6 @@ class PageApp {
                 break;
             case 'projects':
                 await this.loadProjects();
-                break;
-            case 'skills':
-                await this.loadSkills();
                 break;
             case 'certificates':
                 await this.loadCertificates();
@@ -497,107 +491,6 @@ class PageApp {
         setTimeout(() => {
             this.projectCards = new CardEffects('#projects-container .bg-gray');
         }, 500);
-    }
-
-    // -------------------------------------------------------------------------
-    // SKILLS PAGE
-    // -------------------------------------------------------------------------
-
-    async loadSkills() {
-        const container = document.getElementById('skills-container');
-        if (!container) return;
-        
-        // Show skeleton loader while fetching content
-        showLoading(container, 'skeleton', { skeletonType: 'skillCategory', count: 4 });
-        
-        // Try loading from Contentful first
-        let data = staticSkillsData;
-        
-        if (isContentfulConfigured()) {
-            try {
-                const contentfulData = await loadSkills();
-                if (contentfulData) {
-                    data = contentfulData;
-                    this.contentSource = 'contentful';
-                }
-            } catch (error) {
-                this.log(`Error loading skills from Contentful: ${error.message}`);
-            }
-        }
-        
-        if (this.contentSource !== 'contentful') {
-            this.contentSource = 'static';
-        }
-        
-        // Clear existing content
-        container.innerHTML = '';
-        
-        if (!data?.categories) return;
-        
-        // Render skill categories with progress bars
-        data.categories.forEach(category => {
-            const div = document.createElement('div');
-            div.className = 'bg-gray p-6 rounded-lg';
-            
-            const h3 = document.createElement('h3');
-            h3.className = 'text-xl font-semibold mb-4';
-            h3.textContent = category.name || '';
-            
-            div.appendChild(h3);
-            
-            // Create skill bars
-            if (category.skills) {
-                category.skills.forEach(skill => {
-                    const skillContainer = document.createElement('div');
-                    skillContainer.className = 'mb-4';
-                    
-                    const skillName = document.createElement('div');
-                    skillName.className = 'flex justify-between mb-1';
-                    
-                    const nameSpan = document.createElement('span');
-                    nameSpan.className = 'text-gray-300';
-                    
-                    // Handle both string and object skill formats
-                    const skillNameText = typeof skill === 'string' ? skill : skill.name;
-                    const skillLevel = typeof skill === 'string' ? 80 : skill.level;
-                    
-                    nameSpan.textContent = skillNameText;
-                    
-                    const levelSpan = document.createElement('span');
-                    levelSpan.className = 'text-gray-400';
-                    levelSpan.textContent = `${skillLevel}%`;
-                    
-                    skillName.appendChild(nameSpan);
-                    skillName.appendChild(levelSpan);
-                    
-                    // Progress bar container
-                    const progressContainer = document.createElement('div');
-                    progressContainer.className = 'w-full bg-gray-700 rounded-full h-2.5';
-                    
-                    // Progress bar
-                    const progressBar = document.createElement('div');
-                    progressBar.className = 'bg-green-600 h-2.5 rounded-full';
-                    progressBar.style.width = `${skillLevel}%`;
-                    
-                    progressContainer.appendChild(progressBar);
-                    
-                    skillContainer.appendChild(skillName);
-                    skillContainer.appendChild(progressContainer);
-                    
-                    div.appendChild(skillContainer);
-                });
-            }
-            
-            container.appendChild(div);
-        });
-        
-        // Add stagger animation to cards
-        container.classList.add('stagger-fade-in');
-        
-        // Show content source in debug mode
-        if (ContentfulConfig.debug) {
-            showContentSourceIndicator(this.contentSource, 'skills');
-        }
     }
 
     // -------------------------------------------------------------------------

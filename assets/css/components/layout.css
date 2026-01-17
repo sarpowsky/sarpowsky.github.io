@@ -66,7 +66,7 @@ nav.fixed {
       left: 0;
       width: 100%;
       height: 100%;
-      z-index: 50;
+      z-index: 60; /* Higher than nav (50) to properly overlay when active */
       overflow-y: auto;
       padding: 2rem;
       animation: fadeIn 0.3s ease-out;

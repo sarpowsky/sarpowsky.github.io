@@ -189,51 +189,54 @@
         margin-left: 0;
     }
     
-    /* Improved footer layout positioning */
-    footer {
+    /* Improved footer layout positioning - mobile stacked layout */
+    footer.w-full {
         position: relative;
-        padding: 30px 0 20px 0;
+        padding: 24px 0 16px 0;
+    }
+
+    footer.w-full > .container {
         display: flex;
         flex-direction: column;
+        align-items: center;
+        gap: 16px;
+    }
+
+    /* Override Tailwind justify-between for mobile */
+    footer.w-full > .container.flex.justify-between {
+        justify-content: center;
+    }
+
+    /* Social icons - first in visual order */
+    footer.w-full .social-icons {
+        position: relative;
+        order: 1;
+        margin: 0;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    /* Controls group - second in visual order */
+    footer.w-full .flex.items-center {
+        order: 2;
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
         align-items: center;
     }
 
-    footer .social-icons {
-        position: relative !important;
-        display: flex;
-        margin: 0 auto 30px auto !important;
-        order: 1;
-        width: 100%;
-        justify-content: center !important;
+    /* Mode toggle centered */
+    footer.w-full .mode-toggle {
+        position: relative;
+        margin: 0 auto;
     }
-    
-    footer .mode-toggle {
-        position: relative !important;
-        display: block;
-        margin: 0 auto 15px auto !important;
-        order: 2;
-        left: 6px !important;
-    }
-    
-    footer #clock {
-        position: relative !important;
-        display: block;
-        margin: 0 auto 5px auto !important;
-        order: 3;
+
+    /* Clock centered */
+    footer.w-full #clock {
+        position: relative;
+        margin: 0 auto;
         text-align: center;
-    }
-    
-    /* Fix flex container */
-    footer .container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-    }
-    
-    footer .flex.items-center {
-        flex-direction: column;
-        width: 100%;
     }
 }
 

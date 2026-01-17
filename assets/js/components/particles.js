@@ -2,30 +2,40 @@
 export default class ParticleEffect {
     constructor() {
         this.particles = [];
-        this.colors = ['#00ff41', '#00d636', '#00bd2d', '#00a325', '#00891d'];
+        // Theme-aware color palettes
+        this.darkModeColors = ['#00ff41', '#00d636', '#00bd2d', '#00a325', '#00891d'];
+        this.lightModeColors = ['#333333', '#4a4a4a', '#5a5a5a', '#6a6a6a', '#7a7a7a'];
     }
-    
+
+    // Get current theme colors
+    getColors() {
+        const isDarkMode = document.body.classList.contains('dark-mode');
+        return isDarkMode ? this.darkModeColors : this.lightModeColors;
+    }
+
     createParticles(x, y, count = 20) {
+        const colors = this.getColors();
+
         for (let i = 0; i < count; i++) {
             // Create a particle element
             const particle = document.createElement('div');
             particle.className = 'particle';
-            
+
             // Random position variation
             const offsetX = (Math.random() - 0.5) * 20;
             const offsetY = (Math.random() - 0.5) * 20;
-            
+
             // Position the particle
             particle.style.left = (x + offsetX) + 'px';
             particle.style.top = (y + offsetY) + 'px';
-            
+
             // Random size
             const size = Math.random() * 4 + 2; // 2-6px
             particle.style.width = size + 'px';
             particle.style.height = size + 'px';
-            
-            // Random color
-            const color = this.colors[Math.floor(Math.random() * this.colors.length)];
+
+            // Random color from theme-aware palette
+            const color = colors[Math.floor(Math.random() * colors.length)];
             particle.style.backgroundColor = color;
             
             // Random direction

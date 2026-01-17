@@ -37,18 +37,26 @@ export default class CardEffects {
     }
     
     handleMouseEnter(e, card) {
-        // Smooth transition on enter
-        card.style.transition = 'transform 0.3s ease';
-        
-        // Add subtle shadow effect
-        card.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.15)';
+        // Smooth transition on enter - consistent 0.3s duration
+        card.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease';
+
+        // Add subtle shadow effect - theme-aware shadow
+        const isDarkMode = document.body.classList.contains('dark-mode');
+        card.style.boxShadow = isDarkMode
+            ? '0 10px 20px rgba(0, 0, 0, 0.3)'
+            : '0 10px 20px rgba(0, 0, 0, 0.12)';
     }
-    
+
     handleMouseLeave(e, card) {
-        // Reset transformations with a smooth transition
-        card.style.transition = 'transform 0.5s ease-out, box-shadow 0.5s ease-out';
+        // Reset transformations - consistent 0.3s duration
+        card.style.transition = 'transform 0.3s ease-out, box-shadow 0.3s ease-out';
         card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
-        card.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+
+        // Theme-aware default shadow
+        const isDarkMode = document.body.classList.contains('dark-mode');
+        card.style.boxShadow = isDarkMode
+            ? '0 4px 6px rgba(0, 0, 0, 0.2)'
+            : '0 4px 6px rgba(0, 0, 0, 0.08)';
     }
     
     // Call this when new cards are added to the DOM

@@ -1,5 +1,32 @@
 /* assets/css/components/certificateModal.css */
 
+/* ============================================================================
+   CERTIFICATE MODAL - Optimized Animations & Content Presentation
+   ============================================================================ */
+
+/* Staggered animation keyframes for modal content */
+@keyframes certModalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes certImageZoomIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
 /* Modal overlay */
 .certificate-modal-overlay {
     position: fixed;
@@ -15,11 +42,13 @@
     justify-content: center;
     align-items: center;
     opacity: 0;
-    transition: opacity 0.3s ease-in-out;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
 }
 
 .certificate-modal-overlay.certificate-modal-open {
     opacity: 1;
+    visibility: visible;
 }
 
 /* Modal content container */
@@ -29,9 +58,11 @@
     max-height: 90%;
     width: 800px;
     position: relative;
-    transform: scale(0.9) translateY(20px);
-    transition: transform 0.3s ease-in-out;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+    transform: scale(0.95) translateY(30px);
+    opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                opacity 0.3s ease-out,
+                box-shadow 0.3s ease;
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -39,21 +70,69 @@
     backdrop-filter: blur(10px);
 }
 
-/* Use consistent bg-gray styling with more transparent glass effect */
+/* Theme-aware modal shadows */
 body.dark-mode .certificate-modal-content {
-    background: rgba(0, 0, 0, 0.85); /* Dark transparent glass */
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.85);
     color: #ffffff;
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 body.light-mode .certificate-modal-content {
-    background: rgba(255, 255, 255, 0.85); /* Light transparent glass */
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+    background: rgba(255, 255, 255, 0.85);
     color: #000000;
     border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .certificate-modal-overlay.certificate-modal-open .certificate-modal-content {
     transform: scale(1) translateY(0);
+    opacity: 1;
+}
+
+/* ============================================================================
+   STAGGERED CONTENT ANIMATIONS
+   ============================================================================ */
+
+/* Base state for animated content - hidden initially */
+.certificate-modal-overlay .certificate-modal-image-container,
+.certificate-modal-overlay .certificate-modal-info {
+    opacity: 0;
+    transform: translateY(15px);
+}
+
+/* Animated state when modal is open - staggered delays */
+.certificate-modal-overlay.certificate-modal-open .certificate-modal-image-container {
+    animation: certImageZoomIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.15s forwards;
+}
+
+.certificate-modal-overlay.certificate-modal-open .certificate-modal-info {
+    animation: certModalSlideIn 0.4s ease-out 0.3s forwards;
+}
+
+/* Individual info elements staggered */
+.certificate-modal-overlay .certificate-modal-name,
+.certificate-modal-overlay .certificate-modal-company,
+.certificate-modal-overlay .certificate-modal-date,
+.certificate-modal-overlay .certificate-modal-description {
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+.certificate-modal-overlay.certificate-modal-open .certificate-modal-name {
+    animation: certModalSlideIn 0.3s ease-out 0.35s forwards;
+}
+
+.certificate-modal-overlay.certificate-modal-open .certificate-modal-company {
+    animation: certModalSlideIn 0.3s ease-out 0.4s forwards;
+}
+
+.certificate-modal-overlay.certificate-modal-open .certificate-modal-date {
+    animation: certModalSlideIn 0.3s ease-out 0.45s forwards;
+}
+
+.certificate-modal-overlay.certificate-modal-open .certificate-modal-description {
+    animation: certModalSlideIn 0.3s ease-out 0.5s forwards;
 }
 
 /* Close button */
@@ -102,9 +181,18 @@ body.dark-mode .certificate-modal-close:hover {
     max-height: 400px;
     object-fit: contain;
     border-radius: 8px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Theme-aware certificate image styling */
+body.dark-mode .certificate-modal-image {
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+body.light-mode .certificate-modal-image {
     background: #ffffff;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
 }
 
 .certificate-modal-image:hover {
@@ -231,24 +319,32 @@ body.dark-mode .certificate-modal-description {
 /* Certificate cards styling with transparent glass effect */
 .certificate-card {
     transition: transform 0.3s, box-shadow 0.3s;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 12px;
     overflow: hidden;
     cursor: pointer;
 }
 
-.certificate-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-}
-
-/* Text colors for readability on transparent background */
+/* Theme-aware card shadows */
 body.dark-mode .certificate-card {
     color: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode .certificate-card:hover {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
 }
 
 body.light-mode .certificate-card {
     color: #000000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+}
+
+body.light-mode .certificate-card:hover {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+.certificate-card:hover {
+    transform: translateY(-5px);
 }
 
 .certificate-card-image {
@@ -300,4 +396,36 @@ body.dark-mode .certificate-card-company {
 
 body.dark-mode .certificate-card-date {
     color: #cccccc;
+}
+
+/* ============================================================================
+   REDUCED MOTION ACCESSIBILITY
+   ============================================================================ */
+@media (prefers-reduced-motion: reduce) {
+    .certificate-modal-content,
+    .certificate-modal-image-container,
+    .certificate-modal-info,
+    .certificate-modal-name,
+    .certificate-modal-company,
+    .certificate-modal-date,
+    .certificate-modal-description,
+    .certificate-card {
+        animation: none !important;
+        transition: opacity 0.1s ease !important;
+        transform: none !important;
+        opacity: 1 !important;
+    }
+
+    .certificate-modal-overlay {
+        transition: opacity 0.1s ease !important;
+    }
+
+    .certificate-modal-overlay.certificate-modal-open .certificate-modal-content {
+        transform: none !important;
+    }
+
+    .certificate-card:hover,
+    .certificate-card:hover .certificate-card-image {
+        transform: none !important;
+    }
 }

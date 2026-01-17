@@ -29,7 +29,6 @@ import ThemeToggle from './components/themeToggle.js';
 import Clock from './components/clock.js';
 import CardEffects from './components/cardEffects.js';
 import LinkedInCarousel from './components/linkedInCarousel.js';
-import GitHubCalendar from './components/gitHubCalendar.js';
 
 // ---------------------------------------------------------------------------
 // UTILITY IMPORTS
@@ -233,14 +232,13 @@ class App {
 
     async initWidgets() {
         await this.initLinkedInCarousel();
-        this.initGitHubCalendar();
     }
 
     async initLinkedInCarousel() {
         try {
             // First try to load from Contentful
             let posts = await loadLinkedInPosts();
-            
+
             // If Contentful didn't return posts, fall back to JSON file
             if (!posts || posts.length === 0) {
                 posts = await LinkedInCarousel.fetchPosts();
@@ -248,23 +246,12 @@ class App {
             } else {
                 this.contentSources.linkedInPosts = 'contentful';
             }
-            
+
             if (posts && posts.length > 0) {
                 this.linkedInCarousel = new LinkedInCarousel('linkedin-carousel', posts);
             }
         } catch (error) {
             console.error('Failed to initialize LinkedIn carousel:', error);
-        }
-    }
-
-    initGitHubCalendar() {
-        try {
-            // Extract username from GitHub URL
-            const githubUrl = staticProfileData.social?.github || '';
-            const username = githubUrl.split('/').pop() || 'sarpowsky';
-            this.gitHubCalendar = new GitHubCalendar('github-calendar', username);
-        } catch (error) {
-            console.error('Failed to initialize GitHub calendar:', error);
         }
     }
 

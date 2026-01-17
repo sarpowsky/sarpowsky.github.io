@@ -32,6 +32,7 @@ import Clock from './components/clock.js';
 import CardEffects from './components/cardEffects.js';
 import CertificateModal from './components/certificateModal.js';
 import ExperienceModal from './components/experienceModal.js';
+import GitHubCalendar from './components/gitHubCalendar.js';
 
 // ---------------------------------------------------------------------------
 // UTILITY IMPORTS
@@ -491,6 +492,20 @@ class PageApp {
         setTimeout(() => {
             this.projectCards = new CardEffects('#projects-container .bg-gray');
         }, 500);
+
+        // Initialize GitHub calendar
+        this.initGitHubCalendar();
+    }
+
+    initGitHubCalendar() {
+        try {
+            // Extract username from GitHub URL
+            const githubUrl = staticProfileData.social?.github || '';
+            const username = githubUrl.split('/').pop() || 'sarpowsky';
+            this.gitHubCalendar = new GitHubCalendar('github-calendar', username);
+        } catch (error) {
+            console.error('Failed to initialize GitHub calendar:', error);
+        }
     }
 
     // -------------------------------------------------------------------------

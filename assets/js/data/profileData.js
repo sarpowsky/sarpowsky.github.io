@@ -3,6 +3,8 @@ export const profileData = {
     name: "Sarp Can Karaman",
     profileImage: "../images/profile-picture.png",
     title: "_sarpowsky | Data Science & ML | Computer Engineering Student",
+    email: "your.email@example.com",
+    resumeUrl: "assets/resume.pdf",
     social: {
         github: "https://github.com/sarpowsky",
         linkedin: "https://www.linkedin.com/in/sarp-can-karaman/",

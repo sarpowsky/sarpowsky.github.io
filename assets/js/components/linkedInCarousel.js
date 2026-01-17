@@ -21,10 +21,14 @@ export default class LinkedInCarousel {
     createCarouselStructure() {
         const carousel = document.createElement('div');
         carousel.className = 'linkedin-carousel relative';
-        
+
+        // Wrapper element for overflow clipping (must be parent of transformed element)
+        const wrapper = document.createElement('div');
+        wrapper.className = 'linkedin-carousel-wrapper';
+
         this.slidesContainer = document.createElement('div');
         this.slidesContainer.className = 'linkedin-carousel-slides';
-        
+
         this.posts.forEach(post => {
             const slide = document.createElement('div');
             slide.className = 'linkedin-carousel-slide';
@@ -67,9 +71,11 @@ export default class LinkedInCarousel {
             
             this.slidesContainer.appendChild(slide);
         });
-        
-        carousel.appendChild(this.slidesContainer);
-        
+
+        // Build structure: carousel > wrapper > slidesContainer
+        wrapper.appendChild(this.slidesContainer);
+        carousel.appendChild(wrapper);
+
         if (this.posts.length > 1) {
             const prevBtn = document.createElement('button');
             prevBtn.className = 'carousel-nav-btn prev-btn';

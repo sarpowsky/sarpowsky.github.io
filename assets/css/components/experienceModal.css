@@ -304,6 +304,142 @@ body.dark-mode .experience-modal-summary {
     color: #e0e0e0;
 }
 
+/* ============================================================================
+   MARKDOWN CONTENT STYLING
+   ============================================================================ */
+
+/* Markdown paragraphs */
+.experience-modal-summary p {
+    margin-bottom: 1em;
+}
+
+.experience-modal-summary p:last-child {
+    margin-bottom: 0;
+}
+
+/* Markdown headings */
+.experience-modal-summary h2,
+.experience-modal-summary h3,
+.experience-modal-summary h4 {
+    font-weight: 600;
+    margin-top: 1.2em;
+    margin-bottom: 0.6em;
+}
+
+.experience-modal-summary h2 {
+    font-size: 1.3rem;
+}
+
+.experience-modal-summary h3 {
+    font-size: 1.15rem;
+}
+
+.experience-modal-summary h4 {
+    font-size: 1.05rem;
+}
+
+/* Markdown bold and italic */
+.experience-modal-summary strong {
+    font-weight: 600;
+}
+
+.experience-modal-summary em {
+    font-style: italic;
+}
+
+/* Markdown inline code */
+.experience-modal-summary code {
+    background: rgba(0, 0, 0, 0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.9em;
+}
+
+body.dark-mode .experience-modal-summary code {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Markdown code blocks */
+.experience-modal-summary pre {
+    background: rgba(0, 0, 0, 0.05);
+    padding: 1em;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 1em 0;
+}
+
+body.dark-mode .experience-modal-summary pre {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.experience-modal-summary pre code {
+    background: none;
+    padding: 0;
+}
+
+/* Markdown links */
+.experience-modal-summary a {
+    color: #0066cc;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease;
+}
+
+.experience-modal-summary a:hover {
+    border-bottom-color: currentColor;
+}
+
+body.dark-mode .experience-modal-summary a {
+    color: #66b3ff;
+}
+
+/* Markdown lists */
+.experience-modal-summary ul,
+.experience-modal-summary ol {
+    margin: 0.8em 0;
+    padding-left: 1.5em;
+}
+
+.experience-modal-summary ul li,
+.experience-modal-summary ol li {
+    margin-bottom: 0.4em;
+    line-height: 1.5;
+}
+
+.experience-modal-summary ul {
+    list-style-type: disc;
+}
+
+.experience-modal-summary ol {
+    list-style-type: decimal;
+}
+
+/* Markdown blockquotes */
+.experience-modal-summary blockquote {
+    border-left: 3px solid #ccc;
+    margin: 1em 0;
+    padding: 0.5em 1em;
+    color: #666;
+    font-style: italic;
+}
+
+body.dark-mode .experience-modal-summary blockquote {
+    border-left-color: #555;
+    color: #aaa;
+}
+
+/* Markdown horizontal rules */
+.experience-modal-summary hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 1.5em 0;
+}
+
+body.dark-mode .experience-modal-summary hr {
+    border-top-color: #444;
+}
+
 /* Lists */
 .experience-modal-list {
     list-style: none;

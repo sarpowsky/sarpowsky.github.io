@@ -23,13 +23,20 @@ body.light-mode .linkedin-carousel {
     background-color: rgba(255, 255, 255, 0.3);
 }
 
-/* Inner container for slide content - CRITICAL: proper carousel structure */
-.linkedin-carousel-slides {
-    display: flex;
+/* Wrapper that clips the slides - overflow must be on parent of transformed element */
+.linkedin-carousel-wrapper {
+    position: relative;
     width: 100%;
     height: 100%;
     overflow: hidden;
     border-radius: 0.5rem;
+}
+
+/* Inner container for slide content - transformed element */
+.linkedin-carousel-slides {
+    display: flex;
+    width: 100%;
+    height: 100%;
     transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 

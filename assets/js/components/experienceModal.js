@@ -1,4 +1,6 @@
 // assets/js/components/experienceModal.js
+import { parseMarkdown } from '../utils/markdownHelper.js';
+
 export default class ExperienceModal {
     constructor() {
         this.modal = null;
@@ -238,8 +240,9 @@ export default class ExperienceModal {
         this.elements.locationDuration.textContent = `${experience.location} • ${experience.duration}`;
         this.elements.experienceType.textContent = experience.type;
 
-        // Set summary
-        this.elements.summaryText.textContent = experience.description || experience.summary;
+        // Set summary with markdown support
+        const descriptionContent = experience.description || experience.summary || '';
+        this.elements.summaryText.innerHTML = parseMarkdown(descriptionContent);
 
         // Populate responsibilities
         this.elements.respList.innerHTML = '';

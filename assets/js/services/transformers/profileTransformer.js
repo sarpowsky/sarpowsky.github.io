@@ -6,12 +6,15 @@
 //
 // Contentful Structure:
 //   - name, title, profileImage (asset), github, linkedin, instagram, spotify
+//   - email, resume (asset)
 //
 // Target Structure:
 //   {
 //     name: "...",
 //     profileImage: "url",
 //     title: "...",
+//     email: "...",
+//     resumeUrl: "url",
 //     social: { github, linkedin, instagram, spotify }
 //   }
 // ============================================================================
@@ -34,17 +37,25 @@ export function transformProfile(entry) {
 
     // Extract the profile image URL from the Contentful asset
     // The asset should already be resolved by contentfulService
-    const profileImageUrl = contentfulService.getAssetUrl(fields.profileImage) 
+    const profileImageUrl = contentfulService.getAssetUrl(fields.profileImage)
         || '../images/profile-picture.png'; // Fallback to default
+
+    // Extract resume PDF URL from Contentful asset
+    const resumeUrl = contentfulService.getAssetUrl(fields.resume)
+        || 'assets/resume.pdf'; // Fallback to default
 
     return {
         // Direct field mappings
         name: fields.name || 'Name Not Set',
         title: fields.title || '',
-        
+
         // Image needs URL extraction from Contentful asset
         profileImage: profileImageUrl,
-        
+
+        // Contact info
+        email: fields.email || '',
+        resumeUrl: resumeUrl,
+
         // Social links are grouped in the original structure
         // Contentful stores them as flat fields, we nest them here
         social: {

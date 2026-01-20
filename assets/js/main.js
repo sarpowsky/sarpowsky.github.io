@@ -265,18 +265,18 @@ class App {
         // Update name
         const nameEl = document.querySelector('h1');
         if (nameEl) nameEl.textContent = data.name || '';
-        
+
         // Update title/description
         const titleEl = document.querySelector('p.text-l.mb-6');
         if (titleEl) titleEl.textContent = data.title || '';
-        
+
         // Update profile image with lazy loading
         const profileImg = document.querySelector('img.rounded-full');
         if (profileImg && data.profileImage) {
             profileImg.setAttribute('data-src', data.profileImage);
             profileImg.src = this.generatePlaceholder(200, 200);
         }
-        
+
         // Update social links
         const socialLinks = document.querySelectorAll('.social-icon');
         if (socialLinks.length >= 4 && data.social) {
@@ -285,6 +285,19 @@ class App {
             if (data.social.instagram) socialLinks[2].href = data.social.instagram;
             if (data.social.spotify) socialLinks[3].href = data.social.spotify;
         }
+
+        // Update contact buttons (resume and email)
+        const contactButtons = document.querySelectorAll('.contact-btn');
+        contactButtons.forEach(btn => {
+            // Update resume download link
+            if (btn.hasAttribute('download') && data.resumeUrl) {
+                btn.href = data.resumeUrl;
+            }
+            // Update email mailto link
+            if (btn.href && btn.href.startsWith('mailto:') && data.email) {
+                btn.href = `mailto:${data.email}`;
+            }
+        });
     }
 
     loadAboutSectionUI(data) {

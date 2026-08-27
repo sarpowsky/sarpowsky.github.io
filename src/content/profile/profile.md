@@ -2,7 +2,7 @@
 name: Sarp Can Karaman
 title: "_sarpowsky | Data Science & ML | Project Team Lead"
 tagline: "Computer Engineering student at Haliç University, building where code meets machine learning."
-avatar: ../../assets/profile-picture.png
+avatar: /src/assets/profile-picture.png
 email: "sarpcankaraman@gmail.com"
 resume: /resume/SarpCanKaraman_CV.pdf
 socials:

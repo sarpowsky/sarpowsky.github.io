@@ -4,7 +4,7 @@ company: TECHBROS
 location: "İstanbul, Türkiye"
 duration: July - August 2025
 type: Internship
-logo: ../../assets/experience/techbros-logo.jpeg
+logo: /src/assets/experience/techbros-logo.jpeg
 order: 4
 summary: "Comprehensive training program covering enterprise systems, data analytics, and emerging technologies through hands-on workshops and technical presentations."
 ---

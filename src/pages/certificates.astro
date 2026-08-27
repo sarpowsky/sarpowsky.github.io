@@ -5,6 +5,7 @@ import Icon from '@components/ui/Icon.astro';
 import Modal from '@components/ui/Modal.astro';
 import ModalController from '@components/ui/modal-controller.astro';
 import { getCertificates } from '@lib/content';
+import { resolveImage } from '@lib/images';
 
 const certificates = await getCertificates();
 ---
@@ -27,7 +28,7 @@ const certificates = await getCertificates();
               aria-haspopup="dialog"
             >
               <Image
-                src={cert.data.image}
+                src={resolveImage(cert.data.image)}
                 alt=""
                 width={480}
                 height={320}
@@ -58,7 +59,7 @@ const certificates = await getCertificates();
         </p>
 
         <Image
-          src={cert.data.image}
+          src={resolveImage(cert.data.image)}
           alt={`${cert.data.name}, issued by ${cert.data.issuer}`}
           width={960}
           height={640}

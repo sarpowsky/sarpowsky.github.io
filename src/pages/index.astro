@@ -4,6 +4,7 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import Icon from '@components/ui/Icon.astro';
 import PostCarousel from '@components/features/PostCarousel.astro';
 import { getProfile } from '@lib/content';
+import { resolveImage } from '@lib/images';
 import { href } from '@lib/paths';
 
 const { data: profile } = await getProfile();
@@ -19,7 +20,7 @@ const mailto = `mailto:${encodeURIComponent(profile.email).replace(/%40/g, '@')}
   <div class="grid gap-12 md:grid-cols-2 md:gap-8">
     <section class="flex flex-col items-start">
       <Image
-        src={profile.avatar}
+        src={resolveImage(profile.avatar)}
         alt={`Portrait of ${profile.name}`}
         width={144}
         height={144}

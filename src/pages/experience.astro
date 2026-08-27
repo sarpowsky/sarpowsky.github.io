@@ -6,6 +6,7 @@ import Icon from '@components/ui/Icon.astro';
 import Modal from '@components/ui/Modal.astro';
 import ModalController from '@components/ui/modal-controller.astro';
 import { getExperience } from '@lib/content';
+import { resolveImage } from '@lib/images';
 
 const experience = await getExperience();
 
@@ -34,7 +35,7 @@ const entries = await Promise.all(
               aria-haspopup="dialog"
             >
               <Image
-                src={entry.data.logo}
+                src={resolveImage(entry.data.logo)}
                 alt=""
                 width={56}
                 height={56}
@@ -67,7 +68,13 @@ const entries = await Promise.all(
     entries.map(({ entry, Content }) => (
       <Modal id={`exp-${entry.id}`} labelledby={`exp-${entry.id}-title`}>
         <div class="flex items-start gap-4 pr-10">
-          <Image src={entry.data.logo} alt="" width={56} height={56} class="card-logo" />
+          <Image
+            src={resolveImage(entry.data.logo)}
+            alt=""
+            width={56}
+            height={56}
+            class="card-logo"
+          />
           <div>
             <h2 id={`exp-${entry.id}-title`} class="text-xl font-bold">
               {entry.data.role}

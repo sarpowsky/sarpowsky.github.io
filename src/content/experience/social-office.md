@@ -4,6 +4,6 @@ company: Social Office
 location: "İstanbul, Türkiye"
 duration: September - October 2025
 type: Internship
-logo: ../../assets/experience/social-office-logo.jpeg
+logo: /src/assets/experience/social-office-logo.jpeg
 order: 3
 ---

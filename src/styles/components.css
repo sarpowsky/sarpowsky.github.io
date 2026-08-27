@@ -339,10 +339,18 @@ body:has(dialog.modal[open]) {
   background: var(--contrib-0);
 }
 
-.contrib-cell[data-level='1'] { background: var(--contrib-1); }
-.contrib-cell[data-level='2'] { background: var(--contrib-2); }
-.contrib-cell[data-level='3'] { background: var(--contrib-3); }
-.contrib-cell[data-level='4'] { background: var(--contrib-4); }
+.contrib-cell[data-level='1'] {
+  background: var(--contrib-1);
+}
+.contrib-cell[data-level='2'] {
+  background: var(--contrib-2);
+}
+.contrib-cell[data-level='3'] {
+  background: var(--contrib-3);
+}
+.contrib-cell[data-level='4'] {
+  background: var(--contrib-4);
+}
 
 :root {
   --contrib-0: rgb(31 35 40 / 0.09);
@@ -390,16 +398,30 @@ body:has(dialog.modal[open]) {
 /* ------------------------------------------------------------- animations */
 
 @keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes rise-in {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: none; }
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 @keyframes meter-grow {
-  from { transform: scaleX(0); }
-  to { transform: scaleX(1); }
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
 }

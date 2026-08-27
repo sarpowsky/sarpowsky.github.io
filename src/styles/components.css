@@ -6,6 +6,19 @@
    nine files, deduplicated and reduced to the rules the site actually uses.
    ========================================================================== */
 
+/* ------------------------------------------------------------ page shell */
+
+/* One centred measure shared by the nav, <main>, and the footer, so the three
+   bands line up on a single vertical axis instead of each finding its own
+   width. Everything inside is centre-aligned by default; the few blocks where
+   that would hurt (long-form prose) opt back out below. */
+.page-shell {
+  width: 100%;
+  max-width: 64rem;
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+
 /* ---------------------------------------------------------------- backdrop */
 
 #matrix-canvas {
@@ -32,7 +45,7 @@
   position: sticky;
   top: 0;
   z-index: 50;
-  padding: 1rem;
+  padding-block: 1rem;
   background: color-mix(in srgb, var(--bg) 82%, transparent);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border);
@@ -75,7 +88,7 @@
   margin-top: auto;
   z-index: 20;
   position: relative;
-  padding: 1rem;
+  padding-block: 1rem;
   background: color-mix(in srgb, var(--bg) 82%, transparent);
   backdrop-filter: blur(10px);
   border-top: 1px solid var(--border);
@@ -164,7 +177,7 @@
 .interactive-card {
   position: relative;
   width: 100%;
-  text-align: left;
+  text-align: center;
   padding: 1.25rem;
   cursor: pointer;
   transition:
@@ -232,6 +245,7 @@ dialog.modal[open]::backdrop {
   max-height: min(85vh, 48rem);
   overflow-y: auto;
   padding: 2rem;
+  text-align: center;
   background: var(--surface-raised);
   border: 1px solid var(--border);
   border-radius: var(--radius-card);
@@ -267,6 +281,7 @@ body:has(dialog.modal[open]) {
 .prose-content {
   line-height: 1.7;
   color: var(--fg);
+  text-align: left;
 }
 
 .prose-content h2 {
@@ -328,6 +343,9 @@ body:has(dialog.modal[open]) {
   grid-auto-flow: column;
   grid-template-rows: repeat(7, 1fr);
   gap: 3px;
+  /* `safe` keeps the leftmost weeks reachable when the year overflows a narrow
+     viewport, where a plain `center` would push them out of scroll range. */
+  justify-content: safe center;
   overflow-x: auto;
   padding-bottom: 0.5rem;
 }

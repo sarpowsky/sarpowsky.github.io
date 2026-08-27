@@ -30,7 +30,7 @@ const entries = await Promise.all(
           <li>
             <button
               type="button"
-              class="surface-card interactive-card flex items-start gap-4"
+              class="surface-card interactive-card flex flex-col items-center gap-3"
               data-modal-open={`exp-${entry.id}`}
               aria-haspopup="dialog"
             >
@@ -42,10 +42,10 @@ const entries = await Promise.all(
                 class="card-logo"
                 loading="lazy"
               />
-              <span class="min-w-0 flex-1">
+              <span class="w-full min-w-0">
                 <span class="block text-base font-bold">{entry.data.role}</span>
                 <span class="block text-sm text-fg-muted">{entry.data.company}</span>
-                <span class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-fg-muted">
+                <span class="mt-2 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs text-fg-muted">
                   <span class="inline-flex items-center gap-1">
                     <Icon name="calendar" size={13} />
                     {entry.data.duration}
@@ -67,7 +67,7 @@ const entries = await Promise.all(
   {
     entries.map(({ entry, Content }) => (
       <Modal id={`exp-${entry.id}`} labelledby={`exp-${entry.id}-title`}>
-        <div class="flex items-start gap-4 pr-10">
+        <div class="flex flex-col items-center gap-3 px-10">
           <Image
             src={resolveImage(entry.data.logo)}
             alt=""
@@ -83,7 +83,7 @@ const entries = await Promise.all(
           </div>
         </div>
 
-        <div class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-fg-muted">
+        <div class="mt-4 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs text-fg-muted">
           <span class="inline-flex items-center gap-1">
             <Icon name="calendar" size={13} />
             {entry.data.duration}
@@ -95,7 +95,9 @@ const entries = await Promise.all(
           <span class="tag">{entry.data.type}</span>
         </div>
 
-        {entry.data.summary && <p class="mt-4 text-sm text-fg-muted">{entry.data.summary}</p>}
+        {entry.data.summary && (
+          <p class="mx-auto mt-4 max-w-prose text-sm text-fg-muted">{entry.data.summary}</p>
+        )}
 
         <div class="prose-content mt-4">
           <Content />

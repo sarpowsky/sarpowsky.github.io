@@ -36,7 +36,7 @@ const certificates = await getCertificates();
                 loading="lazy"
               />
               <span class="block text-sm font-bold">{cert.data.name}</span>
-              <span class="mt-1 flex items-center gap-2 text-xs text-fg-muted">
+              <span class="mt-1 flex items-center justify-center gap-2 text-xs text-fg-muted">
                 <Icon name="award" size={13} />
                 {cert.data.issuer} · {cert.data.date}
               </span>
@@ -50,10 +50,10 @@ const certificates = await getCertificates();
   {
     certificates.map((cert) => (
       <Modal id={`cert-${cert.id}`} labelledby={`cert-${cert.id}-title`}>
-        <h2 id={`cert-${cert.id}-title`} class="pr-10 text-xl font-bold">
+        <h2 id={`cert-${cert.id}-title`} class="px-10 text-xl font-bold">
           {cert.data.name}
         </h2>
-        <p class="mt-1 flex items-center gap-2 text-sm text-fg-muted">
+        <p class="mt-1 flex items-center justify-center gap-2 text-sm text-fg-muted">
           <Icon name="award" size={14} />
           {cert.data.issuer} · {cert.data.date}
         </p>
@@ -66,7 +66,7 @@ const certificates = await getCertificates();
           class="my-5 w-full rounded border border-border"
         />
 
-        <p class="text-sm leading-relaxed">{cert.data.description}</p>
+        <p class="mx-auto max-w-prose text-sm leading-relaxed">{cert.data.description}</p>
 
         {cert.data.credentialUrl && (
           <a

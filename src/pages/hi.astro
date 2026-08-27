@@ -26,14 +26,14 @@ const skills = await getSkills();
           <h2 id="skills-heading" class="mb-6 text-2xl font-bold">
             Skills
           </h2>
-          <div class="grid gap-8 sm:grid-cols-2">
+          <div class="grid gap-8 text-center sm:grid-cols-2">
             {skills.map((group) => (
               <div>
                 <h3 class="mb-4 text-sm tracking-wide text-accent uppercase">{group.data.name}</h3>
                 <ul class="space-y-3">
                   {group.data.items.map((skill) => (
                     <li>
-                      <div class="mb-1 flex items-baseline justify-between gap-3 text-sm">
+                      <div class="mb-1 flex items-baseline justify-center gap-2 text-sm">
                         <span>{skill.name}</span>
                         <span class="text-xs text-fg-muted">{skill.level}%</span>
                       </div>

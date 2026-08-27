@@ -17,8 +17,8 @@ const mailto = `mailto:${encodeURIComponent(profile.email).replace(/%40/g, '@')}
 ---
 
 <BaseLayout title={`${profile.name} — ${profile.title}`} description={profile.tagline}>
-  <div class="grid gap-12 md:grid-cols-2 md:gap-8">
-    <section class="flex flex-col items-start">
+  <div class="mx-auto flex max-w-3xl flex-col items-center gap-14">
+    <section class="flex flex-col items-center">
       <Image
         src={resolveImage(profile.avatar)}
         alt={`Portrait of ${profile.name}`}
@@ -30,9 +30,11 @@ const mailto = `mailto:${encodeURIComponent(profile.email).replace(/%40/g, '@')}
       />
 
       <h1 class="mb-3 text-4xl font-bold">{profile.name}</h1>
-      <p class="mb-6 max-w-prose text-base leading-relaxed text-fg-muted">{profile.tagline}</p>
+      <p class="mx-auto mb-6 max-w-prose text-base leading-relaxed text-fg-muted">
+        {profile.tagline}
+      </p>
 
-      <div class="flex flex-wrap gap-3">
+      <div class="flex flex-wrap justify-center gap-3">
         <!-- Same-origin, so `download` is honoured. The previous build pointed
              this at a cross-origin CMS URL, where browsers ignore `download`
              and navigate away instead. -->
@@ -47,6 +49,8 @@ const mailto = `mailto:${encodeURIComponent(profile.email).replace(/%40/g, '@')}
       </div>
     </section>
 
-    <PostCarousel />
+    <div class="w-full">
+      <PostCarousel />
+    </div>
   </div>
 </BaseLayout>

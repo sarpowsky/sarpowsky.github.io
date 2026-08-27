@@ -33,7 +33,7 @@ const fmt = (iso: string) =>
 ---
 
 <section class="surface-card p-5" aria-labelledby="contrib-heading">
-  <div class="mb-4 flex flex-wrap items-baseline justify-between gap-2">
+  <div class="mb-4 flex flex-wrap items-baseline justify-center gap-x-3 gap-y-1">
     <h2 id="contrib-heading" class="text-lg font-bold">GitHub Contributions</h2>
     <p class="text-sm text-fg-muted">
       {total.toLocaleString()} contributions
@@ -65,7 +65,7 @@ const fmt = (iso: string) =>
     }
   </div>
 
-  <div class="mt-3 flex items-center justify-end gap-2 text-xs text-fg-muted">
+  <div class="mt-3 flex items-center justify-center gap-2 text-xs text-fg-muted">
     <span>Less</span>
     {[0, 1, 2, 3, 4].map((level) => <span class="contrib-cell" data-level={level} />)}
     <span>More</span>

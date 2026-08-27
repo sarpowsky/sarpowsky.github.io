@@ -1,0 +1,41 @@
+---
+import Icon from '@components/ui/Icon.astro';
+---
+
+<button id="theme-toggle" class="mode-toggle" type="button" aria-label="Switch theme">
+  <span data-theme-icon="dark"><Icon name="moon" /></span>
+  <span data-theme-icon="light" hidden><Icon name="sun" /></span>
+</button>
+
+<script>
+  const toggle = document.getElementById('theme-toggle');
+
+  /** Resolve the theme actually in effect, whether chosen or inherited. */
+  function current(): 'dark' | 'light' {
+    const explicit = document.documentElement.getAttribute('data-theme');
+    if (explicit === 'dark' || explicit === 'light') return explicit;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+
+  function paint(theme: 'dark' | 'light') {
+    document.querySelectorAll<HTMLElement>('[data-theme-icon]').forEach((el) => {
+      el.hidden = el.dataset.themeIcon !== theme;
+    });
+    toggle?.setAttribute('aria-label', `Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`);
+  }
+
+  toggle?.addEventListener('click', () => {
+    const next = current() === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    try {
+      localStorage.setItem('theme', next);
+    } catch {
+      /* Storage unavailable — the choice simply won't persist across visits. */
+    }
+    paint(next);
+    // Let the matrix canvas repaint with the new palette.
+    window.dispatchEvent(new CustomEvent('themechange', { detail: next }));
+  });
+
+  paint(current());
+</script>

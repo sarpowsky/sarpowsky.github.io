@@ -1,0 +1,53 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Icon from '@components/ui/Icon.astro';
+import GitHubCalendar from '@components/features/GitHubCalendar.astro';
+import { getProjects } from '@lib/content';
+
+const projects = await getProjects();
+---
+
+<BaseLayout
+  title="Projects — _sarpowsky"
+  description="Machine learning, data engineering, and full-stack projects by Sarp Can Karaman."
+>
+  <div class="mx-auto max-w-5xl space-y-10">
+    <section aria-labelledby="projects-heading">
+      <h1 id="projects-heading" class="mb-8 text-3xl font-bold">/projects</h1>
+
+      <ul class="grid gap-4 md:grid-cols-2">
+        {
+          projects.map((project) => (
+            <li>
+              <a
+                class="surface-card interactive-card block h-full"
+                href={project.data.link}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span class="flex items-start justify-between gap-3">
+                  <span class="text-base font-bold">{project.data.title}</span>
+                  <Icon name="external-link" size={16} class="mt-1 shrink-0" />
+                </span>
+
+                <span class="mt-2 block text-sm leading-relaxed text-fg-muted">
+                  {project.data.description}
+                </span>
+
+                {project.data.tags.length > 0 && (
+                  <span class="mt-3 flex flex-wrap gap-1.5">
+                    {project.data.tags.map((tag) => (
+                      <span class="tag">{tag}</span>
+                    ))}
+                  </span>
+                )}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <GitHubCalendar />
+  </div>
+</BaseLayout>

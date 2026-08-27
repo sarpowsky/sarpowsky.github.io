@@ -1,0 +1,152 @@
+---
+import Icon from '@components/ui/Icon.astro';
+import { getPosts } from '@lib/content';
+
+const posts = await getPosts();
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+---
+
+{
+  posts.length > 0 && (
+    <section class="linkedin-section" aria-labelledby="posts-heading" data-carousel>
+      <h2 id="posts-heading" class="mb-4 text-lg font-bold">Latest LinkedIn Posts</h2>
+
+      <div class="surface-card overflow-hidden">
+        <div class="carousel-viewport overflow-hidden">
+          <div class="carousel-track" data-carousel-track>
+            {posts.map((post, i) => (
+              <article
+                class="carousel-slide p-5"
+                role="group"
+                aria-roledescription="slide"
+                aria-label={`${i + 1} of ${posts.length}`}
+                aria-hidden={i === 0 ? undefined : 'true'}
+                data-carousel-slide
+              >
+                <time class="text-xs text-fg-muted" datetime={post.data.date.toISOString()}>
+                  {fmt(post.data.date)}
+                </time>
+                <h3 class="mt-2 mb-2 text-base font-bold">{post.data.title}</h3>
+                <p class="mb-4 text-sm leading-relaxed text-fg-muted">{post.data.excerpt}</p>
+                <a
+                  class="inline-flex items-center gap-2 text-sm text-accent underline"
+                  href={post.data.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  tabindex={i === 0 ? undefined : -1}
+                >
+                  Read on LinkedIn
+                  <Icon name="external-link" size={14} />
+                </a>
+              </article>
+            ))}
+          </div>
+        </div>
+
+        {posts.length > 1 && (
+          <div class="flex items-center justify-between border-t border-border px-4 py-3">
+            <button type="button" class="social-icon" data-carousel-prev aria-label="Previous post">
+              <Icon name="chevron-left" size={18} />
+            </button>
+
+            <div class="flex items-center gap-2" role="tablist" aria-label="Choose post">
+              {posts.map((_, i) => (
+                <button
+                  type="button"
+                  role="tab"
+                  class="carousel-dot"
+                  data-carousel-dot
+                  aria-selected={i === 0 ? 'true' : 'false'}
+                  aria-label={`Post ${i + 1}`}
+                />
+              ))}
+            </div>
+
+            <button type="button" class="social-icon" data-carousel-next aria-label="Next post">
+              <Icon name="chevron-right" size={18} />
+            </button>
+          </div>
+        )}
+      </div>
+    </section>
+  )
+}
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-carousel]').forEach((root) => {
+    const track = root.querySelector<HTMLElement>('[data-carousel-track]');
+    const slides = [...root.querySelectorAll<HTMLElement>('[data-carousel-slide]')];
+    const dots = [...root.querySelectorAll<HTMLButtonElement>('[data-carousel-dot]')];
+    if (!track || slides.length < 2) return;
+
+    let index = 0;
+
+    function show(next: number) {
+      index = (next + slides.length) % slides.length;
+      track!.style.transform = `translateX(-${index * 100}%)`;
+
+      slides.forEach((slide, i) => {
+        const active = i === index;
+        // Keep off-screen slides out of the tab order and the a11y tree.
+        slide.toggleAttribute('aria-hidden', !active);
+        slide.querySelectorAll<HTMLAnchorElement>('a').forEach((a) => {
+          if (active) a.removeAttribute('tabindex');
+          else a.setAttribute('tabindex', '-1');
+        });
+      });
+
+      dots.forEach((dot, i) => dot.setAttribute('aria-selected', String(i === index)));
+    }
+
+    root.querySelector('[data-carousel-prev]')?.addEventListener('click', () => {
+      show(index - 1);
+      stopAuto();
+    });
+    root.querySelector('[data-carousel-next]')?.addEventListener('click', () => {
+      show(index + 1);
+      stopAuto();
+    });
+    dots.forEach((dot, i) =>
+      dot.addEventListener('click', () => {
+        show(i);
+        stopAuto();
+      })
+    );
+
+    // Keyboard support on the carousel itself.
+    root.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft') {
+        show(index - 1);
+        stopAuto();
+      } else if (event.key === 'ArrowRight') {
+        show(index + 1);
+        stopAuto();
+      }
+    });
+
+    // Auto-advance, but never for viewers who asked for reduced motion, and
+    // never while the pointer is over the carousel or focus is inside it.
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let timer = 0;
+
+    function startAuto() {
+      if (reduce.matches || timer) return;
+      timer = window.setInterval(() => show(index + 1), 7000);
+    }
+    function stopAuto() {
+      clearInterval(timer);
+      timer = 0;
+    }
+
+    root.addEventListener('mouseenter', stopAuto);
+    root.addEventListener('mouseleave', startAuto);
+    root.addEventListener('focusin', stopAuto);
+    document.addEventListener('visibilitychange', () => (document.hidden ? stopAuto() : startAuto()));
+    reduce.addEventListener('change', () => (reduce.matches ? stopAuto() : startAuto()));
+
+    show(0);
+    startAuto();
+  });
+</script>

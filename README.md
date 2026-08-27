@@ -155,12 +155,17 @@ images.
 
 ### Secrets
 
-| Secret                | Used by                  | Scope       |
-| --------------------- | ------------------------ | ----------- |
-| `CONTRIBUTIONS_TOKEN` | `update-github-data.yml` | `read:user` |
+| Secret      | Used by                  | Needs                                       |
+| ----------- | ------------------------ | ------------------------------------------- |
+| `PAT_TOKEN` | `update-github-data.yml` | `read:user`, plus write access to this repo |
 
-Create it as a fine-grained PAT with read-only access. Nothing else in this repo
-needs a secret — the site has no runtime API calls and no client-side keys.
+This secret already exists on the repository. The workflow checks out with it
+rather than the default `GITHUB_TOKEN`, because GitHub suppresses workflow
+triggers for pushes made with the default token — a refreshed heatmap would
+otherwise land on `main` without ever rebuilding the site.
+
+Nothing else needs a secret: the site makes no runtime API calls and ships no
+client-side keys.
 
 ---
 

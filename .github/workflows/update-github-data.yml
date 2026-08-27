@@ -1,7 +1,6 @@
 name: Refresh GitHub contribution data
 
-# Regenerates the contribution heatmap data and commits it if it changed.
-# The commit to main triggers the deploy workflow, which rebuilds the site.
+# Regenerates the contribution heatmap and commits it if it changed.
 on:
   schedule:
     - cron: '0 4 * * 1' # Mondays, 04:00 UTC
@@ -18,7 +17,13 @@ jobs:
   refresh:
     runs-on: ubuntu-latest
     steps:
+      # Checked out with the PAT rather than the default GITHUB_TOKEN on
+      # purpose: GitHub suppresses workflow triggers for pushes made with the
+      # default token, so a data commit would land on main without ever
+      # rebuilding the site. Pushing as the PAT lets deploy.yml fire.
       - uses: actions/checkout@v7
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
 
       - uses: actions/setup-node@v7
         with:
@@ -30,7 +35,7 @@ jobs:
       - name: Fetch contributions
         run: npm run data:github
         env:
-          GITHUB_TOKEN: ${{ secrets.CONTRIBUTIONS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
           GITHUB_USERNAME: ${{ github.repository_owner }}
 
       - name: Commit if changed

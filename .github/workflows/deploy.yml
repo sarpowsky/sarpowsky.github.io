@@ -1,0 +1,72 @@
+name: Deploy to GitHub Pages
+
+# Deploys via the Pages *Actions* pipeline rather than the legacy
+# "publish a branch" mode. That means:
+#   - the published site is build output, so no build artifacts are committed
+#   - Jekyll never runs over the output (the legacy path did, and silently
+#     dropped every file beginning with an underscore -- including Astro's
+#     _astro/ directory of hashed CSS, JS, and images)
+#   - the same gates that guard a pull request also guard a production deploy
+#
+# Requires Settings > Pages > Source = "GitHub Actions".
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never run two deploys at once; queue instead of cancelling so a deploy that
+# is already publishing is allowed to finish.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v6
+
+      # Same verification as CI: a broken schema, a type error, or a dangling
+      # internal link fails the deploy instead of shipping.
+      - name: Type-check and validate content
+        run: npm run check
+
+      - name: Build
+        run: npm run build:fast
+
+      - name: Verify internal links and assets
+        run: npm run check:links
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

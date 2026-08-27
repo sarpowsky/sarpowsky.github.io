@@ -1,0 +1,28 @@
+version: 2
+updates:
+  # Keep Astro, Tailwind, and the toolchain current. Grouped so routine patch
+  # bumps arrive as one reviewable PR rather than a dozen.
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    groups:
+      astro:
+        patterns: ['astro', '@astrojs/*']
+      dev-dependencies:
+        dependency-type: development
+      minor-and-patch:
+        update-types: [minor, patch]
+    commit-message:
+      prefix: 'chore(deps)'
+
+  # Workflow actions go stale silently; this catches deprecated major versions
+  # before GitHub retires the runner support for them.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: 'ci(deps)'

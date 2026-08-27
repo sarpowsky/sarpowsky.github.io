@@ -18,7 +18,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "data:github": "node scripts/fetch-github-contributions.mjs",
-    "verify": "npm run format:check && npm run check && npm run build:fast"
+    "verify": "npm run format:check && npm run check && npm run build:fast && npm run check:links",
+    "check:links": "node scripts/check-links.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^7.0.8",

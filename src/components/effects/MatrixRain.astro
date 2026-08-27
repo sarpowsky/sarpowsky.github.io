@@ -1,0 +1,128 @@
+---
+/**
+ * Canvas "matrix rain" backdrop.
+ *
+ * Rewritten from the original in three ways that mattered:
+ *   1. It respects `prefers-reduced-motion` and never starts if reduced motion
+ *      is requested.
+ *   2. It pauses via IntersectionObserver/visibilitychange, so a backgrounded
+ *      tab stops burning battery -- the old version ran rAF forever.
+ *   3. It handles resize and devicePixelRatio, so the canvas is no longer
+ *      blurry on HiDPI displays or stretched after a window resize.
+ */
+---
+
+<canvas id="matrix-canvas" aria-hidden="true"></canvas>
+<div class="backdrop-scrim" aria-hidden="true"></div>
+
+<script>
+  const canvas = document.getElementById('matrix-canvas') as HTMLCanvasElement | null;
+  const ctx = canvas?.getContext('2d', { alpha: false }) ?? null;
+
+  if (canvas && ctx) {
+    const CHARS =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%^&*()_+-=[]{}|;:,.<>?';
+    const FONT_SIZE = 12;
+    const FPS_CAP = 1000 / 30;
+
+    let drops: number[] = [];
+    let rafId = 0;
+    let lastFrame = 0;
+    let running = false;
+
+    const styles = () => {
+      const cs = getComputedStyle(document.documentElement);
+      return {
+        glyph: cs.getPropertyValue('--matrix-glyph').trim() || '#00ff41',
+        trail: cs.getPropertyValue('--matrix-trail').trim() || 'rgba(0,0,0,0.06)',
+        bg: cs.getPropertyValue('--bg').trim() || '#121212',
+      };
+    };
+
+    function resize() {
+      if (!canvas || !ctx) return;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.floor(window.innerWidth * dpr);
+      canvas.height = Math.floor(window.innerHeight * dpr);
+      canvas.style.width = `${window.innerWidth}px`;
+      canvas.style.height = `${window.innerHeight}px`;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      const columns = Math.ceil(window.innerWidth / FONT_SIZE);
+      drops = Array.from({ length: columns }, () => Math.random() * -50);
+
+      // Repaint the background so the first trail frame has something to fade.
+      ctx.fillStyle = styles().bg;
+      ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+    }
+
+    function draw(timestamp: number) {
+      if (!ctx) return;
+      rafId = requestAnimationFrame(draw);
+      if (timestamp - lastFrame < FPS_CAP) return;
+      lastFrame = timestamp;
+
+      const { glyph, trail } = styles();
+      ctx.fillStyle = trail;
+      ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+
+      ctx.fillStyle = glyph;
+      ctx.font = `${FONT_SIZE}px ui-monospace, monospace`;
+
+      for (let i = 0; i < drops.length; i++) {
+        if (Math.random() > 0.7) {
+          const char = CHARS.charAt(Math.floor(Math.random() * CHARS.length));
+          ctx.fillText(char, i * FONT_SIZE, drops[i]! * FONT_SIZE);
+        }
+        if (drops[i]! * FONT_SIZE > window.innerHeight && Math.random() > 0.95) {
+          drops[i] = 0;
+        }
+        drops[i] = drops[i]! + 0.5;
+      }
+    }
+
+    function start() {
+      if (running) return;
+      running = true;
+      lastFrame = 0;
+      rafId = requestAnimationFrame(draw);
+    }
+
+    function stop() {
+      running = false;
+      cancelAnimationFrame(rafId);
+    }
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    function sync() {
+      if (reduceMotion.matches || document.hidden) {
+        stop();
+        // Leave a clean, static background rather than a frozen half-frame.
+        if (ctx) {
+          ctx.fillStyle = styles().bg;
+          ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+        }
+      } else {
+        start();
+      }
+    }
+
+    let resizeTimer = 0;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(() => {
+        resize();
+        sync();
+      }, 150);
+    });
+
+    document.addEventListener('visibilitychange', sync);
+    reduceMotion.addEventListener('change', sync);
+    // Repaint immediately when the theme flips so glyph colour tracks the palette.
+    window.addEventListener('themechange', () => resize());
+
+    resize();
+    sync();
+  }
+</script>

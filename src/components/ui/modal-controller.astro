@@ -1,0 +1,41 @@
+---
+/**
+ * Wires every `[data-modal-open="<id>"]` trigger to its `<dialog>`.
+ *
+ * Included once per page that uses modals. The native dialog element handles
+ * focus trapping, ESC, and returning focus to the trigger; this only adds the
+ * open/close plumbing and light-dismiss on backdrop click.
+ */
+---
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-modal-open]').forEach((trigger) => {
+    trigger.addEventListener('click', () => {
+      const id = trigger.dataset.modalOpen;
+      if (!id) return;
+      const dialog = document.getElementById(id) as HTMLDialogElement | null;
+      dialog?.showModal();
+    });
+  });
+
+  document.querySelectorAll<HTMLDialogElement>('dialog.modal').forEach((dialog) => {
+    dialog.querySelector('[data-modal-close]')?.addEventListener('click', () => dialog.close());
+
+    // Light dismiss: close when the click lands outside the panel. Compared
+    // against the panel's box rather than the event target, because clicks on
+    // the dialog's padding still report the dialog as the target.
+    dialog.addEventListener('click', (event) => {
+      const panel = dialog.querySelector('.modal-panel');
+      if (!panel || !(event.target instanceof Element)) return;
+      if (panel.contains(event.target)) return;
+
+      const box = panel.getBoundingClientRect();
+      const inside =
+        event.clientX >= box.left &&
+        event.clientX <= box.right &&
+        event.clientY >= box.top &&
+        event.clientY <= box.bottom;
+      if (!inside) dialog.close();
+    });
+  });
+</script>

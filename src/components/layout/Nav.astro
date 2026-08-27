@@ -1,0 +1,28 @@
+---
+import { href, isCurrent } from '@lib/paths';
+import { NAV_LINKS } from '@lib/nav';
+
+const pathname = Astro.url.pathname;
+---
+
+<nav class="site-nav" aria-label="Primary">
+  <div class="container mx-auto flex flex-col items-center gap-3 md:flex-row md:justify-between">
+    <a href={href('/')} class="nav-link text-xl font-bold">_sarpowsky</a>
+
+    <ul class="flex flex-wrap justify-center gap-4 md:gap-6">
+      {
+        NAV_LINKS.map((link) => (
+          <li>
+            <a
+              href={href(link.href)}
+              class="nav-link"
+              aria-current={isCurrent(pathname, link.href) ? 'page' : undefined}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</nav>

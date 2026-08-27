@@ -1,0 +1,51 @@
+name: Refresh GitHub contribution data
+
+# Regenerates the contribution heatmap and commits it if it changed.
+on:
+  schedule:
+    - cron: '0 4 * * 1' # Mondays, 04:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: github-data
+  cancel-in-progress: true
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      # Checked out with the PAT rather than the default GITHUB_TOKEN on
+      # purpose: GitHub suppresses workflow triggers for pushes made with the
+      # default token, so a data commit would land on main without ever
+      # rebuilding the site. Pushing as the PAT lets deploy.yml fire.
+      - uses: actions/checkout@v7
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+
+      # The script exits non-zero on any API failure rather than writing
+      # randomly generated data, so a red run here means "the data is stale",
+      # never "the published data is fake".
+      - name: Fetch contributions
+        run: npm run data:github
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+          GITHUB_USERNAME: ${{ github.repository_owner }}
+
+      - name: Commit if changed
+        run: |
+          if git diff --quiet -- src/data/github-contributions.json; then
+            echo "No change in contribution data."
+            exit 0
+          fi
+          git config user.name  'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src/data/github-contributions.json
+          git commit -m 'chore(data): refresh GitHub contribution heatmap'
+          git push

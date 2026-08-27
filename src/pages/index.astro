@@ -1,0 +1,52 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Icon from '@components/ui/Icon.astro';
+import PostCarousel from '@components/features/PostCarousel.astro';
+import { getProfile } from '@lib/content';
+import { resolveImage } from '@lib/images';
+import { href } from '@lib/paths';
+
+const { data: profile } = await getProfile();
+
+// The schema already guarantees a well-formed address, but the value is still
+// encoded here so a stray `?` or `&` could never inject extra mailto header
+// fields (bcc, subject). `@` is restored afterwards because RFC 6068 wants it
+// literal in the addr-spec, and some mail clients mishandle `%40`.
+const mailto = `mailto:${encodeURIComponent(profile.email).replace(/%40/g, '@')}`;
+---
+
+<BaseLayout title={`${profile.name} — ${profile.title}`} description={profile.tagline}>
+  <div class="grid gap-12 md:grid-cols-2 md:gap-8">
+    <section class="flex flex-col items-start">
+      <Image
+        src={resolveImage(profile.avatar)}
+        alt={`Portrait of ${profile.name}`}
+        width={144}
+        height={144}
+        loading="eager"
+        fetchpriority="high"
+        class="mb-6 h-36 w-36 rounded-full border-[3px] border-fg object-cover"
+      />
+
+      <h1 class="mb-3 text-4xl font-bold">{profile.name}</h1>
+      <p class="mb-6 max-w-prose text-base leading-relaxed text-fg-muted">{profile.tagline}</p>
+
+      <div class="flex flex-wrap gap-3">
+        <!-- Same-origin, so `download` is honoured. The previous build pointed
+             this at a cross-origin CMS URL, where browsers ignore `download`
+             and navigate away instead. -->
+        <a class="contact-btn" href={href(profile.resume)} download>
+          <Icon name="download" />
+          <span>Resume</span>
+        </a>
+        <a class="contact-btn" href={mailto}>
+          <Icon name="mail" />
+          <span>Contact</span>
+        </a>
+      </div>
+    </section>
+
+    <PostCarousel />
+  </div>
+</BaseLayout>

@@ -1,0 +1,87 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Icon from '@components/ui/Icon.astro';
+import Modal from '@components/ui/Modal.astro';
+import ModalController from '@components/ui/modal-controller.astro';
+import { getCertificates } from '@lib/content';
+import { resolveImage } from '@lib/images';
+
+const certificates = await getCertificates();
+---
+
+<BaseLayout
+  title="Certificates — _sarpowsky"
+  description="Certifications, bootcamps, hackathons, and workshops completed by Sarp Can Karaman."
+>
+  <div class="mx-auto max-w-5xl">
+    <h1 class="mb-8 text-3xl font-bold">/certificates</h1>
+
+    <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        certificates.map((cert) => (
+          <li>
+            <button
+              type="button"
+              class="surface-card interactive-card h-full"
+              data-modal-open={`cert-${cert.id}`}
+              aria-haspopup="dialog"
+            >
+              <Image
+                src={resolveImage(cert.data.image)}
+                alt=""
+                width={480}
+                height={320}
+                class="mb-3 aspect-[3/2] w-full rounded object-cover"
+                loading="lazy"
+              />
+              <span class="block text-sm font-bold">{cert.data.name}</span>
+              <span class="mt-1 flex items-center gap-2 text-xs text-fg-muted">
+                <Icon name="award" size={13} />
+                {cert.data.issuer} · {cert.data.date}
+              </span>
+            </button>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  {
+    certificates.map((cert) => (
+      <Modal id={`cert-${cert.id}`} labelledby={`cert-${cert.id}-title`}>
+        <h2 id={`cert-${cert.id}-title`} class="pr-10 text-xl font-bold">
+          {cert.data.name}
+        </h2>
+        <p class="mt-1 flex items-center gap-2 text-sm text-fg-muted">
+          <Icon name="award" size={14} />
+          {cert.data.issuer} · {cert.data.date}
+        </p>
+
+        <Image
+          src={resolveImage(cert.data.image)}
+          alt={`${cert.data.name}, issued by ${cert.data.issuer}`}
+          width={960}
+          height={640}
+          class="my-5 w-full rounded border border-border"
+        />
+
+        <p class="text-sm leading-relaxed">{cert.data.description}</p>
+
+        {cert.data.credentialUrl && (
+          <a
+            class="mt-4 inline-flex items-center gap-2 text-sm text-accent underline"
+            href={cert.data.credentialUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Verify credential
+            <Icon name="external-link" size={14} />
+          </a>
+        )}
+      </Modal>
+    ))
+  }
+
+  <ModalController />
+</BaseLayout>

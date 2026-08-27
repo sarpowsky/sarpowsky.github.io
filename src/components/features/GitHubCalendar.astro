@@ -1,0 +1,73 @@
+---
+import contributions from '@/data/github-contributions.json';
+
+/**
+ * GitHub contribution heatmap.
+ *
+ * Rendered at build time from a JSON file refreshed weekly by the
+ * `update-github-data` workflow. The previous version fetched this file from
+ * the browser on every page view -- via a root-absolute path that only resolved
+ * on the live domain -- and silently substituted *randomly generated* data when
+ * the request failed. Static rendering removes the request, the broken path,
+ * and the fabricated-data failure mode in one go.
+ */
+
+type Day = { date: string; count: number; level: number };
+const days = contributions as Day[];
+
+const total = days.reduce((sum, d) => sum + d.count, 0);
+const first = days[0]?.date;
+const last = days.at(-1)?.date;
+
+// Pad the first partial week so weekday rows line up (column-major grid,
+// Sunday = row 1).
+const leadingBlanks = first ? new Date(first).getUTCDay() : 0;
+
+const fmt = (iso: string) =>
+  new Date(iso).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    timeZone: 'UTC',
+  });
+---
+
+<section class="surface-card p-5" aria-labelledby="contrib-heading">
+  <div class="mb-4 flex flex-wrap items-baseline justify-between gap-2">
+    <h2 id="contrib-heading" class="text-lg font-bold">GitHub Contributions</h2>
+    <p class="text-sm text-fg-muted">
+      {total.toLocaleString()} contributions
+      {
+        first && last && (
+          <>
+            {' '}
+            · {fmt(first)} – {fmt(last)}
+          </>
+        )
+      }
+    </p>
+  </div>
+
+  <div
+    class="contrib-grid"
+    role="img"
+    aria-label={`Contribution heatmap: ${total} contributions between ${first && fmt(first)} and ${last && fmt(last)}.`}
+  >
+    {Array.from({ length: leadingBlanks }).map(() => <span class="contrib-cell" data-level="0" />)}
+    {
+      days.map((day) => (
+        <span
+          class="contrib-cell"
+          data-level={day.level}
+          title={`${fmt(day.date)}: ${day.count} contribution${day.count === 1 ? '' : 's'}`}
+        />
+      ))
+    }
+  </div>
+
+  <div class="mt-3 flex items-center justify-end gap-2 text-xs text-fg-muted">
+    <span>Less</span>
+    {[0, 1, 2, 3, 4].map((level) => <span class="contrib-cell" data-level={level} />)}
+    <span>More</span>
+  </div>
+</section>

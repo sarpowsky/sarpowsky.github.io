@@ -1,0 +1,31 @@
+---
+/** Local-time clock. Rendered empty and filled on mount to avoid shipping a
+    build-time timestamp that would be wrong for every visitor. */
+---
+
+<time id="clock" aria-live="off"></time>
+
+<script>
+  const clock = document.getElementById('clock');
+
+  if (clock) {
+    const tick = () => {
+      const now = new Date();
+      const pad = (n: number) => String(n).padStart(2, '0');
+      clock.textContent = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+      clock.setAttribute('datetime', now.toISOString());
+    };
+
+    tick();
+    let timer = window.setInterval(tick, 1000);
+
+    // Stop ticking in a hidden tab; resync on return so the time is never stale.
+    document.addEventListener('visibilitychange', () => {
+      clearInterval(timer);
+      if (!document.hidden) {
+        tick();
+        timer = window.setInterval(tick, 1000);
+      }
+    });
+  }
+</script>

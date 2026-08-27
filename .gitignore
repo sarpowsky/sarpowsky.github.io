@@ -1,2 +1,29 @@
-# Local Netlify folder
+# Build output
+dist/
+.astro/
+
+# Dependencies
+node_modules/
+
+# Environment
+.env
+.env.production
+.env.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Local hosting providers
 .netlify
+.vercel
+
+# Migration scratch (temporary, removed after content migration)
+.migration-assets/

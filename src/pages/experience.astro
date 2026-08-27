@@ -1,0 +1,108 @@
+---
+import { Image } from 'astro:assets';
+import { render } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Icon from '@components/ui/Icon.astro';
+import Modal from '@components/ui/Modal.astro';
+import ModalController from '@components/ui/modal-controller.astro';
+import { getExperience } from '@lib/content';
+import { resolveImage } from '@lib/images';
+
+const experience = await getExperience();
+
+// Render each entry's Markdown body once, up front, so the template stays
+// declarative and every modal has its detail content ready.
+const entries = await Promise.all(
+  experience.map(async (entry) => ({ entry, Content: (await render(entry)).Content }))
+);
+---
+
+<BaseLayout
+  title="Experience — _sarpowsky"
+  description="Internships, roles, and volunteer work by Sarp Can Karaman."
+>
+  <div class="mx-auto max-w-3xl">
+    <h1 class="mb-8 text-3xl font-bold">/experience</h1>
+
+    <ul class="space-y-4">
+      {
+        entries.map(({ entry }) => (
+          <li>
+            <button
+              type="button"
+              class="surface-card interactive-card flex items-start gap-4"
+              data-modal-open={`exp-${entry.id}`}
+              aria-haspopup="dialog"
+            >
+              <Image
+                src={resolveImage(entry.data.logo)}
+                alt=""
+                width={56}
+                height={56}
+                class="card-logo"
+                loading="lazy"
+              />
+              <span class="min-w-0 flex-1">
+                <span class="block text-base font-bold">{entry.data.role}</span>
+                <span class="block text-sm text-fg-muted">{entry.data.company}</span>
+                <span class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-fg-muted">
+                  <span class="inline-flex items-center gap-1">
+                    <Icon name="calendar" size={13} />
+                    {entry.data.duration}
+                  </span>
+                  <span class="inline-flex items-center gap-1">
+                    <Icon name="map-pin" size={13} />
+                    {entry.data.location}
+                  </span>
+                  <span class="tag">{entry.data.type}</span>
+                </span>
+              </span>
+            </button>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  {
+    entries.map(({ entry, Content }) => (
+      <Modal id={`exp-${entry.id}`} labelledby={`exp-${entry.id}-title`}>
+        <div class="flex items-start gap-4 pr-10">
+          <Image
+            src={resolveImage(entry.data.logo)}
+            alt=""
+            width={56}
+            height={56}
+            class="card-logo"
+          />
+          <div>
+            <h2 id={`exp-${entry.id}-title`} class="text-xl font-bold">
+              {entry.data.role}
+            </h2>
+            <p class="text-sm text-fg-muted">{entry.data.company}</p>
+          </div>
+        </div>
+
+        <div class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-fg-muted">
+          <span class="inline-flex items-center gap-1">
+            <Icon name="calendar" size={13} />
+            {entry.data.duration}
+          </span>
+          <span class="inline-flex items-center gap-1">
+            <Icon name="map-pin" size={13} />
+            {entry.data.location}
+          </span>
+          <span class="tag">{entry.data.type}</span>
+        </div>
+
+        {entry.data.summary && <p class="mt-4 text-sm text-fg-muted">{entry.data.summary}</p>}
+
+        <div class="prose-content mt-4">
+          <Content />
+        </div>
+      </Modal>
+    ))
+  }
+
+  <ModalController />
+</BaseLayout>

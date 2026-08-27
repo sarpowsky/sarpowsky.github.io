@@ -1,0 +1,73 @@
+---
+import { href } from '@lib/paths';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Optional social preview image, resolved against the site origin. */
+  image?: string;
+}
+
+const { title, description, image = '/og-image.png' } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL(image, Astro.site);
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content={Astro.generator} />
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+<link rel="sitemap" href={href('sitemap-index.xml')} />
+
+<!-- Open Graph / Twitter -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+
+<link rel="icon" href={href('favicon.svg')} type="image/svg+xml" />
+
+<!--
+  Fonts. `display=swap` means text paints immediately in the local fallback
+  stack and re-flows once the webfont arrives, rather than sitting invisible.
+  `preconnect` warms the TLS handshake so that swap happens sooner.
+
+  TheGoodMonolith is the site's display face and is only available from
+  cdnfonts, so it remains the one third-party asset on the critical path.
+  Self-hosting it (subset + woff2 in public/fonts/) would remove that
+  dependency entirely -- see README "Known trade-offs".
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preconnect" href="https://fonts.cdnfonts.com" crossorigin />
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
+/>
+<link rel="stylesheet" href="https://fonts.cdnfonts.com/css/thegoodmonolith" />
+
+<!--
+  Theme resolution runs before first paint so the correct palette is applied
+  with no flash. Kept inline and tiny on purpose: an external file would be
+  fetched after the initial paint, defeating the point.
+-->
+<script is:inline>
+  (function () {
+    try {
+      var stored = localStorage.getItem('theme');
+      if (stored === 'dark' || stored === 'light') {
+        document.documentElement.setAttribute('data-theme', stored);
+      }
+    } catch (e) {
+      /* Private mode or blocked storage: fall back to prefers-color-scheme. */
+    }
+  })();
+</script>

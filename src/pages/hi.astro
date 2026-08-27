@@ -1,0 +1,60 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { getAbout, getSkills } from '@lib/content';
+
+const about = await getAbout();
+const { Content } = await render(about);
+const skills = await getSkills();
+---
+
+<BaseLayout
+  title={`${about.data.greeting} — _sarpowsky`}
+  description={`${about.data.greeting}, ${about.data.subtitle}`}
+>
+  <div class="mx-auto max-w-3xl space-y-10">
+    <article class="surface-card p-8">
+      <h1 class="mb-6 text-3xl font-bold">{about.data.title}</h1>
+      <p class="text-xl">{about.data.greeting}</p>
+      <p class="mb-6 text-lg text-fg-muted">{about.data.subtitle}</p>
+      <div class="prose-content"><Content /></div>
+    </article>
+
+    {
+      skills.length > 0 && (
+        <section class="surface-card p-8" aria-labelledby="skills-heading">
+          <h2 id="skills-heading" class="mb-6 text-2xl font-bold">
+            Skills
+          </h2>
+          <div class="grid gap-8 sm:grid-cols-2">
+            {skills.map((group) => (
+              <div>
+                <h3 class="mb-4 text-sm tracking-wide text-accent uppercase">{group.data.name}</h3>
+                <ul class="space-y-3">
+                  {group.data.items.map((skill) => (
+                    <li>
+                      <div class="mb-1 flex items-baseline justify-between gap-3 text-sm">
+                        <span>{skill.name}</span>
+                        <span class="text-xs text-fg-muted">{skill.level}%</span>
+                      </div>
+                      <div
+                        class="skill-meter"
+                        role="meter"
+                        aria-valuenow={skill.level}
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                        aria-label={skill.name}
+                      >
+                        <div class="skill-meter-fill" style={`width:${skill.level}%`} />
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </section>
+      )
+    }
+  </div>
+</BaseLayout>

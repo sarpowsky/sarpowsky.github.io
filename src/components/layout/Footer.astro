@@ -1,0 +1,45 @@
+---
+import Icon from '@components/ui/Icon.astro';
+import ThemeToggle from '@components/ui/ThemeToggle.astro';
+import Clock from '@components/ui/Clock.astro';
+import { getProfile } from '@lib/content';
+import type { IconName } from '@lib/icons';
+
+const { data: profile } = await getProfile();
+
+// Driven by profile.md, so adding a network is a content edit, not a code edit.
+const SOCIALS: { key: keyof typeof profile.socials; icon: IconName; label: string }[] = [
+  { key: 'github', icon: 'github', label: 'GitHub' },
+  { key: 'linkedin', icon: 'linkedin', label: 'LinkedIn' },
+  { key: 'instagram', icon: 'instagram', label: 'Instagram' },
+  { key: 'spotify', icon: 'music', label: 'Spotify' },
+];
+
+const links = SOCIALS.filter((s) => Boolean(profile.socials[s.key]));
+---
+
+<footer class="site-footer">
+  <div class="container mx-auto flex flex-wrap items-center justify-between gap-4">
+    <ul class="flex items-center gap-3">
+      {
+        links.map((social) => (
+          <li>
+            <a
+              href={profile.socials[social.key]}
+              class="social-icon"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Icon name={social.icon} label={`${social.label} (opens in a new tab)`} />
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="flex items-center gap-3">
+      <ThemeToggle />
+      <Clock />
+    </div>
+  </div>
+</footer>

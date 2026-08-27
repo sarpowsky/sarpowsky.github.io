@@ -1,0 +1,177 @@
+# Pages CMS configuration — https://pagescms.org
+#
+# A visual editor for the Markdown in src/content/. Sign in at pagescms.org
+# with GitHub, grant access to this repository, and it reads this file to build
+# the editing forms. There is no OAuth app to register, no admin bundle to host,
+# and no server to run: it edits files and commits them, and the deploy workflow
+# rebuilds the site.
+#
+# `media.output` is `/src/assets`, which is exactly the repo-root-absolute form
+# the content schemas expect, so images picked in the browser resolve correctly
+# and are still optimized by Astro at build time.
+
+media:
+  input: src/assets
+  output: /src/assets
+  extensions: [png, jpg, jpeg, gif, webp, svg, avif]
+
+content:
+  - name: profile
+    label: Profile
+    type: file
+    path: src/content/profile/profile.md
+    icon: user
+    fields:
+      - { name: name, label: Full name, type: string, required: true }
+      - { name: title, label: Headline, type: string, required: true }
+      - { name: tagline, label: Tagline, type: text, required: true }
+      - { name: avatar, label: Profile picture, type: image, required: true }
+      - { name: email, label: Email, type: string, required: true, options: { format: email } }
+      - { name: resume, label: Resume path, type: string, required: true }
+      - name: socials
+        label: Social links
+        type: object
+        fields:
+          - { name: github, label: GitHub, type: string, required: true }
+          - { name: linkedin, label: LinkedIn, type: string, required: true }
+          - { name: instagram, label: Instagram, type: string }
+          - { name: spotify, label: Spotify, type: string }
+
+  - name: about
+    label: About page
+    type: file
+    path: src/content/about/about.md
+    icon: file-text
+    fields:
+      - { name: title, label: Page heading, type: string, required: true }
+      - { name: greeting, label: Greeting, type: string, required: true }
+      - { name: subtitle, label: Subtitle, type: string, required: true }
+      - { name: body, label: Biography, type: rich-text }
+
+  - name: experience
+    label: Experience
+    type: collection
+    path: src/content/experience
+    filename: '{fields.company}.md'
+    icon: briefcase
+    view:
+      fields: [role, company, duration, order]
+      sort: [order]
+      primary: role
+    fields:
+      - { name: role, label: Job title, type: string, required: true }
+      - { name: company, label: Company, type: string, required: true }
+      - { name: location, label: Location, type: string, required: true }
+      - {
+          name: duration,
+          label: Duration,
+          type: string,
+          required: true,
+          description: 'e.g. "July - August 2025"',
+        }
+      - name: type
+        label: Type
+        type: select
+        required: true
+        options:
+          values: [Internship, Voluntary, Full-time, Part-time, Freelance]
+      - { name: logo, label: Company logo, type: image, required: true }
+      - { name: summary, label: One-line summary, type: text }
+      - {
+          name: order,
+          label: Sort order,
+          type: number,
+          default: 99,
+          description: 'Lower numbers appear first.',
+        }
+      - { name: draft, label: Draft, type: boolean, default: false }
+      - {
+          name: body,
+          label: Details,
+          type: rich-text,
+          description: 'Use "## Responsibilities" and "## Achievements" headings.',
+        }
+
+  - name: projects
+    label: Projects
+    type: collection
+    path: src/content/projects
+    filename: '{fields.title}.md'
+    icon: code
+    view:
+      fields: [title, order, featured]
+      sort: [order]
+      primary: title
+    fields:
+      - { name: title, label: Title, type: string, required: true }
+      - { name: description, label: Description, type: text, required: true }
+      - { name: link, label: Repository or demo URL, type: string, required: true }
+      - { name: tags, label: Tech tags, type: string, list: true }
+      - { name: cover, label: Cover image, type: image }
+      - { name: order, label: Sort order, type: number, default: 99 }
+      - { name: featured, label: Featured, type: boolean, default: false }
+      - { name: draft, label: Draft, type: boolean, default: false }
+
+  - name: certificates
+    label: Certificates
+    type: collection
+    path: src/content/certificates
+    filename: '{fields.name}.md'
+    icon: award
+    view:
+      fields: [name, issuer, issuedOn]
+      sort: [issuedOn]
+      primary: name
+    fields:
+      - { name: name, label: Certificate name, type: string, required: true }
+      - { name: issuer, label: Issued by, type: string, required: true }
+      - {
+          name: date,
+          label: Display date,
+          type: string,
+          required: true,
+          description: 'e.g. "September 2025"',
+        }
+      - { name: issuedOn, label: Issue date (for sorting), type: date, required: true }
+      - { name: image, label: Certificate image, type: image, required: true }
+      - { name: description, label: Description, type: text, required: true }
+      - { name: credentialUrl, label: Verification URL, type: string }
+      - { name: draft, label: Draft, type: boolean, default: false }
+
+  - name: skills
+    label: Skill groups
+    type: collection
+    path: src/content/skills
+    filename: '{fields.name}.md'
+    icon: bar-chart
+    view:
+      fields: [name, order]
+      sort: [order]
+      primary: name
+    fields:
+      - { name: name, label: Group name, type: string, required: true }
+      - { name: order, label: Sort order, type: number, default: 99 }
+      - name: items
+        label: Skills
+        type: object
+        list: true
+        fields:
+          - { name: name, label: Skill, type: string, required: true }
+          - { name: level, label: Level (0-100), type: number, required: true }
+
+  - name: posts
+    label: LinkedIn posts
+    type: collection
+    path: src/content/posts
+    filename: '{fields.title}.md'
+    icon: linkedin
+    view:
+      fields: [title, date]
+      sort: [date]
+      primary: title
+    fields:
+      - { name: title, label: Title, type: string, required: true }
+      - { name: excerpt, label: Excerpt, type: text, required: true }
+      - { name: date, label: Posted on, type: date, required: true }
+      - { name: link, label: Post URL, type: string, required: true }
+      - { name: draft, label: Draft, type: boolean, default: false }

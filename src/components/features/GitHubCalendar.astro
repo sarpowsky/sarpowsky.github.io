@@ -37,15 +37,30 @@ const fmt = (iso: string) =>
     <h2 id="contrib-heading" class="text-lg font-bold">GitHub Contributions</h2>
     <p class="text-sm text-fg-muted">
       {total.toLocaleString()} contributions
-      {first && last && <> · {fmt(first)} – {fmt(last)}</>}
+      {
+        first && last && (
+          <>
+            {' '}
+            · {fmt(first)} – {fmt(last)}
+          </>
+        )
+      }
     </p>
   </div>
 
-  <div class="contrib-grid" role="img" aria-label={`Contribution heatmap: ${total} contributions between ${first && fmt(first)} and ${last && fmt(last)}.`}>
+  <div
+    class="contrib-grid"
+    role="img"
+    aria-label={`Contribution heatmap: ${total} contributions between ${first && fmt(first)} and ${last && fmt(last)}.`}
+  >
     {Array.from({ length: leadingBlanks }).map(() => <span class="contrib-cell" data-level="0" />)}
     {
       days.map((day) => (
-        <span class="contrib-cell" data-level={day.level} title={`${fmt(day.date)}: ${day.count} contribution${day.count === 1 ? '' : 's'}`} />
+        <span
+          class="contrib-cell"
+          data-level={day.level}
+          title={`${fmt(day.date)}: ${day.count} contribution${day.count === 1 ? '' : 's'}`}
+        />
       ))
     }
   </div>

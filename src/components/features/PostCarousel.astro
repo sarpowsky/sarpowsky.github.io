@@ -5,13 +5,20 @@ import { getPosts } from '@lib/content';
 const posts = await getPosts();
 
 const fmt = (d: Date) =>
-  d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+  d.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    timeZone: 'UTC',
+  });
 ---
 
 {
   posts.length > 0 && (
     <section class="linkedin-section" aria-labelledby="posts-heading" data-carousel>
-      <h2 id="posts-heading" class="mb-4 text-lg font-bold">Latest LinkedIn Posts</h2>
+      <h2 id="posts-heading" class="mb-4 text-lg font-bold">
+        Latest LinkedIn Posts
+      </h2>
 
       <div class="surface-card overflow-hidden">
         <div class="carousel-viewport overflow-hidden">
@@ -143,7 +150,9 @@ const fmt = (d: Date) =>
     root.addEventListener('mouseenter', stopAuto);
     root.addEventListener('mouseleave', startAuto);
     root.addEventListener('focusin', stopAuto);
-    document.addEventListener('visibilitychange', () => (document.hidden ? stopAuto() : startAuto()));
+    document.addEventListener('visibilitychange', () =>
+      document.hidden ? stopAuto() : startAuto()
+    );
     reduce.addEventListener('change', () => (reduce.matches ? stopAuto() : startAuto()));
 
     show(0);

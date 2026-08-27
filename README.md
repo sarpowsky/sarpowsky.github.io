@@ -1,261 +1,205 @@
-# _sarpowsky Portfolio
+# sarpowsky.github.io
 
-A modern, interactive portfolio website showcasing professional experience, projects, and skills with a unique Matrix-inspired aesthetic and dynamic content management via Contentful CMS.
+Personal portfolio for **Sarp Can Karaman** — an Astro static site deployed to
+GitHub Pages, with all content managed as Markdown in this repository.
 
-## ✨ Features
-
-- **Matrix Animation Background**: Dynamic, interactive canvas-based animation with responsive performance optimizations
-- **Theme Switching**: Seamless dark/light mode toggle with persistent user preferences
-- **Responsive Design**: Fully optimized layout adaptations for all device sizes
-- **Dynamic Content**: Content managed via Contentful CMS with automatic fallback to static data
-- **Interactive Elements**:
-  - 3D card effects with tilt and perspective transforms
-  - Animated section transitions with particle effects
-  - Keyboard navigation support
-  - Skeleton loading states
-- **Content Components**:
-  - LinkedIn posts carousel with auto-rotation
-  - GitHub contribution visualization
-  - Skills progress visualization
-  - Projects showcase with dynamic loading
-  - Certificates gallery with modal view
-  - Experience timeline with detailed modals
-- **Accessibility Features**: Reduced motion support, high-contrast compatibility, and keyboard navigation
-- **Performance Optimized**: Efficient rendering, lazy loading, caching, and reduced animations for resource conservation
-
-## 🛠️ Tech Stack
-
-| Category | Technologies |
-|----------|-------------|
-| Frontend | JavaScript ES6 Modules, HTML5, CSS3 |
-| Styling | Tailwind CSS, Custom CSS Components |
-| CMS | Contentful (Headless CMS) |
-| Animation | HTML5 Canvas, CSS Animations |
-| Icons | Feather Icons |
-| Hosting | GitHub Pages |
-
-## 📁 Project Structure
-
-```
-portfolio/
-├── index.html                 # Main landing page
-├── pages/                     # Individual content pages
-│   ├── about.html
-│   ├── experience.html
-│   ├── projects.html
-│   ├── skills.html
-│   └── certificates.html
-├── assets/
-│   ├── css/
-│   │   ├── styles.css         # Main stylesheet (imports all components)
-│   │   ├── responsive.css     # Responsive breakpoints
-│   │   └── components/        # Modular CSS components
-│   │       ├── theme.css
-│   │       ├── layout.css
-│   │       ├── matrix.css
-│   │       ├── animations.css
-│   │       ├── loading.css
-│   │       └── ...
-│   └── js/
-│       ├── main.js            # Main page application
-│       ├── page.js            # Individual pages application
-│       ├── config/
-│       │   └── contentful.config.js
-│       ├── services/
-│       │   ├── contentfulService.js
-│       │   ├── contentFetchers.js
-│       │   └── cacheService.js
-│       ├── transformers/      # Contentful data transformers
-│       ├── components/        # UI components
-│       ├── utils/             # Utility functions
-│       └── data/              # Static fallback data
-├── images/                    # Static images
-└── .github/
-    └── workflows/             # GitHub Actions
-```
-
-## 🚀 Quick Start
-
-### Prerequisites
-
-- A modern web browser
-- (Optional) Node.js 16+ for local development
-- (Optional) Contentful account for CMS features
-
-### Local Development
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/sarpowsky/sarpowsky.github.io.git
-   cd sarpowsky.github.io
-   ```
-
-2. **Start a local server**
-   ```bash
-   # Using Python
-   python -m http.server 8000
-   
-   # Using Node.js
-   npx serve .
-   
-   # Using VS Code Live Server extension
-   # Right-click index.html → "Open with Live Server"
-   ```
-
-3. **Open in browser**
-   ```
-   http://localhost:8000
-   ```
-
-### Content Management
-
-The portfolio supports two content modes:
-
-1. **Static Mode** (Default): Content loads from static JavaScript files in `assets/js/data/`
-2. **CMS Mode**: Content loads from Contentful with automatic fallback to static
-
-To enable CMS mode, see [CONTENTFUL_SETUP.md](./CONTENTFUL_SETUP.md).
-
-## ⚙️ Configuration
-
-### Environment Variables
-
-Create a `contentful.config.js` file (or update the existing one):
-
-```javascript
-// assets/js/config/contentful.config.js
-const ContentfulConfig = {
-    spaceId: 'YOUR_SPACE_ID',
-    accessToken: 'YOUR_ACCESS_TOKEN',
-    environment: 'master',
-    debug: false  // Set to true for development
-};
-
-export default ContentfulConfig;
-```
-
-### Debug Mode
-
-Enable debug mode to see content source indicators and detailed logging:
-
-```javascript
-// In contentful.config.js
-debug: true
-```
-
-This will show:
-- Content source badges (Contentful/Static/Cached)
-- Console logs for all content operations
-- Cache statistics
-
-## 📝 Content Types
-
-| Type | Description | Contentful Model |
-|------|-------------|-----------------|
-| Profile | Name, title, social links | `profile` |
-| About | Greeting, bio paragraphs | `about` |
-| Experience | Work history with details | `experience` |
-| Project | Portfolio projects | `project` |
-| Skill | Skill categories and levels | `skill` |
-| Certificate | Certifications and achievements | `certificate` |
-| LinkedIn Post | Social media updates | `linkedInPost` |
-
-## 🎨 Customization
-
-### Theme Colors
-
-Edit `assets/css/components/theme.css`:
-
-```css
-/* Dark mode colors */
-body.dark-mode {
-    background-color: #121212;
-    color: #e0e0e0;
-}
-
-/* Light mode colors */
-body.light-mode {
-    background-color: #f4f4f4;
-    color: #333;
-}
-```
-
-### Matrix Animation
-
-Adjust in `assets/js/components/matrix.js`:
-
-```javascript
-this.dropSpeed = 0.5;  // Character fall speed
-this.FRAME_THRESHOLD = 1000 / 30;  // FPS cap
-```
-
-### Skill Levels
-
-Update in `assets/js/data/skillsData.js`:
-
-```javascript
-{
-    name: "Python",
-    level: 70  // Percentage (40-70 recommended for students)
-}
-```
-
-## 🔧 Development
-
-### Adding New Content Types
-
-1. Create transformer in `assets/js/transformers/`
-2. Add fetcher function in `assets/js/services/contentFetchers.js`
-3. Add static fallback in `assets/js/data/`
-4. Update `assets/js/data/content.js` exports
-
-### Updating Static Content
-
-Edit files in `assets/js/data/`:
-- `profileData.js` - Profile information
-- `aboutData.js` - About section
-- `experienceData.js` - Work experience
-- `projectsData.js` - Projects
-- `skillsData.js` - Skills and levels
-- `certificatesData.js` - Certificates
-
-## 🐛 Troubleshooting
-
-### Content not loading
-
-1. Check browser console for errors
-2. Verify Contentful credentials in config
-3. Enable debug mode to see content source
-4. Clear localStorage cache: `localStorage.clear()`
-
-### Matrix animation lag
-
-1. Reduce FPS in matrix.js
-2. Check for memory leaks in DevTools
-3. Disable other animations temporarily
-
-### Images not displaying
-
-1. Check image paths in data files
-2. Verify images exist in `/images/` directory
-3. Check for CORS issues if using external URLs
-
-## 📄 License
-
-MIT License - See [LICENSE.md](./LICENSE.md) for details.
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
-
-## 📬 Contact
-
-- GitHub: [@sarpowsky](https://github.com/sarpowsky)
-- LinkedIn: [Sarp Can Karaman](https://www.linkedin.com/in/sarp-can-karaman/)
+[![CI](https://github.com/sarpowsky/sarpowsky.github.io/actions/workflows/ci.yml/badge.svg)](https://github.com/sarpowsky/sarpowsky.github.io/actions/workflows/ci.yml)
+[![Deploy](https://github.com/sarpowsky/sarpowsky.github.io/actions/workflows/deploy.yml/badge.svg)](https://github.com/sarpowsky/sarpowsky.github.io/actions/workflows/deploy.yml)
 
 ---
 
-Built with ❤️ by Sarp Can Karaman
+## Quick start
+
+```bash
+nvm use          # Node version from .nvmrc
+npm ci           # install exactly the lockfile
+npm run dev      # http://localhost:4321
+```
+
+| Command               | What it does                                                  |
+| --------------------- | ------------------------------------------------------------- |
+| `npm run dev`         | Dev server with hot reload                                    |
+| `npm run build`       | Type-check, validate content, then build to `dist/`           |
+| `npm run preview`     | Serve the production build locally                            |
+| `npm run verify`      | Everything CI runs: format, types, content, build, links      |
+| `npm run check:links` | Verify every internal link and asset resolves (needs `dist/`) |
+| `npm run format`      | Apply Prettier                                                |
+| `npm run data:github` | Refresh the contribution heatmap (needs `GITHUB_TOKEN`)       |
+
+Run `npm run verify` before opening a pull request — it is the same gate CI applies.
+
+---
+
+## Editing content
+
+**No code changes are needed to update the site.** Every editable thing is a
+Markdown file under `src/content/`, validated against a schema at build time.
+
+### Option 1 — Visual editor (no terminal)
+
+Go to **[pagescms.org](https://pagescms.org)**, sign in with GitHub, and grant
+access to this repository. It reads [`.pages.yml`](.pages.yml) and generates
+editing forms with image upload for every collection. Saving commits to the
+repo, which triggers a rebuild and redeploy.
+
+There is nothing to install or host — no OAuth app, no admin bundle, no server.
+
+### Option 2 — Edit the Markdown directly
+
+In your editor, or straight from github.com (press `.` in the repo to open the
+web editor).
+
+```
+src/content/
+├── profile/profile.md      # name, tagline, email, résumé, social links
+├── about/about.md          # the /hi page; prose lives in the Markdown body
+├── experience/*.md         # one file per role
+├── projects/*.md           # one file per project
+├── certificates/*.md       # one file per certificate
+├── skills/*.md             # one file per skill group
+└── posts/*.md              # LinkedIn highlights on the home page
+```
+
+Adding a project is one new file:
+
+```markdown
+---
+title: My New Project
+description: What it does and what it is built with.
+link: https://github.com/sarpowsky/my-new-project
+order: 3
+tags:
+  - Python
+  - PyTorch
+---
+```
+
+**Images** go in `src/assets/` and are referenced by a repo-root-absolute path
+(`/src/assets/certificates/aws.png`). Astro resizes, converts to WebP, and
+hashes them at build time — a 1.3MB source PNG ships as a 5KB WebP.
+
+**Drafts:** set `draft: true` on any entry. It renders in `npm run dev` and is
+excluded from the production build.
+
+Schemas live in [`src/content.config.ts`](src/content.config.ts). If a required
+field is missing or an image path is wrong, `npm run build` fails with the file
+and field named — broken content cannot reach production.
+
+---
+
+## Architecture
+
+```
+src/
+├── content.config.ts     # zod schemas — the contract for all content
+├── content/              # the content itself (Markdown)
+├── assets/               # images, optimized at build time
+├── data/                 # generated data (GitHub contributions)
+├── layouts/              # BaseLayout: head, nav, footer, backdrop
+├── components/
+│   ├── layout/           # BaseHead, Nav, Footer
+│   ├── ui/               # Icon, Modal, ThemeToggle, Clock
+│   ├── features/         # PostCarousel, GitHubCalendar
+│   └── effects/          # MatrixRain
+├── lib/                  # content access, image resolution, paths, icons
+├── pages/                # one file per route
+└── styles/               # global.css (tokens + base), components.css
+```
+
+Principles the structure enforces:
+
+- **Content is data, not markup.** Pages read from collections; they never
+  hardcode a job title or a certificate name.
+- **One definition per concept.** Nav links live in `src/lib/nav.ts`. Colours are
+  custom properties defined once and swapped per theme. The header and footer
+  exist in exactly one file each.
+- **Nothing is fetched at runtime.** Everything — content, images, the
+  contribution heatmap — is resolved at build time. The site is HTML, CSS, and
+  ~4KB of progressive-enhancement JavaScript.
+- **Broken things fail the build**, not the visitor's browser.
+
+### Theming
+
+Colours are declared once as custom properties on `:root` and re-declared only
+where the palette changes:
+
+- `:root` — light palette (the default)
+- `@media (prefers-color-scheme: dark)` — dark palette for "system"
+- `:root[data-theme="dark"|"light"]` — an explicit choice, which wins
+
+An inline script in `BaseHead.astro` stamps `data-theme` before first paint, so
+there is no flash of the wrong theme.
+
+---
+
+## Deployment
+
+Pushes to `main` trigger [`deploy.yml`](.github/workflows/deploy.yml), which
+type-checks, validates content, builds, verifies links, and publishes to GitHub
+Pages via the Actions pipeline.
+
+**Required repository settings:**
+
+| Setting                         | Value            |
+| ------------------------------- | ---------------- |
+| Settings → Pages → Source       | _GitHub Actions_ |
+| Settings → General → Visibility | _Public_         |
+
+Pages will not serve a site from a private repository on a free account — it
+builds successfully and then returns 404 on every path, which is exactly the
+failure this repo hit. Either keep the repo public or upgrade to GitHub Pro.
+
+`public/.nojekyll` is required and must stay: without it, Pages runs Jekyll over
+the output and silently drops Astro's `_astro/` directory of hashed CSS, JS, and
+images.
+
+### Secrets
+
+| Secret                | Used by                  | Scope       |
+| --------------------- | ------------------------ | ----------- |
+| `CONTRIBUTIONS_TOKEN` | `update-github-data.yml` | `read:user` |
+
+Create it as a fine-grained PAT with read-only access. Nothing else in this repo
+needs a secret — the site has no runtime API calls and no client-side keys.
+
+---
+
+## CI
+
+| Workflow                 | Trigger                        | Does                                                     |
+| ------------------------ | ------------------------------ | -------------------------------------------------------- |
+| `ci.yml`                 | PRs, pushes to non-`main`      | Format, types, content schemas, build, links, Lighthouse |
+| `deploy.yml`             | Push to `main`, manual         | Same gates, then publish to Pages                        |
+| `update-github-data.yml` | Weekly (Mon 04:00 UTC), manual | Refresh contribution heatmap, commit if changed          |
+
+Dependabot ([`dependabot.yml`](.github/dependabot.yml)) opens grouped weekly
+dependency PRs and monthly action updates.
+
+Accessibility is a **hard** Lighthouse gate (≥ 0.95). Performance is collected
+but only warns, because runner timing is too variable to assert strictly.
+
+---
+
+## Known trade-offs
+
+- **The display font (`TheGoodMonolith`) is loaded from cdnfonts**, the one
+  remaining third-party asset on the critical path. It is loaded with
+  `display=swap` behind a `preconnect`, so it never blocks text from painting.
+  Self-hosting a subset in `public/fonts/` would remove the dependency; it was
+  left external to preserve the exact typeface without redistributing the file.
+- **The contribution heatmap is refreshed weekly, not live.** That is
+  deliberate: it costs the visitor zero requests, and a day-stale heatmap is a
+  better trade than an API call on every page view.
+
+---
+
+## History
+
+Version 2 is a rebuild. The previous site was a hand-written multi-page vanilla
+JS app that fetched content from Contentful at runtime. What changed and why is
+recorded in the commit history on the `rebuild/astro-architecture` branch —
+each commit explains the problem it addresses.
+
+## License
+
+[MIT](LICENSE.md)

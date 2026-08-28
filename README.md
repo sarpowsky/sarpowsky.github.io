@@ -57,7 +57,7 @@ src/content/
 ├── projects/*.md           # one file per project
 ├── certificates/*.md       # one file per certificate
 ├── skills/*.md             # one file per skill group
-└── posts/*.md              # LinkedIn highlights on the home page
+└── posts/*.md              # Archived social posts (not rendered on the site)
 ```
 
 Adding a project is one new file:
@@ -99,7 +99,7 @@ src/
 ├── components/
 │   ├── layout/           # BaseHead, Nav, Footer
 │   ├── ui/               # Icon, Modal, ThemeToggle, Clock
-│   ├── features/         # PostCarousel, GitHubCalendar
+│   ├── features/         # GitHubCalendar
 │   └── effects/          # MatrixRain
 ├── lib/                  # content access, image resolution, paths, icons
 ├── pages/                # one file per route

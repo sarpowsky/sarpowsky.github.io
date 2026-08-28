@@ -2,7 +2,6 @@
 import BaseHead from '@components/layout/BaseHead.astro';
 import Nav from '@components/layout/Nav.astro';
 import Footer from '@components/layout/Footer.astro';
-import MatrixRain from '@components/effects/MatrixRain.astro';
 import '@styles/global.css';
 import '@styles/components.css';
 
@@ -23,11 +22,11 @@ const { title, description, image } = Astro.props;
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
 
-    <MatrixRain />
+    <div class="site-backdrop" aria-hidden="true"></div>
 
     <div class="relative z-10 flex min-h-svh flex-col">
       <Nav />
-      <main id="main" class="page-shell w-full flex-1 py-10 text-center md:py-16">
+      <main id="main" class="page-shell w-full flex-1 py-10 md:py-16" tabindex="-1">
         <slot />
       </main>
       <Footer />

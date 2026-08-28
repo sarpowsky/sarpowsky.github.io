@@ -1,28 +1,41 @@
 ---
 import { href, isCurrent } from '@lib/paths';
 import { NAV_LINKS } from '@lib/nav';
+import ThemeToggle from '@components/ui/ThemeToggle.astro';
 
 const pathname = Astro.url.pathname;
 ---
 
-<nav class="site-nav" aria-label="Primary">
-  <div class="page-shell flex flex-col items-center gap-3 text-center">
-    <a href={href('/')} class="nav-link text-xl font-bold">_sarpowsky</a>
+<header class="site-nav">
+  <div class="page-shell nav-shell">
+    <a
+      href={href('/')}
+      class="site-brand"
+      aria-label="Sarpowsky, home"
+      aria-current={isCurrent(pathname, '/') ? 'page' : undefined}
+    >
+      <span aria-hidden="true">~/</span>sarpowsky<span class="brand-mark" aria-hidden="true">.</span
+      >
+    </a>
 
-    <ul class="flex flex-wrap justify-center gap-4 md:gap-6">
-      {
-        NAV_LINKS.map((link) => (
-          <li>
-            <a
-              href={href(link.href)}
-              class="nav-link"
-              aria-current={isCurrent(pathname, link.href) ? 'page' : undefined}
-            >
-              {link.label}
-            </a>
-          </li>
-        ))
-      }
-    </ul>
+    <nav class="primary-nav" aria-label="Primary">
+      <ul>
+        {
+          NAV_LINKS.map((link) => (
+            <li>
+              <a
+                href={href(link.href)}
+                class="nav-link"
+                aria-current={isCurrent(pathname, link.href) ? 'page' : undefined}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <ThemeToggle />
   </div>
-</nav>
+</header>

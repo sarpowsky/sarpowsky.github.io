@@ -1,34 +1,11 @@
-/* ==========================================================================
-   Global stylesheet — design tokens, base layer, and theming.
-
-   Theming model
-   -------------
-   The old site toggled `.dark-mode` / `.light-mode` classes on <body> and
-   re-declared every colour inside each branch, which is why a single accent
-   change meant editing a dozen selectors. Here, colours are declared **once**
-   as custom properties and only the token values swap per theme:
-
-     :root                                  -> light palette (the default)
-     @media (prefers-color-scheme: dark)    -> dark palette for "system"
-     :root[data-theme="dark"|"light"]       -> explicit user choice wins
-
-   `data-theme` is stamped on <html> by an inline script in BaseHead.astro
-   before first paint, so there is no flash of the wrong theme.
-   ========================================================================== */
-
 @import 'tailwindcss';
 
-/* Matches the theme model above so `dark:` utilities follow the same rules. */
 @custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
 
-/* --------------------------------------------------------------------------
-   Tokens exposed to Tailwind (usable as bg-surface, text-accent, font-mono …)
-   -------------------------------------------------------------------------- */
 @theme {
-  --font-mono:
-    'TheGoodMonolith', 'JetBrains Mono', ui-monospace, SFMono-Regular, 'SF Mono', Menlo, monospace;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, 'SF Mono', Menlo, monospace;
   --font-sans:
-    Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
   --color-bg: var(--bg);
   --color-surface: var(--surface);
@@ -39,79 +16,78 @@
   --color-accent: var(--accent);
   --color-accent-contrast: var(--accent-contrast);
 
-  --radius-card: 0.5rem;
+  --radius-card: 1rem;
   --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* --------------------------------------------------------------------------
-   Palettes
-   -------------------------------------------------------------------------- */
-
-/* Light — the fallback when no preference and no explicit choice exist. */
 :root {
-  --bg: #f4f4f4;
-  --surface: rgb(255 255 255 / 0.95);
+  --bg: #f4f7f4;
+  --surface: rgb(255 255 255 / 0.76);
   --surface-raised: #ffffff;
-  --fg: #1f2328;
-  --fg-muted: #55606d;
-  --border: rgb(31 35 40 / 0.18);
-  --accent: #0b7a35;
+  --surface-subtle: #eaf0eb;
+  --fg: #132019;
+  --fg-muted: #536259;
+  --border: rgb(19 32 25 / 0.17);
+  --border-strong: rgb(19 32 25 / 0.32);
+  --accent: #087a4f;
+  --accent-hover: #05643f;
+  --accent-soft: rgb(8 122 79 / 0.1);
   --accent-contrast: #ffffff;
-
-  /* Matrix rain: dark glyphs and a light trail wash. */
-  --matrix-glyph: #111111;
-  --matrix-trail: rgb(244 244 244 / 0.06);
-  --scrim: rgb(244 244 244 / 0.72);
+  --grid-line: rgb(19 32 25 / 0.045);
+  --nav-bg: rgb(244 247 244 / 0.84);
+  --shadow-sm: 0 1px 2px rgb(8 24 15 / 0.05), 0 8px 28px rgb(8 24 15 / 0.06);
+  --shadow-lg: 0 30px 80px rgb(8 24 15 / 0.16);
 
   color-scheme: light;
 }
 
-/* Dark for viewers on "system", unless they explicitly chose light. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --bg: #121212;
-    --surface: rgb(0 0 0 / 0.95);
-    --surface-raised: #1a1a1a;
-    --fg: #e0e0e0;
-    --fg-muted: #9aa0a6;
-    --border: rgb(224 224 224 / 0.22);
-    --accent: #00ff41;
-    --accent-contrast: #071b0c;
-
-    --matrix-glyph: #00ff41;
-    --matrix-trail: rgb(0 0 0 / 0.06);
-    --scrim: rgb(18 18 18 / 0.72);
+    --bg: #07110c;
+    --surface: rgb(13 27 19 / 0.78);
+    --surface-raised: #0f1d15;
+    --surface-subtle: #12251a;
+    --fg: #edf7f0;
+    --fg-muted: #9bafa2;
+    --border: rgb(226 247 232 / 0.17);
+    --border-strong: rgb(226 247 232 / 0.3);
+    --accent: #61e89e;
+    --accent-hover: #82f2b4;
+    --accent-soft: rgb(97 232 158 / 0.1);
+    --accent-contrast: #04130a;
+    --grid-line: rgb(222 248 230 / 0.045);
+    --nav-bg: rgb(7 17 12 / 0.84);
+    --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.18), 0 12px 32px rgb(0 0 0 / 0.2);
+    --shadow-lg: 0 30px 90px rgb(0 0 0 / 0.36);
 
     color-scheme: dark;
   }
 }
 
-/* Explicit choice — must win in both directions, so it is declared last. */
 :root[data-theme='dark'] {
-  --bg: #121212;
-  --surface: rgb(0 0 0 / 0.95);
-  --surface-raised: #1a1a1a;
-  --fg: #e0e0e0;
-  --fg-muted: #9aa0a6;
-  --border: rgb(224 224 224 / 0.22);
-  --accent: #00ff41;
-  --accent-contrast: #071b0c;
-
-  --matrix-glyph: #00ff41;
-  --matrix-trail: rgb(0 0 0 / 0.06);
-  --scrim: rgb(18 18 18 / 0.72);
+  --bg: #07110c;
+  --surface: rgb(13 27 19 / 0.78);
+  --surface-raised: #0f1d15;
+  --surface-subtle: #12251a;
+  --fg: #edf7f0;
+  --fg-muted: #9bafa2;
+  --border: rgb(226 247 232 / 0.17);
+  --border-strong: rgb(226 247 232 / 0.3);
+  --accent: #61e89e;
+  --accent-hover: #82f2b4;
+  --accent-soft: rgb(97 232 158 / 0.1);
+  --accent-contrast: #04130a;
+  --grid-line: rgb(222 248 230 / 0.045);
+  --nav-bg: rgb(7 17 12 / 0.84);
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.18), 0 12px 32px rgb(0 0 0 / 0.2);
+  --shadow-lg: 0 30px 90px rgb(0 0 0 / 0.36);
 
   color-scheme: dark;
 }
 
-/* --------------------------------------------------------------------------
-   Base layer
-   -------------------------------------------------------------------------- */
 @layer base {
-  /* The distinctive display face. Loaded with `display: swap` via the
-     stylesheet link in BaseHead so it never blocks first paint; the mono
-     fallback stack above keeps the layout stable while it loads. */
   html {
+    min-width: 20rem;
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
   }
@@ -120,29 +96,31 @@
     min-height: 100svh;
     display: flex;
     flex-direction: column;
-    background-color: var(--bg);
-    color: var(--fg);
-    font-family: var(--font-mono);
-    font-weight: 600;
     overflow-x: hidden;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.55;
     transition:
       background-color 0.3s var(--ease-out-soft),
       color 0.3s var(--ease-out-soft);
   }
 
-  /* The old stylesheet set `overflow: hidden` on body, which silently trapped
-     content taller than the viewport on small screens. Explicitly allow the
-     page to scroll instead. */
   main {
-    flex: 1 0 auto;
     position: relative;
     z-index: 10;
+    flex: 1 0 auto;
   }
 
   h1,
   h2,
   h3 {
-    letter-spacing: -0.03em;
+    color: var(--fg);
+    font-family: var(--font-mono);
+    font-weight: 600;
+    letter-spacing: -0.045em;
     text-wrap: balance;
   }
 
@@ -150,17 +128,21 @@
     text-wrap: pretty;
   }
 
-  /* Every interactive element gets a visible, high-contrast focus ring.
-     The previous build set `outline: none` on the theme toggle with no
-     replacement, leaving keyboard users with no indication of focus. */
-  :where(a, button, input, summary, [tabindex]):focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 3px;
-    border-radius: 2px;
+  ::selection {
+    background: var(--accent);
+    color: var(--accent-contrast);
   }
 
-  /* Respect the OS "reduce motion" setting: stop the matrix rain, the
-     carousel auto-advance, and all decorative transitions. */
+  :where(a, button, input, summary, [tabindex]):focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+    border-radius: 0.35rem;
+  }
+
+  #main:focus {
+    outline: none;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
@@ -172,20 +154,24 @@
     }
   }
 
-  /* Skip link — keyboard users can jump past the nav on every page. */
   .skip-link {
-    position: absolute;
-    left: 0.5rem;
-    top: -100%;
+    position: fixed;
+    top: 0.75rem;
+    left: 0.75rem;
     z-index: 200;
-    padding: 0.6rem 1rem;
+    padding: 0.7rem 1rem;
+    border-radius: 0.5rem;
     background: var(--accent);
     color: var(--accent-contrast);
-    border-radius: 4px;
-    transition: top 0.2s var(--ease-out-soft);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-decoration: none;
+    transform: translateY(calc(-100% - 1.5rem));
+    transition: transform 0.2s var(--ease-out-soft);
   }
 
   .skip-link:focus-visible {
-    top: 0.5rem;
+    transform: none;
   }
 }

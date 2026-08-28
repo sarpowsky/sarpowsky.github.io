@@ -98,9 +98,8 @@ src/
 ├── layouts/              # BaseLayout: head, nav, footer, backdrop
 ├── components/
 │   ├── layout/           # BaseHead, Nav, Footer
-│   ├── ui/               # Icon, Modal, ThemeToggle, Clock
+│   ├── ui/               # Icon, Modal, ThemeToggle
 │   ├── features/         # GitHubCalendar
-│   └── effects/          # MatrixRain
 ├── lib/                  # content access, image resolution, paths, icons
 ├── pages/                # one file per route
 └── styles/               # global.css (tokens + base), components.css
@@ -187,11 +186,8 @@ but only warns, because runner timing is too variable to assert strictly.
 
 ## Known trade-offs
 
-- **The display font (`TheGoodMonolith`) is loaded from cdnfonts**, the one
-  remaining third-party asset on the critical path. It is loaded with
-  `display=swap` behind a `preconnect`, so it never blocks text from painting.
-  Self-hosting a subset in `public/fonts/` would remove the dependency; it was
-  left external to preserve the exact typeface without redistributing the file.
+- **Inter and JetBrains Mono are loaded from Google Fonts** with `display=swap`.
+  The system font stacks render immediately if that request is blocked.
 - **The contribution heatmap is refreshed weekly, not live.** That is
   deliberate: it costs the visitor zero requests, and a day-stale heatmap is a
   better trade than an API call on every page view.

@@ -1,7 +1,5 @@
 ---
 import Icon from '@components/ui/Icon.astro';
-import ThemeToggle from '@components/ui/ThemeToggle.astro';
-import Clock from '@components/ui/Clock.astro';
 import { getProfile } from '@lib/content';
 import type { IconName } from '@lib/icons';
 
@@ -16,11 +14,17 @@ const SOCIALS: { key: keyof typeof profile.socials; icon: IconName; label: strin
 ];
 
 const links = SOCIALS.filter((s) => Boolean(profile.socials[s.key]));
+const year = new Date().getFullYear();
 ---
 
 <footer class="site-footer">
-  <div class="page-shell flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-center">
-    <ul class="flex items-center gap-3">
+  <div class="page-shell footer-inner">
+    <div>
+      <p class="footer-name">{profile.name}</p>
+      <p class="footer-meta">© {year} · Designed and built with Astro</p>
+    </div>
+
+    <ul class="footer-socials" aria-label="Social profiles">
       {
         links.map((social) => (
           <li>
@@ -36,10 +40,5 @@ const links = SOCIALS.filter((s) => Boolean(profile.socials[s.key]));
         ))
       }
     </ul>
-
-    <div class="flex items-center gap-3">
-      <ThemeToggle />
-      <Clock />
-    </div>
   </div>
 </footer>

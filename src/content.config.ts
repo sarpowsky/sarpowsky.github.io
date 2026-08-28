@@ -120,7 +120,7 @@ const skills = defineCollection({
   }),
 });
 
-/** Cross-posted LinkedIn highlights shown on the home page carousel. */
+/** Archived social posts retained in the content layer, but not rendered. */
 const posts = defineCollection({
   loader: md('posts'),
   schema: z.object({

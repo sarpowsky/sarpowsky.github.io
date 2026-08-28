@@ -1,0 +1,23 @@
+---
+interface Props {
+  index: string;
+  label: string;
+  title: string;
+  description: string;
+  meta?: string;
+}
+
+const { index, label, title, description, meta } = Astro.props;
+const hasLongTitle = title.length > 9;
+---
+
+<header class="page-intro">
+  <p class="eyebrow"><span aria-hidden="true">{index}</span> {label}</p>
+  <div class="page-intro-grid">
+    <h1 class:list={{ 'page-intro-title-long': hasLongTitle }}>{title}</h1>
+    <div class="page-intro-copy">
+      <p>{description}</p>
+      {meta && <p class="page-intro-meta">{meta}</p>}
+    </div>
+  </div>
+</header>

@@ -1,0 +1,41 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Icon from '@components/ui/Icon.astro';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+  index: number;
+  lead?: boolean;
+}
+
+const { project, index, lead = false } = Astro.props;
+---
+
+<li class:list={['project-card surface-card', { 'project-card-lead': lead }]}>
+  <article>
+    <div class="project-card-topline">
+      <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+      {project.data.featured && <span class="project-featured-label">Featured</span>}
+    </div>
+
+    <h3>
+      <a href={project.data.link} target="_blank" rel="noopener noreferrer">
+        {project.data.title}
+        <Icon name="external-link" size={17} />
+        <span class="sr-only"> (opens in a new tab)</span>
+      </a>
+    </h3>
+
+    <p>{project.data.description}</p>
+
+    {
+      project.data.tags.length > 0 && (
+        <ul class="project-tags" aria-label="Technologies">
+          {project.data.tags.map((tag) => (
+            <li>{tag}</li>
+          ))}
+        </ul>
+      )
+    }
+  </article>
+</li>

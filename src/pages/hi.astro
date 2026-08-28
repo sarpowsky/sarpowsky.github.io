@@ -1,6 +1,7 @@
 ---
 import { render } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
+import PageIntro from '@components/layout/PageIntro.astro';
 import { getAbout, getSkills } from '@lib/content';
 
 const about = await getAbout();
@@ -12,45 +13,49 @@ const skills = await getSkills();
   title={`${about.data.greeting} — _sarpowsky`}
   description={`${about.data.greeting}, ${about.data.subtitle}`}
 >
-  <div class="mx-auto max-w-3xl space-y-10">
-    <article class="surface-card p-8">
-      <h1 class="mb-6 text-3xl font-bold">{about.data.title}</h1>
-      <p class="text-xl">{about.data.greeting}</p>
-      <p class="mb-6 text-lg text-fg-muted">{about.data.subtitle}</p>
-      <div class="prose-content"><Content /></div>
+  <div class="section-page">
+    <PageIntro
+      index="01"
+      label="Profile"
+      title={`/${about.data.title}`}
+      description={`${about.data.greeting} — ${about.data.subtitle}.`}
+      meta={`${skills.length} areas of practice`}
+    />
+
+    <article class="about-card surface-card">
+      <div class="about-card-label" aria-hidden="true">
+        <span>readme.md</span>
+        <span>about / personal</span>
+      </div>
+      <div class="prose-content about-prose"><Content /></div>
     </article>
 
     {
       skills.length > 0 && (
-        <section class="surface-card p-8" aria-labelledby="skills-heading">
-          <h2 id="skills-heading" class="mb-6 text-2xl font-bold">
-            Skills
-          </h2>
-          <div class="grid gap-8 text-center sm:grid-cols-2">
+        <section class="skills-section" aria-labelledby="skills-heading">
+          <div class="section-heading-row">
+            <div>
+              <p class="eyebrow">
+                <span aria-hidden="true">02</span> Working toolkit
+              </p>
+              <h2 id="skills-heading">Skills in practice</h2>
+            </div>
+            <p class="section-note">Tools I use to move from messy data to working software.</p>
+          </div>
+
+          <div class="skill-groups">
             {skills.map((group) => (
-              <div>
-                <h3 class="mb-4 text-sm tracking-wide text-accent uppercase">{group.data.name}</h3>
-                <ul class="space-y-3">
+              <article class="skill-group surface-card">
+                <span class="skill-group-number" aria-hidden="true">
+                  {String(group.data.order).padStart(2, '0')}
+                </span>
+                <h3>{group.data.name}</h3>
+                <ul>
                   {group.data.items.map((skill) => (
-                    <li>
-                      <div class="mb-1 flex items-baseline justify-center gap-2 text-sm">
-                        <span>{skill.name}</span>
-                        <span class="text-xs text-fg-muted">{skill.level}%</span>
-                      </div>
-                      <div
-                        class="skill-meter"
-                        role="meter"
-                        aria-valuenow={skill.level}
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                        aria-label={skill.name}
-                      >
-                        <div class="skill-meter-fill" style={`width:${skill.level}%`} />
-                      </div>
-                    </li>
+                    <li>{skill.name}</li>
                   ))}
                 </ul>
-              </div>
+              </article>
             ))}
           </div>
         </section>

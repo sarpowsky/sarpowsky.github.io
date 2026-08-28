@@ -1,5 +1,7 @@
 ---
 import contributions from '@/data/github-contributions.json';
+import Icon from '@components/ui/Icon.astro';
+import { getProfile } from '@lib/content';
 
 /**
  * GitHub contribution heatmap.
@@ -14,6 +16,7 @@ import contributions from '@/data/github-contributions.json';
 
 type Day = { date: string; count: number; level: number };
 const days = contributions as Day[];
+const { data: profile } = await getProfile();
 
 const total = days.reduce((sum, d) => sum + d.count, 0);
 const first = days[0]?.date;
@@ -32,42 +35,60 @@ const fmt = (iso: string) =>
   });
 ---
 
-<section class="surface-card p-5" aria-labelledby="contrib-heading">
-  <div class="mb-4 flex flex-wrap items-baseline justify-center gap-x-3 gap-y-1">
-    <h2 id="contrib-heading" class="text-lg font-bold">GitHub Contributions</h2>
-    <p class="text-sm text-fg-muted">
-      {total.toLocaleString()} contributions
-      {
-        first && last && (
-          <>
-            {' '}
-            · {fmt(first)} – {fmt(last)}
-          </>
-        )
-      }
-    </p>
-  </div>
+<section class="contribution-card surface-card" aria-labelledby="contrib-heading">
+  <header class="contribution-header">
+    <div>
+      <h3 id="contrib-heading">GitHub contributions</h3>
+      <p>
+        {total.toLocaleString()} contributions
+        {
+          first && last && (
+            <>
+              {' '}
+              · {fmt(first)} – {fmt(last)}
+            </>
+          )
+        }
+      </p>
+    </div>
+
+    <a href={profile.socials.github} target="_blank" rel="noopener noreferrer">
+      View GitHub
+      <Icon name="external-link" size={15} />
+      <span class="sr-only"> (opens in a new tab)</span>
+    </a>
+  </header>
 
   <div
-    class="contrib-grid"
-    role="img"
-    aria-label={`Contribution heatmap: ${total} contributions between ${first && fmt(first)} and ${last && fmt(last)}.`}
+    class="contrib-scroll"
+    role="region"
+    tabindex="0"
+    aria-label={`Scrollable contribution heatmap: ${total} contributions between ${first && fmt(first)} and ${last && fmt(last)}.`}
   >
-    {Array.from({ length: leadingBlanks }).map(() => <span class="contrib-cell" data-level="0" />)}
-    {
-      days.map((day) => (
-        <span
-          class="contrib-cell"
-          data-level={day.level}
-          title={`${fmt(day.date)}: ${day.count} contribution${day.count === 1 ? '' : 's'}`}
-        />
-      ))
-    }
+    <div class="contrib-grid" aria-hidden="true">
+      {
+        Array.from({ length: leadingBlanks }).map(() => (
+          <span class="contrib-cell" data-level="0" />
+        ))
+      }
+      {
+        days.map((day) => (
+          <span
+            class="contrib-cell"
+            data-level={day.level}
+            title={`${fmt(day.date)}: ${day.count} contribution${day.count === 1 ? '' : 's'}`}
+          />
+        ))
+      }
+    </div>
   </div>
 
-  <div class="mt-3 flex items-center justify-center gap-2 text-xs text-fg-muted">
-    <span>Less</span>
-    {[0, 1, 2, 3, 4].map((level) => <span class="contrib-cell" data-level={level} />)}
-    <span>More</span>
-  </div>
+  <footer class="contribution-footer">
+    <p class="contribution-scroll-hint">Scroll horizontally to explore</p>
+    <div class="contribution-legend" aria-label="Contribution intensity, less to more">
+      <span>Less</span>
+      {[0, 1, 2, 3, 4].map((level) => <span class="contrib-cell" data-level={level} />)}
+      <span>More</span>
+    </div>
+  </footer>
 </section>

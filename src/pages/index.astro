@@ -38,16 +38,6 @@ const mailto = `mailto:${encodeURIComponent(profile.email).replace(/%40/g, '@')}
             <Icon name="mail" size={18} />
             Let’s talk
           </a>
-          <!-- Same-origin, so `download` is honoured. -->
-          <a
-            class="text-link"
-            href={href(profile.resume)}
-            download
-            aria-label="Download résumé (PDF)"
-          >
-            <Icon name="download" size={16} />
-            Résumé
-          </a>
         </div>
       </div>
 

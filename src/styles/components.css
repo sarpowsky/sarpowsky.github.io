@@ -581,6 +581,10 @@
   line-height: 0.95;
 }
 
+.page-intro h1.page-intro-title-long {
+  font-size: clamp(3rem, 4.7vw, 4.1rem);
+}
+
 .page-intro-copy {
   max-width: 41rem;
 }
@@ -1488,11 +1492,6 @@ body:has(dialog.modal[open]) {
     grid-template-columns: minmax(0, 1.35fr) minmax(16rem, 0.65fr);
   }
 
-  .page-intro-grid {
-    grid-template-columns: minmax(0, 1fr) minmax(20rem, 0.9fr);
-    gap: clamp(2rem, 8vw, 7rem);
-  }
-
   .skill-groups,
   .project-grid,
   .certificate-grid {
@@ -1509,6 +1508,11 @@ body:has(dialog.modal[open]) {
 }
 
 @media (min-width: 64rem) {
+  .page-intro-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(20rem, 0.9fr);
+    gap: clamp(2rem, 8vw, 7rem);
+  }
+
   .certificate-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
@@ -1554,7 +1558,7 @@ body:has(dialog.modal[open]) {
     display: none;
   }
 
-  .page-intro-title-long {
+  .page-intro h1.page-intro-title-long {
     font-size: clamp(2.15rem, 11vw, 3rem);
   }
 

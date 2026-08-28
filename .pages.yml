@@ -75,7 +75,12 @@ content:
         required: true
         options:
           values: [Internship, Voluntary, Full-time, Part-time, Freelance]
-      - { name: logo, label: Company logo, type: image, required: true }
+      - {
+          name: logo,
+          label: Company logo,
+          type: image,
+          description: 'Optional. A typographic monogram is shown when omitted.',
+        }
       - { name: summary, label: One-line summary, type: text }
       - {
           name: order,

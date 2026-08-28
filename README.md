@@ -53,7 +53,7 @@ web editor).
 src/content/
 ├── profile/profile.md      # name, tagline, email, résumé, social links
 ├── about/about.md          # the /hi page; prose lives in the Markdown body
-├── experience/*.md         # one file per role
+├── experience/*.md         # one file per work or community role
 ├── projects/*.md           # one file per project
 ├── certificates/*.md       # one file per certificate
 ├── skills/*.md             # one file per skill group
@@ -99,7 +99,7 @@ src/
 ├── components/
 │   ├── layout/           # BaseHead, Nav, Footer
 │   ├── ui/               # Icon, Modal, ThemeToggle
-│   ├── features/         # GitHubCalendar
+│   ├── features/         # project cards, experience cards, GitHub calendar
 ├── lib/                  # content access, image resolution, paths, icons
 ├── pages/                # one file per route
 └── styles/               # global.css (tokens + base), components.css

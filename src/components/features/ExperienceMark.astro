@@ -1,0 +1,37 @@
+---
+import { Image } from 'astro:assets';
+import { resolveImage } from '@lib/images';
+
+interface Props {
+  company: string;
+  logo?: string;
+}
+
+const { company, logo } = Astro.props;
+const words = company.split(/[\s&]+/).filter(Boolean);
+const initials =
+  words.length > 1
+    ? words
+        .slice(0, 2)
+        .map((word) => word[0])
+        .join('')
+        .toUpperCase()
+    : company.slice(0, 2).toUpperCase();
+---
+
+{
+  logo ? (
+    <Image
+      src={resolveImage(logo)}
+      alt=""
+      width={56}
+      height={56}
+      class="card-logo experience-mark"
+      loading="lazy"
+    />
+  ) : (
+    <span class="card-logo experience-mark experience-logo-fallback" aria-hidden="true">
+      {initials}
+    </span>
+  )
+}

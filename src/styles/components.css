@@ -804,19 +804,49 @@
 
 /* --------------------------------------------------------------- experience */
 
-.experience-timeline {
+.experience-columns {
+  display: grid;
+  gap: clamp(3rem, 8vw, 5rem);
+}
+
+.experience-lane {
+  min-width: 0;
+}
+
+.experience-lane-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--border-strong);
+}
+
+.experience-lane-heading h2 {
+  margin-top: 0.45rem;
+  font-size: clamp(2rem, 5vw, 3rem);
+}
+
+.experience-lane-count {
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+}
+
+.experience-list {
   position: relative;
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
-.experience-timeline::before {
+.experience-list::before {
   content: '';
   position: absolute;
-  top: 1.5rem;
-  bottom: 1.5rem;
-  left: 1.5rem;
+  top: 0.75rem;
+  bottom: 0.75rem;
+  left: 0.75rem;
   width: 1px;
   background: var(--border-strong);
 }
@@ -824,8 +854,8 @@
 .experience-item {
   position: relative;
   display: grid;
-  grid-template-columns: 3rem minmax(0, 1fr);
-  gap: clamp(0.75rem, 3vw, 1.5rem);
+  grid-template-columns: 1.5rem minmax(0, 1fr);
+  gap: 0.75rem;
 }
 
 .experience-marker {
@@ -834,45 +864,63 @@
   display: grid;
   place-items: center;
   align-self: start;
-  width: 3rem;
-  height: 3rem;
+  width: 1.5rem;
+  height: 1.5rem;
   border: 1px solid var(--border-strong);
   border-radius: 50%;
   background: var(--bg);
   color: var(--accent);
   font-family: var(--font-mono);
-  font-size: 0.65rem;
+  font-size: 0.52rem;
 }
 
 .experience-card {
   display: flex;
-  gap: 1.25rem;
-  padding: clamp(1.25rem, 3vw, 1.75rem);
+  min-width: 0;
+  flex-direction: column;
+  padding: clamp(1.1rem, 3vw, 1.5rem);
   transition:
     border-color 0.25s var(--ease-out-soft),
     box-shadow 0.3s var(--ease-out-soft);
 }
 
-.experience-card:has(.experience-open):hover {
+.experience-card:has(.experience-open:hover),
+.experience-card:focus-within {
   border-color: var(--accent);
   box-shadow: var(--shadow-lg);
 }
 
-.experience-card .card-logo {
-  width: 4rem;
-  height: 4rem;
+.experience-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.85rem;
 }
 
-.experience-content {
-  flex: 1;
+.experience-identity {
+  display: flex;
+  min-width: 0;
+  align-items: flex-start;
+  gap: 0.8rem;
+}
+
+.experience-identity > div {
   min-width: 0;
 }
 
-.experience-title-row {
-  display: flex;
-  align-items: start;
-  justify-content: space-between;
-  gap: 1rem;
+.experience-card .card-logo {
+  width: 3.25rem;
+  height: 3.25rem;
+}
+
+.experience-logo-fallback {
+  display: grid;
+  place-items: center;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
 }
 
 .experience-company {
@@ -881,12 +929,18 @@
   font-size: 0.67rem;
   font-weight: 600;
   letter-spacing: 0.08em;
+  overflow-wrap: anywhere;
   text-transform: uppercase;
 }
 
-.experience-title-row h2 {
+.experience-card h3 {
   margin-top: 0.3rem;
-  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  font-size: clamp(1rem, 2.5vw, 1.15rem);
+  line-height: 1.35;
+}
+
+.experience-card-top > .tag {
+  flex-shrink: 0;
 }
 
 .tag-current {
@@ -914,7 +968,6 @@
 }
 
 .experience-summary {
-  max-width: 67ch;
   margin-top: 1rem;
   color: var(--fg-muted);
   font-size: 0.84rem;
@@ -1516,6 +1569,12 @@ body:has(dialog.modal[open]) {
   .certificate-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
+
+  .experience-columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(1.75rem, 4vw, 3rem);
+    align-items: start;
+  }
 }
 
 @media (max-width: 40rem) {
@@ -1562,34 +1621,6 @@ body:has(dialog.modal[open]) {
     font-size: clamp(2.15rem, 11vw, 3rem);
   }
 
-  .experience-timeline::before {
-    left: 1rem;
-  }
-
-  .experience-item {
-    grid-template-columns: 2rem minmax(0, 1fr);
-    gap: 0.65rem;
-  }
-
-  .experience-marker {
-    width: 2rem;
-    height: 2rem;
-    font-size: 0.58rem;
-  }
-
-  .experience-card {
-    flex-direction: column;
-  }
-
-  .experience-title-row {
-    flex-direction: column-reverse;
-    gap: 0.65rem;
-  }
-
-  .experience-title-row .tag {
-    width: fit-content;
-  }
-
   .modal-heading {
     align-items: flex-start;
     flex-direction: column;
@@ -1605,5 +1636,15 @@ body:has(dialog.modal[open]) {
 
   dialog.modal {
     width: min(100% - 1rem, 46rem);
+  }
+}
+
+@media (max-width: 24rem) {
+  .experience-card-top {
+    flex-direction: column;
+  }
+
+  .experience-card-top > .tag {
+    margin-left: calc(3.25rem + 0.8rem);
   }
 }

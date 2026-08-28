@@ -68,7 +68,7 @@ const experience = defineCollection({
     location: z.string(),
     duration: z.string(),
     type: z.enum(['Internship', 'Voluntary', 'Full-time', 'Part-time', 'Freelance']),
-    logo: assetPath,
+    logo: assetPath.optional(),
     summary: z.string().optional(),
     order,
     draft: z.boolean().default(false),

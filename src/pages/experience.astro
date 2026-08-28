@@ -1,13 +1,13 @@
 ---
-import { Image } from 'astro:assets';
 import { render } from 'astro:content';
-import BaseLayout from '@layouts/BaseLayout.astro';
+import ExperienceCard from '@components/features/ExperienceCard.astro';
+import ExperienceMark from '@components/features/ExperienceMark.astro';
 import PageIntro from '@components/layout/PageIntro.astro';
 import Icon from '@components/ui/Icon.astro';
 import Modal from '@components/ui/Modal.astro';
 import ModalController from '@components/ui/modal-controller.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
 import { getExperience } from '@lib/content';
-import { resolveImage } from '@lib/images';
 
 const experience = await getExperience();
 
@@ -17,9 +17,28 @@ const entries = await Promise.all(
   experience.map(async (entry) => ({
     entry,
     Content: (await render(entry)).Content,
-    hasDetails: Boolean(entry.data.summary || entry.body?.trim()),
+    hasDetails: Boolean(entry.body?.trim()),
   }))
 );
+
+const workEntries = entries.filter(({ entry }) => entry.data.type !== 'Voluntary');
+const communityEntries = entries.filter(({ entry }) => entry.data.type === 'Voluntary');
+const lanes = [
+  {
+    id: 'work-experience',
+    index: '01',
+    label: 'Professional practice',
+    title: 'Work',
+    entries: workEntries,
+  },
+  {
+    id: 'community-experience',
+    index: '02',
+    label: 'Shared practice',
+    title: 'Community',
+    entries: communityEntries,
+  },
+];
 ---
 
 <BaseLayout
@@ -31,71 +50,36 @@ const entries = await Promise.all(
       index="03"
       label="Field notes"
       title="/experience"
-      description="Roles, internships, and communities that shaped how I build, collaborate, and turn data into decisions."
-      meta={`${entries.length} roles and collaborations`}
+      description="Professional roles and community work that shaped how I build, lead, and move systems from idea to production."
+      meta={`${workEntries.length} work roles · ${communityEntries.length} community positions`}
     />
 
-    <ol class="experience-timeline">
+    <div class="experience-columns">
       {
-        entries.map(({ entry, hasDetails }, index) => (
-          <li class="experience-item">
-            <div class="experience-marker" aria-hidden="true">
-              <span>{String(index + 1).padStart(2, '0')}</span>
+        lanes.map((lane) => (
+          <section class="experience-lane" aria-labelledby={lane.id}>
+            <div class="experience-lane-heading">
+              <div>
+                <p class="eyebrow">
+                  <span aria-hidden="true">{lane.index}</span> {lane.label}
+                </p>
+                <h2 id={lane.id}>{lane.title}</h2>
+              </div>
+              <span class="experience-lane-count">
+                <span class="sr-only">{lane.entries.length} entries</span>
+                <span aria-hidden="true">{String(lane.entries.length).padStart(2, '0')}</span>
+              </span>
             </div>
 
-            <article class="experience-card surface-card">
-              <Image
-                src={resolveImage(entry.data.logo)}
-                alt=""
-                width={64}
-                height={64}
-                class="card-logo"
-                loading="lazy"
-              />
-
-              <div class="experience-content">
-                <div class="experience-title-row">
-                  <div>
-                    <p class="experience-company">{entry.data.company}</p>
-                    <h2>{entry.data.role}</h2>
-                  </div>
-                  <span
-                    class:list={['tag', { 'tag-current': entry.data.duration.includes('Ongoing') }]}
-                  >
-                    {entry.data.type}
-                  </span>
-                </div>
-
-                <div class="experience-meta">
-                  <span>
-                    <Icon name="calendar" size={13} />
-                    {entry.data.duration}
-                  </span>
-                  <span>
-                    <Icon name="map-pin" size={13} />
-                    {entry.data.location}
-                  </span>
-                </div>
-
-                {entry.data.summary && <p class="experience-summary">{entry.data.summary}</p>}
-
-                {hasDetails && (
-                  <button
-                    type="button"
-                    class="experience-open"
-                    data-modal-open={`exp-${entry.id}`}
-                    aria-haspopup="dialog"
-                  >
-                    View role details
-                    <Icon name="chevron-right" size={15} />
-                  </button>
-                )}
-              </div>
-            </article>
-          </li>
+            <ol class="experience-list">
+              {lane.entries.map(({ entry, hasDetails }, index) => (
+                <ExperienceCard entry={entry} index={index} hasDetails={hasDetails} />
+              ))}
+            </ol>
+          </section>
         ))
       }
-    </ol>
+    </div>
   </div>
 
   {
@@ -104,13 +88,7 @@ const entries = await Promise.all(
         hasDetails && (
           <Modal id={`exp-${entry.id}`} labelledby={`exp-${entry.id}-title`}>
             <div class="modal-heading">
-              <Image
-                src={resolveImage(entry.data.logo)}
-                alt=""
-                width={56}
-                height={56}
-                class="card-logo"
-              />
+              <ExperienceMark company={entry.data.company} logo={entry.data.logo} />
               <div>
                 <p class="modal-kicker">{entry.data.company}</p>
                 <h2 id={`exp-${entry.id}-title`}>{entry.data.role}</h2>

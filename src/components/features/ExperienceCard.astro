@@ -1,0 +1,61 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import ExperienceMark from '@components/features/ExperienceMark.astro';
+import Icon from '@components/ui/Icon.astro';
+
+interface Props {
+  entry: CollectionEntry<'experience'>;
+  index: number;
+  hasDetails: boolean;
+}
+
+const { entry, index, hasDetails } = Astro.props;
+const isCurrent = /ongoing|present/i.test(entry.data.duration);
+---
+
+<li class="experience-item">
+  <div class="experience-marker" aria-hidden="true">
+    <span>{String(index + 1).padStart(2, '0')}</span>
+  </div>
+
+  <article class="experience-card surface-card">
+    <div class="experience-card-top">
+      <div class="experience-identity">
+        <ExperienceMark company={entry.data.company} logo={entry.data.logo} />
+        <div>
+          <p class="experience-company">{entry.data.company}</p>
+          <h3>{entry.data.role}</h3>
+        </div>
+      </div>
+      <span class:list={['tag', { 'tag-current': isCurrent }]}>{entry.data.type}</span>
+    </div>
+
+    <div class="experience-meta">
+      <span>
+        <Icon name="calendar" size={13} />
+        {entry.data.duration}
+      </span>
+      <span>
+        <Icon name="map-pin" size={13} />
+        {entry.data.location}
+      </span>
+    </div>
+
+    {entry.data.summary && <p class="experience-summary">{entry.data.summary}</p>}
+
+    {
+      hasDetails && (
+        <button
+          type="button"
+          class="experience-open"
+          data-modal-open={`exp-${entry.id}`}
+          aria-haspopup="dialog"
+          aria-label={`View role details for ${entry.data.role} at ${entry.data.company}`}
+        >
+          View role details
+          <Icon name="chevron-right" size={15} />
+        </button>
+      )
+    }
+  </article>
+</li>

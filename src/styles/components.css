@@ -17,29 +17,21 @@
 
 /* ---------------------------------------------------------------- backdrop */
 
-.site-backdrop {
+#matrix-canvas {
   position: fixed;
   inset: 0;
   z-index: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(circle at 82% 12%, var(--accent-soft), transparent 28rem),
-    radial-gradient(
-      circle at 8% 75%,
-      color-mix(in srgb, var(--accent-soft) 55%, transparent),
-      transparent 24rem
-    );
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
-.site-backdrop::before {
-  content: '';
-  position: absolute;
+.backdrop-scrim {
+  position: fixed;
   inset: 0;
-  background-image:
-    linear-gradient(var(--grid-line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-  background-size: 3rem 3rem;
-  mask-image: linear-gradient(to bottom, black, transparent 88%);
+  z-index: 1;
+  background: var(--scrim);
+  pointer-events: none;
 }
 
 /* -------------------------------------------------------------------- nav */

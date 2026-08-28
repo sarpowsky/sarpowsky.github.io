@@ -36,12 +36,14 @@ import Icon from '@components/ui/Icon.astro';
       /* Storage unavailable — the choice simply won't persist across visits. */
     }
     paint(next);
+    window.dispatchEvent(new CustomEvent('themechange', { detail: next }));
   });
 
   systemTheme.addEventListener('change', () => {
     const explicit = document.documentElement.getAttribute('data-theme');
     if (explicit === 'dark' || explicit === 'light') return;
     paint(current());
+    window.dispatchEvent(new CustomEvent('themechange', { detail: current() }));
   });
 
   paint(current());

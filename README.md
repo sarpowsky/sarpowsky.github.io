@@ -186,8 +186,9 @@ but only warns, because runner timing is too variable to assert strictly.
 
 ## Known trade-offs
 
-- **Inter and JetBrains Mono are loaded from Google Fonts** with `display=swap`.
-  The system font stacks render immediately if that request is blocked.
+- **TheGoodMonolith is loaded from CDNFonts**, with JetBrains Mono and system
+  monospace faces as fallbacks. Inter and JetBrains Mono load from Google Fonts;
+  every font request uses `display=swap` so text remains visible.
 - **The contribution heatmap is refreshed weekly, not live.** That is
   deliberate: it costs the visitor zero requests, and a day-stale heatmap is a
   better trade than an API call on every page view.

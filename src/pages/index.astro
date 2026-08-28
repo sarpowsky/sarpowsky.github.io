@@ -22,7 +22,7 @@ const mailto = `mailto:${encodeURIComponent(profile.email).replace(/%40/g, '@')}
   <div class="home-page">
     <section class="home-hero" aria-labelledby="home-heading">
       <div class="home-hero-copy">
-        <p class="eyebrow"><span aria-hidden="true">01</span> Computer engineer in progress</p>
+        <p class="eyebrow"><span aria-hidden="true">01</span> ML · data · cloud systems</p>
         <h1 id="home-heading" class="home-title">
           <span>Hello, I’m</span>
           {profile.name}.
@@ -109,6 +109,7 @@ const mailto = `mailto:${encodeURIComponent(profile.email).replace(/%40/g, '@')}
                   href={project.data.link}
                   target="_blank"
                   rel="noopener noreferrer"
+                  aria-label={`${project.data.title} (opens in a new tab)`}
                 >
                   <span class="featured-project-index" aria-hidden="true">
                     {String(index + 1).padStart(2, '0')}

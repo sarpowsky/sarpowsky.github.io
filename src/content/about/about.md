@@ -4,8 +4,8 @@ greeting: "Hello, I am Sarp"
 subtitle: a Computer Engineering Student at Haliç University
 ---
 
-I build stuff where code meets machine learning. Still figuring it all out as a second-year student, but I've been a fast learner and fell in love with how ML can turn data into something actually useful. Nothing beats that feeling when your model finally works really.
+I build systems across data, machine learning, and cloud infrastructure. I'm studying Computer Engineering at Haliç University, and I'm most interested in the handoff between a useful model and a service people can actually rely on.
 
-Python's definitely my language of choice most of the times. I practically live in NumPy and Pandas these days. I'm *the* annoying friend who always talks about writing clean code and break everything into modules. My GitHub is practically a shrine to commented code.
+My toolkit starts with Python and SQL, then extends into Linux, Docker, Kubernetes, GCP, FastAPI, and CI/CD. I enjoy following a problem end to end: structuring data, testing an idea, packaging it cleanly, deploying it, and watching how it behaves under load.
 
-I enjoy the whole ML process, from cleaning up messy datasets (which can be a real pain, but still) to seeing models come alive in production. Still learning tons every day, but that's the fun part. When I'm not debugging my code until the sunrise, I'm probably playing around with a new visualization library or optimizing something that was working perfectly fine already, just to break it and repeat this cycle again.
+Outside project work, I help organize GDG on Campus Haliç and contribute to community learning through technical sessions. I'm still learning every day—usually by turning one small question into a much larger build—but that curiosity is the point.

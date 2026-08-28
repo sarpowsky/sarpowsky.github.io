@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title description">
   <title id="title">Sarp Can Karaman — portfolio</title>
-  <desc id="description">Technical editorial social card for Sarp Can Karaman, focused on data science, machine learning, and software.</desc>
+  <desc id="description">Technical editorial social card for Sarp Can Karaman, focused on machine learning, data, and cloud engineering.</desc>
 
   <defs>
     <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
@@ -24,13 +24,13 @@
     <text x="76" y="82" fill="#61E89E" font-size="25" font-weight="700">~/sarpowsky.</text>
     <text x="958" y="82" fill="#9BAFA2" font-size="16">PORTFOLIO / INDEX</text>
 
-    <text x="76" y="194" fill="#61E89E" font-size="17" font-weight="600" letter-spacing="4">DATA · ML · SOFTWARE</text>
+    <text x="76" y="194" fill="#61E89E" font-size="17" font-weight="600" letter-spacing="4">ML · DATA · CLOUD · DEVOPS</text>
     <rect x="76" y="218" width="196" height="2" fill="url(#line)" />
 
     <text x="70" y="348" fill="#EDF7F0" font-size="104" font-weight="700" letter-spacing="-7">Sarp Can</text>
     <text x="70" y="452" fill="#EDF7F0" font-size="104" font-weight="700" letter-spacing="-7">Karaman.</text>
 
-    <text x="76" y="528" fill="#9BAFA2" font-family="'Fira Sans', 'DejaVu Sans', sans-serif" font-size="26">Building where code meets machine learning.</text>
+    <text x="76" y="528" fill="#9BAFA2" font-family="'Fira Sans', 'DejaVu Sans', sans-serif" font-size="26">Building reliable systems from data to deployment.</text>
 
     <circle cx="83" cy="577" r="7" fill="#61E89E" />
     <text x="105" y="584" fill="#EDF7F0" font-size="18">sarpowsky.github.io</text>

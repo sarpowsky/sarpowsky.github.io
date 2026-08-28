@@ -1,17 +1,17 @@
 ---
-name: "Cloud & Enterprise Systems"
+name: "Cloud, DevOps & MLOps"
 order: 3
 items:
-  - name: Huawei Cloud Platform
-    level: 50
   - name: Google Cloud Platform
-    level: 45
-  - name: ERP/CRM Integration
-    level: 50
-  - name: DevOps/Docker/CI-CD
-    level: 45
-  - name: Business Intelligence
+    level: 65
+  - name: Docker & Container Security
+    level: 65
+  - name: Kubernetes & GKE
+    level: 60
+  - name: GitHub Actions & CI/CD
+    level: 65
+  - name: Linux, Bash & Networking
+    level: 65
+  - name: Monitoring, IaC & FinOps
     level: 55
-  - name: Enterprise Architecture
-    level: 40
 ---

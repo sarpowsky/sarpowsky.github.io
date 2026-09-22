@@ -37,10 +37,13 @@ Markdown file under `src/content/`, validated against a schema at build time.
 
 ### Option 1 — Visual editor (no terminal)
 
-Go to **[pagescms.org](https://pagescms.org)**, sign in with GitHub, and grant
-access to this repository. It reads [`.pages.yml`](.pages.yml) and generates
-editing forms with image upload for every collection. Saving commits to the
-repo, which triggers a rebuild and redeploy.
+Go to **[app.pagescms.org](https://app.pagescms.org)**, sign in with GitHub,
+install the Pages CMS GitHub App for this repository, and open
+`sarpowsky/sarpowsky.github.io`. It reads [`.pages.yml`](.pages.yml) and
+generates editing forms with image upload for every collection. You never need
+to use the terminal or create a commit yourself: **Save** writes a labelled
+content commit in the background, which triggers the verified rebuild and
+GitHub Pages deployment.
 
 There is nothing to install or host — no OAuth app, no admin bundle, no server.
 

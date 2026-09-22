@@ -7,7 +7,7 @@
  */
 export const NAV_LINKS = [
   { href: '/hi', label: '/hi' },
-  { href: '/experience', label: '/experience' },
   { href: '/projects', label: '/projects' },
+  { href: '/experience', label: '/experience' },
   { href: '/certificates', label: '/certificates' },
 ] as const;

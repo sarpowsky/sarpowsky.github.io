@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import BaseLayout from '@layouts/BaseLayout.astro';
+import ProjectCard from '@components/features/ProjectCard.astro';
 import Icon from '@components/ui/Icon.astro';
 import { getProfile, getProjects } from '@lib/content';
 import { resolveImage } from '@lib/images';
@@ -8,72 +9,89 @@ import { href } from '@lib/paths';
 
 const { data: profile } = await getProfile();
 const projects = await getProjects();
-const featuredProjects = projects.filter((project) => project.data.featured).slice(0, 3);
+const allFeaturedProjects = projects.filter((project) => project.data.featured);
+const featuredProjects = allFeaturedProjects.slice(0, 3);
 const technologyCount = new Set(projects.flatMap((project) => project.data.tags)).size;
-
-// The schema already guarantees a well-formed address, but the value is still
-// encoded here so a stray `?` or `&` could never inject extra mailto header
-// fields (bcc, subject). `@` is restored afterwards because RFC 6068 wants it
-// literal in the addr-spec, and some mail clients mishandle `%40`.
 const mailto = `mailto:${encodeURIComponent(profile.email).replace(/%40/g, '@')}`;
 ---
 
 <BaseLayout title={`${profile.name} — ${profile.title}`} description={profile.tagline}>
   <div class="home-page">
-    <section class="home-hero" aria-labelledby="home-heading">
-      <div class="home-hero-copy">
-        <p class="eyebrow"><span aria-hidden="true">01</span> ML · data · cloud systems</p>
-        <h1 id="home-heading" class="home-title">
-          <span>Hello, I’m</span>
-          {profile.name}.
-        </h1>
-        <p class="home-intro">{profile.tagline}</p>
-
-        <div class="home-actions">
-          <a class="button button-primary" href={href('/projects')}>
-            Explore my work
-            <Icon name="chevron-right" size={18} />
-          </a>
-          <a class="button button-secondary" href={mailto}>
-            <Icon name="mail" size={18} />
-            Let’s talk
-          </a>
-        </div>
+    <section class="home-console terminal-window" aria-labelledby="home-heading">
+      <div class="window-bar" aria-hidden="true">
+        <span class="window-dots"><i></i><i></i><i></i></span>
+        <span>~/portfolio/main.session</span>
+        <span>LIVE</span>
       </div>
 
-      <div class="home-portrait-wrap">
-        <div class="home-portrait-frame">
-          <span class="portrait-corner portrait-corner-top" aria-hidden="true">SC_K</span>
+      <div class="home-hero">
+        <div class="home-hero-copy">
+          <p class="terminal-command"><span aria-hidden="true">$</span> whoami</p>
+          <p class="hero-kicker">ML ENGINEERING · DATA SYSTEMS · CLOUD</p>
+          <h1 id="home-heading" class="home-title">
+            <span>Hello, I’m</span>
+            {profile.name}<b aria-hidden="true">.</b>
+          </h1>
+          <p class="home-intro">{profile.tagline}</p>
+
+          <div class="home-actions">
+            <a class="button button-primary" href={href('/projects')}>
+              Explore my work
+              <Icon name="chevron-right" size={18} />
+            </a>
+            <a class="button button-secondary" href={mailto}>
+              <Icon name="mail" size={17} />
+              Let’s talk
+            </a>
+          </div>
+
+          <div class="home-focus" aria-label="Areas of focus">
+            <span>FOCUS</span>
+            <ul>
+              <li>Machine Learning</li>
+              <li>Data Engineering</li>
+              <li>Cloud & DevOps</li>
+            </ul>
+          </div>
+        </div>
+
+        <figure class="home-portrait-wrap">
+          <div class="portrait-scanline" aria-hidden="true"></div>
           <Image
             src={resolveImage(profile.avatar)}
             alt={`Portrait of ${profile.name}`}
-            width={560}
-            height={560}
+            width={620}
+            height={620}
             loading="eager"
             fetchpriority="high"
             class="home-portrait"
           />
-          <span class="portrait-corner portrait-corner-bottom" aria-hidden="true">
-            İstanbul · TR
-          </span>
-        </div>
+          <figcaption>
+            <span>SC_K / PROFILE</span>
+            <span>İSTANBUL · TR</span>
+          </figcaption>
+          <span class="portrait-corner portrait-corner-tl" aria-hidden="true"></span>
+          <span class="portrait-corner portrait-corner-tr" aria-hidden="true"></span>
+          <span class="portrait-corner portrait-corner-bl" aria-hidden="true"></span>
+          <span class="portrait-corner portrait-corner-br" aria-hidden="true"></span>
+        </figure>
       </div>
-    </section>
 
-    <dl class="home-stats" aria-label="Portfolio at a glance">
-      <div>
-        <dt>Projects</dt>
-        <dd>{String(projects.length).padStart(2, '0')}</dd>
-      </div>
-      <div>
-        <dt>Featured builds</dt>
-        <dd>{String(featuredProjects.length).padStart(2, '0')}</dd>
-      </div>
-      <div>
-        <dt>Technologies explored</dt>
-        <dd>{String(technologyCount).padStart(2, '0')}</dd>
-      </div>
-    </dl>
+      <dl class="home-stats" aria-label="Portfolio at a glance">
+        <div>
+          <dt>Projects shipped</dt>
+          <dd>{String(projects.length).padStart(2, '0')}</dd>
+        </div>
+        <div>
+          <dt>Featured builds</dt>
+          <dd>{String(allFeaturedProjects.length).padStart(2, '0')}</dd>
+        </div>
+        <div>
+          <dt>Technologies used</dt>
+          <dd>{String(technologyCount).padStart(2, '0')}</dd>
+        </div>
+      </dl>
+    </section>
 
     {
       featuredProjects.length > 0 && (
@@ -81,43 +99,22 @@ const mailto = `mailto:${encodeURIComponent(profile.email).replace(/%40/g, '@')}
           <div class="section-heading-row">
             <div>
               <p class="eyebrow">
-                <span aria-hidden="true">02</span> Proof of work
+                <span aria-hidden="true">01</span>Proof of work
               </p>
               <h2 id="selected-work-heading">Selected projects</h2>
             </div>
-            <a class="text-link" href={href('/projects')}>
-              View all projects
-              <Icon name="chevron-right" size={16} />
-            </a>
+            <div class="section-heading-aside">
+              <p>Systems designed beyond the prototype: tested, deployed, and documented.</p>
+              <a class="text-link" href={href('/projects')}>
+                View all projects
+                <Icon name="chevron-right" size={15} />
+              </a>
+            </div>
           </div>
 
-          <ol class="featured-projects">
+          <ol class="project-grid home-project-grid">
             {featuredProjects.map((project, index) => (
-              <li>
-                <a
-                  class="featured-project"
-                  href={project.data.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`${project.data.title} (opens in a new tab)`}
-                >
-                  <span class="featured-project-index" aria-hidden="true">
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
-                  <span class="featured-project-content">
-                    <span class="featured-project-title">
-                      {project.data.title}
-                      <Icon name="external-link" size={17} />
-                    </span>
-                    <span class="featured-project-description">{project.data.description}</span>
-                    <span class="featured-project-tags">
-                      {project.data.tags.map((tag) => (
-                        <span>{tag}</span>
-                      ))}
-                    </span>
-                  </span>
-                </a>
-              </li>
+              <ProjectCard project={project} index={index} compact />
             ))}
           </ol>
         </section>

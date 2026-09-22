@@ -12,14 +12,14 @@ const archive = projects.filter((project) => !project.data.featured);
 
 <BaseLayout
   title="Projects — _sarpowsky"
-  description="Machine learning, data engineering, and full-stack projects by Sarp Can Karaman."
+  description="Machine learning, data engineering, cloud infrastructure, and software projects by Sarp Can Karaman."
 >
   <div class="section-page">
     <PageIntro
       index="02"
-      label="Selected work"
+      label="Selected work / systems"
       title="/projects"
-      description="Machine learning experiments, data products, and useful software—built to turn ideas into systems that work."
+      description="Machine learning experiments, data products, and cloud-native software—built to turn an idea into a system that works."
       meta={`${projects.length} projects · ${featured.length} featured`}
     />
 
@@ -29,12 +29,12 @@ const archive = projects.filter((project) => !project.data.featured);
           <div class="section-heading-row">
             <div>
               <p class="eyebrow">
-                <span aria-hidden="true">01</span> Highlights
+                <span aria-hidden="true">01</span>Priority queue
               </p>
               <h2 id="featured-projects-heading">Featured builds</h2>
             </div>
             <p class="section-note">
-              Deeper, end-to-end work across ML, data, cloud infrastructure, and product.
+              End-to-end work across machine learning, data, infrastructure, and product.
             </p>
           </div>
 
@@ -53,10 +53,11 @@ const archive = projects.filter((project) => !project.data.featured);
           <div class="section-heading-row">
             <div>
               <p class="eyebrow">
-                <span aria-hidden="true">02</span> More experiments
+                <span aria-hidden="true">02</span>More experiments
               </p>
               <h2 id="project-archive-heading">Project archive</h2>
             </div>
+            <p class="section-note">Smaller builds, focused experiments, and useful tools.</p>
           </div>
 
           <ol class="project-grid">
@@ -71,7 +72,7 @@ const archive = projects.filter((project) => !project.data.featured);
     <section class="activity-section" aria-labelledby="activity-heading">
       <div class="section-heading-row">
         <div>
-          <p class="eyebrow"><span aria-hidden="true">03</span> In the open</p>
+          <p class="eyebrow"><span aria-hidden="true">03</span>In the open</p>
           <h2 id="activity-heading">Building history</h2>
         </div>
         <p class="section-note">A year of public commits, experiments, and iteration.</p>

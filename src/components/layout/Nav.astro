@@ -14,20 +14,23 @@ const pathname = Astro.url.pathname;
       aria-label="Sarpowsky, home"
       aria-current={isCurrent(pathname, '/') ? 'page' : undefined}
     >
-      <span aria-hidden="true">~/</span>sarpowsky<span class="brand-mark" aria-hidden="true">.</span
-      >
+      <span class="brand-prompt" aria-hidden="true">~/</span>
+      <span>sarpowsky</span>
+      <span class="brand-dot" aria-hidden="true">.</span>
+      <span class="brand-cursor" aria-hidden="true"></span>
     </a>
 
     <nav class="primary-nav" aria-label="Primary">
       <ul>
         {
-          NAV_LINKS.map((link) => (
+          NAV_LINKS.map((link, index) => (
             <li>
               <a
                 href={href(link.href)}
                 class="nav-link"
                 aria-current={isCurrent(pathname, link.href) ? 'page' : undefined}
               >
+                <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
                 {link.label}
               </a>
             </li>
@@ -36,6 +39,12 @@ const pathname = Astro.url.pathname;
       </ul>
     </nav>
 
-    <ThemeToggle />
+    <div class="nav-utility">
+      <span class="system-status" aria-label="Portfolio system online">
+        <span class="status-dot" aria-hidden="true"></span>
+        <span>SYS.ONLINE</span>
+      </span>
+      <ThemeToggle />
+    </div>
   </div>
 </header>

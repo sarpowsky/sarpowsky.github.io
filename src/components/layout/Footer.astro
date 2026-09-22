@@ -1,11 +1,11 @@
 ---
 import Icon from '@components/ui/Icon.astro';
+import Clock from '@components/ui/Clock.astro';
 import { getProfile } from '@lib/content';
 import type { IconName } from '@lib/icons';
 
 const { data: profile } = await getProfile();
 
-// Driven by profile.md, so adding a network is a content edit, not a code edit.
 const SOCIALS: { key: keyof typeof profile.socials; icon: IconName; label: string }[] = [
   { key: 'github', icon: 'github', label: 'GitHub' },
   { key: 'linkedin', icon: 'linkedin', label: 'LinkedIn' },
@@ -13,15 +13,18 @@ const SOCIALS: { key: keyof typeof profile.socials; icon: IconName; label: strin
   { key: 'spotify', icon: 'music', label: 'Spotify' },
 ];
 
-const links = SOCIALS.filter((s) => Boolean(profile.socials[s.key]));
+const links = SOCIALS.filter((social) => Boolean(profile.socials[social.key]));
 const year = new Date().getFullYear();
 ---
 
 <footer class="site-footer">
   <div class="page-shell footer-inner">
-    <div>
-      <p class="footer-name">{profile.name}</p>
-      <p class="footer-meta">© {year} · Designed and built with Astro</p>
+    <div class="footer-identity">
+      <span class="status-dot" aria-hidden="true"></span>
+      <div>
+        <p>{profile.name}</p>
+        <span>© {year} · Built with Astro</span>
+      </div>
     </div>
 
     <ul class="footer-socials" aria-label="Social profiles">
@@ -40,5 +43,10 @@ const year = new Date().getFullYear();
         ))
       }
     </ul>
+
+    <div class="footer-clock">
+      <span>LOCAL TIME</span>
+      <Clock />
+    </div>
   </div>
 </footer>

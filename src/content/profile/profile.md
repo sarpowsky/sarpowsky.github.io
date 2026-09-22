@@ -1,7 +1,7 @@
 ---
 name: Sarp Can Karaman
 title: "_sarpowsky | ML, Data & Cloud Engineering"
-tagline: "Computer Engineering student building reliable systems from data and models to cloud deployment."
+tagline: "Building reliable machine learning, data, and cloud systems—from structured data and tested models to production deployments."
 avatar: /src/assets/profile-picture.png
 email: "sarpcankaraman@gmail.com"
 resume: /resume/SarpCanKaraman_CV.pdf

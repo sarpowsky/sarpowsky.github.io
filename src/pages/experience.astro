@@ -10,9 +10,6 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import { getExperience } from '@lib/content';
 
 const experience = await getExperience();
-
-// Render each entry's Markdown body once, up front, so the template stays
-// declarative and every modal has its detail content ready.
 const entries = await Promise.all(
   experience.map(async (entry) => ({
     entry,
@@ -45,10 +42,10 @@ const lanes = [
   title="Experience — _sarpowsky"
   description="Internships, roles, and volunteer work by Sarp Can Karaman."
 >
-  <div class="section-page section-page-narrow">
+  <div class="section-page">
     <PageIntro
       index="03"
-      label="Field notes"
+      label="Field notes / timeline"
       title="/experience"
       description="Professional roles and community work that shaped how I build, lead, and move systems from idea to production."
       meta={`${workEntries.length} work roles · ${communityEntries.length} community positions`}
@@ -61,7 +58,8 @@ const lanes = [
             <div class="experience-lane-heading">
               <div>
                 <p class="eyebrow">
-                  <span aria-hidden="true">{lane.index}</span> {lane.label}
+                  <span aria-hidden="true">{lane.index}</span>
+                  {lane.label}
                 </p>
                 <h2 id={lane.id}>{lane.title}</h2>
               </div>

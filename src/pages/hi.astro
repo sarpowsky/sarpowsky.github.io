@@ -16,18 +16,30 @@ const skills = await getSkills();
   <div class="section-page">
     <PageIntro
       index="01"
-      label="Profile"
+      label="Identity / profile"
       title={`/${about.data.title}`}
-      description={`${about.data.greeting} — ${about.data.subtitle}.`}
+      description="The person behind the terminal: what I build, how I learn, and the systems I am growing into."
       meta={`${skills.length} areas of practice`}
     />
 
-    <article class="about-card surface-card">
-      <div class="about-card-label" aria-hidden="true">
-        <span>readme.md</span>
-        <span>about / personal</span>
+    <article class="about-card terminal-window">
+      <div class="window-bar" aria-hidden="true">
+        <span class="window-dots"><i></i><i></i><i></i></span>
+        <span>~/portfolio/readme.md</span>
+        <span>UTF-8</span>
       </div>
-      <div class="prose-content about-prose"><Content /></div>
+      <div class="about-card-body">
+        <div class="about-card-aside" aria-hidden="true">
+          <span>PROFILE_01</span>
+          <span class="about-rule"></span>
+          <span>SC_K</span>
+        </div>
+        <div>
+          <p class="about-greeting">{about.data.greeting}<span aria-hidden="true">.</span></p>
+          <p class="about-subtitle">{about.data.subtitle}</p>
+          <div class="prose-content about-prose"><Content /></div>
+        </div>
+      </div>
     </article>
 
     {
@@ -36,23 +48,40 @@ const skills = await getSkills();
           <div class="section-heading-row">
             <div>
               <p class="eyebrow">
-                <span aria-hidden="true">02</span> Working toolkit
+                <span aria-hidden="true">02</span>Working toolkit
               </p>
               <h2 id="skills-heading">Skills in practice</h2>
             </div>
-            <p class="section-note">Tools I use to move from messy data to working software.</p>
+            <p class="section-note">
+              A working map of the tools I use from raw data to production.
+            </p>
           </div>
 
           <div class="skill-groups">
             {skills.map((group) => (
-              <article class="skill-group surface-card">
-                <span class="skill-group-number" aria-hidden="true">
-                  {String(group.data.order).padStart(2, '0')}
-                </span>
-                <h3>{group.data.name}</h3>
+              <article class="skill-group terminal-window">
+                <header>
+                  <span aria-hidden="true">MOD_{String(group.data.order).padStart(2, '0')}</span>
+                  <h3>{group.data.name}</h3>
+                </header>
                 <ul>
                   {group.data.items.map((skill) => (
-                    <li>{skill.name}</li>
+                    <li>
+                      <div class="skill-label">
+                        <span>{skill.name}</span>
+                        <span>{String(skill.level).padStart(2, '0')}%</span>
+                      </div>
+                      <div
+                        class="skill-meter"
+                        role="progressbar"
+                        aria-label={skill.name}
+                        aria-valuenow={skill.level}
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                      >
+                        <span class="skill-meter-fill" style={`--skill-level: ${skill.level}%`} />
+                      </div>
+                    </li>
                   ))}
                 </ul>
               </article>

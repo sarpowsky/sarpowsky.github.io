@@ -72,7 +72,7 @@ const ogImage = new URL(image, Astro.site);
         document.documentElement.setAttribute('data-theme', stored);
       }
     } catch (e) {
-      /* Private mode or blocked storage: fall back to prefers-color-scheme. */
+      /* Private mode or blocked storage: keep the dark default. */
     }
   })();
 </script>

@@ -18,18 +18,23 @@ const certificates = await getCertificates();
   <div class="section-page">
     <PageIntro
       index="04"
-      label="Learning log"
+      label="Learning log / credentials"
       title="/certificates"
-      description="A visual archive of courses, competitions, bootcamps, and workshops that pushed the work forward."
-      meta={`${certificates.length} credentials`}
+      description="A visual archive of courses, competitions, bootcamps, and workshops that moved the work forward."
+      meta={`${certificates.length} verified learning records`}
     />
 
     <ol class="certificate-grid">
       {
         certificates.map((cert, index) => (
-          <li class="certificate-card surface-card">
-            <article>
-              <div class="certificate-media">
+          <li class="certificate-card terminal-window">
+            <button
+              type="button"
+              data-modal-open={`cert-${cert.id}`}
+              aria-haspopup="dialog"
+              aria-label={`View ${cert.data.name}`}
+            >
+              <span class="certificate-media">
                 <Image
                   src={resolveImage(cert.data.image)}
                   alt=""
@@ -38,28 +43,23 @@ const certificates = await getCertificates();
                   class="certificate-image"
                   loading="lazy"
                 />
-              </div>
+                <span aria-hidden="true">OPEN_RECORD</span>
+              </span>
 
-              <div class="certificate-content">
-                <p class="certificate-index" aria-hidden="true">
-                  Credential / {String(index + 1).padStart(2, '0')}
-                </p>
-                <h2>{cert.data.name}</h2>
-                <p class="certificate-meta">
+              <span class="certificate-content">
+                <span class="certificate-index" aria-hidden="true">
+                  CERT_{String(index + 1).padStart(2, '0')}
+                </span>
+                <span class="certificate-title">{cert.data.name}</span>
+                <span class="certificate-meta">
                   <Icon name="award" size={13} />
                   {cert.data.issuer} · {cert.data.date}
-                </p>
-                <button
-                  type="button"
-                  class="certificate-open"
-                  data-modal-open={`cert-${cert.id}`}
-                  aria-haspopup="dialog"
-                >
-                  View credential
-                  <Icon name="chevron-right" size={15} />
-                </button>
-              </div>
-            </article>
+                </span>
+                <span class="certificate-open" aria-hidden="true">
+                  inspect_credential <Icon name="chevron-right" size={14} />
+                </span>
+              </span>
+            </button>
           </li>
         ))
       }

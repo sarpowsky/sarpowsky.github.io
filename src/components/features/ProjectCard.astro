@@ -6,16 +6,24 @@ interface Props {
   project: CollectionEntry<'projects'>;
   index: number;
   lead?: boolean;
+  compact?: boolean;
 }
 
-const { project, index, lead = false } = Astro.props;
+const { project, index, lead = false, compact = false } = Astro.props;
 ---
 
-<li class:list={['project-card surface-card', { 'project-card-lead': lead }]}>
+<li
+  class:list={[
+    'project-card terminal-window',
+    { 'project-card-lead': lead, 'project-card-compact': compact },
+  ]}
+>
   <article>
     <div class="project-card-topline">
-      <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-      {project.data.featured && <span class="project-featured-label">Featured</span>}
+      <span aria-hidden="true">PRJ_{String(index + 1).padStart(2, '0')}</span>
+      <span class:list={{ 'project-state-featured': project.data.featured }}>
+        {project.data.featured ? 'FEATURED' : 'ARCHIVE'}
+      </span>
     </div>
 
     <h3>
@@ -37,5 +45,10 @@ const { project, index, lead = false } = Astro.props;
         </ul>
       )
     }
+
+    <div class="project-card-action" aria-hidden="true">
+      <span>open_project</span>
+      <Icon name="chevron-right" size={15} />
+    </div>
   </article>
 </li>

@@ -2,38 +2,25 @@
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Icon from '@components/ui/Icon.astro';
 import { href } from '@lib/paths';
-import { NAV_LINKS } from '@lib/nav';
 ---
 
 <BaseLayout title="404 — _sarpowsky" description="This page could not be found.">
-  <section class="not-found surface-card" aria-labelledby="not-found-heading">
-    <div class="not-found-code" aria-hidden="true">
-      <span>error</span>
-      <strong>404</strong>
+  <section class="not-found terminal-window" aria-labelledby="not-found-heading">
+    <div class="window-bar" aria-hidden="true">
+      <span class="window-dots"><i></i><i></i><i></i></span>
+      <span>bash — route_error</span>
+      <span>404</span>
     </div>
-
-    <div class="not-found-copy">
-      <p class="eyebrow"><span aria-hidden="true">ERR</span> Route lookup failed</p>
-      <h1 id="not-found-heading">Command not found.</h1>
-      <p>That route doesn’t exist—or it moved while nobody was looking.</p>
-
-      <a class="button button-primary" href={href('/')}>
-        Back to home
-        <Icon name="chevron-right" size={17} />
-      </a>
+    <div class="not-found-body">
+      <p class="not-found-code" aria-hidden="true">404</p>
+      <div>
+        <p class="terminal-command"><span aria-hidden="true">$</span> cd {Astro.url.pathname}</p>
+        <h1 id="not-found-heading">command not found<span aria-hidden="true">_</span></h1>
+        <p>The route you requested is not in this system. Return to a known directory.</p>
+        <a class="button button-primary" href={href('/')}>
+          Back to /home <Icon name="chevron-right" size={16} />
+        </a>
+      </div>
     </div>
-
-    <nav class="not-found-nav" aria-label="Suggested pages">
-      <p>Or jump to</p>
-      <ul>
-        {
-          NAV_LINKS.map((link) => (
-            <li>
-              <a href={href(link.href)}>{link.label}</a>
-            </li>
-          ))
-        }
-      </ul>
-    </nav>
   </section>
 </BaseLayout>
